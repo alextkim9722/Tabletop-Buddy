@@ -1,4 +1,4 @@
-# Models
+# Models - Together - (1 hour)
 - [ ] Session
     - [ ] int session_id
     - [ ] List< Session-User > userList
@@ -43,21 +43,22 @@
 # Data
 ## Mappers
 - [ ] Create mappers for each model
-## Session
+## Session -[JULIAN]- (2 hours to write and test)
 - [ ] [INTERFACE] Session create()
 - [ ] [INTERFACE] boolean update()
 - [ ] [INTERFACE] boolean delete(int id)
 - [ ] [INTERFACE] Session getFromUserId(int id)
 - [ ] [INTERFACE] Session getFromCampaignId(int id)
 - [ ] [TEMPLATE] addUsers(User user) -> refer to the bridgemapper
-## Campaign
+## Campaign -[MUSTAFA]- (4.5 hours to write and test)
 - [ ] [INTERFACE] Campaign create()
 - [ ] [INTERFACE] boolean update()
 - [ ] [INTERFACE] boolean delete(int id)
 - [ ] [INTERFACE] Campaign getFromId(int id)
+- [ ] [INTERFACE] *Campaign getFromTag(String type, int players, int size, Date start)*
 - [ ] [TEMPLATE] addUsers(User user) -> refer to the bridgemapper
 - [ ] [TEMPLATE] addSessions(Session session)
-## User
+## User -[ALEX]- (2 hours to write and test)
 - [ ] [INTERFACE] User create()
 - [ ] [INTERFACE] boolean update()
 - [ ] [INTERFACE] boolean delete(int id)
@@ -66,11 +67,11 @@
 - [ ] [TEMPLATE] addSession(Session session) -> refer to the bridgemapper
 - [ ] [TEMPLATE] addCampaign(Campaign campaign) -> refer to the bridgemapper
 - [ ] [TEMPLATE] addHostedCampaign(Campaign campaign)
-## Session-User
+## Session-User -[ALEX]- (1 hour to write and test)
 - [ ] [INTERFACE] boolean add(Session-User su)
 - [ ] [INTERFACE] boolean update(Session-User su)
 - [ ] [INTERFACE] boolean delete(int sessionId, int userId)
-## Campaign-User
+## Campaign-User -[ALEX]- (1 hour to write and test)
 - [ ] [INTERFACE] boolean add(Campaign-User su)
 - [ ] [INTERFACE] boolean update(Campaign-User su)
 - [ ] [INTERFACE] boolean delete(int campaignId, int userId)
@@ -79,8 +80,10 @@
 - [ ] [INTERFACE] AppUser create(AppUser user)
 - [ ] [INTERFACE] void update(AppUser user)
 
+-Monday:Data finished-
+
 # Service
-## Result < T >
+## Result < T > -[ALEX]- (0.5 hours)
 - [ ] final ArrayList< String > messages
 - [ ] ResultType type
 - [ ] T payload
@@ -90,11 +93,11 @@
 - [ ] void setPayload(T t)
 - [ ] List< String > getMessages()
 - [ ] void addMessages(String message, ResultType type)
-## ResultType [ENUM]
+## ResultType [ENUM] -[ALEX]- (0.5 hours)
 - [ ] SUCCESS
 - [ ] NOT_FOUND
 - [ ] INVALID
-## SessionService
+## SessionService -[JULIAN]- (3 hours)
 ### Methods
 - [ ] Result< Session > create(Session session)
 - [ ] Result< Session > update(Session session)
@@ -117,7 +120,7 @@
 - Start and end date must be in the future
     1. check if the start date is after the current
     2. If check failes then return INVALID "The dates must be in the future."
-## CampaignService
+## CampaignService -[MUSTAFA]- (3.5 hours)
 ### Methods
 - [ ] Result< Campaign > create(Campaign campaign)
 - [ ] Result< Campaign > update(Campaign campaign)
@@ -131,16 +134,20 @@
 ### Domain Rules
 - Prevent negative values for max players
 - Prevent player count from going over max players
-## UserService
+## UserService -[ALEX]- (2.5 hours)
 - [ ] Result< User > create(User user)
 - [ ] Result< User > update(User user)
 - [ ] *boolean delete(int id)*
 - [ ] Result< User > validate(User user)
 
+-Tuesday or Wednesday:Service Finished-
+
 # Controllers
-- [ ] Session-User Controller
-- [ ] Campaign-User Controller
-- [ ] User Controller
-- [ ] Campaign Controller
-- [ ] Session Controller
-- [ ] ErrorResponse
+- [ ] Session-User Controller -[ALEX]-
+- [ ] Campaign-User Controller -[ALEX]-
+- [ ] User Controller -[ALEX]-
+- [ ] Campaign Controller -[MUSTAFA]-
+- [ ] Session Controller -[JULIAN]-
+- [ ] ErrorResponse -[ALEX]-
+
+-Wednesday:Controllers Finished-
