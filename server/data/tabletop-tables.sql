@@ -18,6 +18,19 @@ create table role (
     `name` varchar(250) not null unique
 );
 
+create table user_role(
+	user_id int not null,
+	role_id int not null,
+	constraint pk_user_role
+		primary key (user_id, role_id),
+	constraint fk_user_role_user_id
+		foreign key (user_id)
+		references user(user_id),
+	constraint fk_user_role_role_id
+		foreign key (role_id)
+		references role(role_id)
+);
+
 create table campaign (
 	campaign_id int primary key auto_increment,
     user_id int not null,
@@ -82,3 +95,7 @@ create table session_user (
 		foreign key (user_id)
         references user(user_id)
 );
+
+insert into role (`name`) values
+    ('USER'),
+    ('ADMIN');

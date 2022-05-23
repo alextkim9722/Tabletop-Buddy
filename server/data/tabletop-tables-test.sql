@@ -7,7 +7,8 @@ create table user (
 	user_id int primary key auto_increment,
     username varchar(250) not null unique,
     password_hash varchar(2048) not null,
-    location varchar(250) not null,
+    city varchar(250) not null,
+    state varchar(250) not null,
     disabled bit not null default(0),
     `description` varchar(250) not null
 );
@@ -17,13 +18,27 @@ create table role (
     `name` varchar(250) not null unique
 );
 
+create table user_role(
+	user_id int not null,
+	role_id int not null,
+	constraint pk_user_role
+		primary key (user_id, role_id),
+	constraint fk_user_role_user_id
+		foreign key (user_id)
+		references user(user_id),
+	constraint fk_user_role_role_id
+		foreign key (role_id)
+		references role(role_id)
+);
+
 create table campaign (
 	campaign_id int primary key auto_increment,
     user_id int not null,
     `name` varchar(250) not null,
     `description` varchar(250),
     `type` varchar(250) not null,
-    location varchar(250) not null,
+    city varchar(250) not null,
+    state varchar(250) not null,
     session_count int not null,
     max_players int not null,
     constraint fk_campaign_user_id
@@ -39,6 +54,20 @@ create table session (
     constraint fk_session_campaign_id
         foreign key (campaign_id)
         references campaign(campaign_id)
+);
+
+create table user_schedule (
+	user_schedule_id int primary key auto_increment,
+    user_id int not null,
+    session_id int,
+    start_date date not null,
+    end_date date not null,
+    constraint fk_user_schedule_user_id
+        foreign key (user_id)
+        references user(user_id),
+	constraint fk_user_schedule_session_id
+        foreign key (session_id)
+        references session(session_id)
 );
 
 create table campaign_user (
@@ -67,14 +96,18 @@ create table session_user (
         references user(user_id)
 );
 
+insert into role (`name`) values
+    ('USER'),
+    ('ADMIN');
+
 -- database test
-insert into user (username, password_hash, location, disabled, `description`) values
-	("bob", "$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa", "california", 0, "fake account"),
-    ("dale", "$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa", "california", 0, "fake account");
+insert into user (username, password_hash, city, state, disabled, `description`) values
+	("bob", "$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa", "LA", "california", 0, "fake account"),
+    ("dale", "$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa", "Sacramento", "california", 0, "fake account");
     
-insert into campaign (user_id, `name`, `description`, `type`, location, session_count, max_players) values
-	(1, "My DnD", "Fake DnD campaign.", "DnD", "California", 3, 5),
-    (1, "My Other DnD", "Fake DnD campaign.", "DnD", "California", 2, 5);
+insert into campaign (user_id, `name`, `description`, `type`, city, state, session_count, max_players) values
+	(1, "My DnD", "Fake DnD campaign.", "DnD", "LA", "California", 3, 5),
+    (1, "My Other DnD", "Fake DnD campaign.", "DnD", "LA", "California", 2, 5);
     
 insert into session (campaign_id, start_date, end_date) values
 	(1, '2003-03-10', '2003-03-14'),
