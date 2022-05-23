@@ -38,7 +38,14 @@ public class User extends org.springframework.security.core.userdetails.User {
     @Getter
     @Setter
     List< UserCampaign > campaignList;
-    // List< Campaign > hostedCampaignList
+
+    @Getter
+    @Setter
+    List< Campaign > hostedCampaignList;
+
+    @Getter
+    @Setter
+    List< UserSchedule > userScheduleList;
 
     public User(int appUserId, String username, String password,
                    boolean disabled, List<String> roles) {
