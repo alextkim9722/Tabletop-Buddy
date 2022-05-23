@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class CampainUserMapper implements RowMapper<CampaignUser> {
+public class CampaignUserMapper implements RowMapper<CampaignUser> {
 
     @Override
     public CampaignUser mapRow(ResultSet resultSet, int i) throws SQLException {

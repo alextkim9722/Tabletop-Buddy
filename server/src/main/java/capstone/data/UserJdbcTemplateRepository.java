@@ -1,5 +1,7 @@
 package capstone.data;
 
+import capstone.data.mapper.CampaignUserMapper;
+import capstone.data.mapper.UserCampaignMapper;
 import capstone.data.mapper.UserMapper;
 import capstone.models.User;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -136,5 +138,17 @@ public class UserJdbcTemplateRepository implements UserRepository{
         var userSchedule = jdbcTemplate.query(sql, new UserScheduleMapper(), user.getUserid());
         user.setUserScheduleList(userSchedule);
          */
+    }
+
+    private void addJoinedCampaign(User user) {
+        final String sql = "select cu.campaign_id, cu.user_id, "
+                + "cu.campaign_id, cu.user_id, cu.name, cu.description, cu.type, cu.city, cu.state, cu.session_count, cu.max_players"
+                + "from campaign_user cu "
+                + "inner join user u on cu.user_id = u.user_id"
+                + "inner join campaign c on cu.campaign_id = c.campaign_id "
+                + "where aa.agent_id = ?;";
+
+        var campaignUsers = jdbcTemplate.query(sql, new UserCampaignMapper(), user.getUserid());
+        user.setCampaignList(campaignUsers);
     }
 }

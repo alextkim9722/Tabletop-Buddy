@@ -12,7 +12,7 @@ public class UserCampaignMapper implements RowMapper<UserCampaign> {
     @Override
     public UserCampaign mapRow(ResultSet resultSet, int i) throws SQLException {
         /*
-        CampaignMapper campaignMapper = new CampaignMapper(roles);
+        CampaignMapper campaignMapper = new CampaignMapper();
 
         UserCampaign userCampaign = new UserCampaign(
                 resultSet.getInt("user_id"),
