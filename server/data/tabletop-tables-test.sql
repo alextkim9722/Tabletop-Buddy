@@ -103,16 +103,19 @@ insert into role (`name`) values
 delimiter //
 create procedure set_known_good_state()
 begin
-	delete from user;
-    alter table user auto_increment = 1;
-    delete from campaign;
-    alter table campaign auto_increment = 1;
-	delete from session;
-	alter table session auto_increment = 1;
     delete from user_schedule;
     alter table user_schedule auto_increment = 1;
     delete from session_user;
     delete from campaign_user;
+    delete from session;
+	alter table session auto_increment = 1;
+    delete from campaign;
+    alter table campaign auto_increment = 1;
+    delete from user;
+    alter table user auto_increment = 1;
+
+
+
     
 -- database test
 insert into user (username, password_hash, city, state, disabled, `description`) values
@@ -141,7 +144,8 @@ insert into session_user (session_id, user_id) values
     (4, 2),
     (5, 2);
     
-end;
+end //
+delimiter ;
     
 /*
 select
