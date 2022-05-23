@@ -1,6 +1,6 @@
-drop database if exists tabletop_tables;
-create database tabletop_tables;
-use tabletop_tables;
+drop database if exists tabletop_tables_test;
+create database tabletop_tables_test;
+use tabletop_tables_test;
 
 -- create tables
 create table user (
