@@ -7,7 +7,8 @@ create table user (
 	user_id int primary key auto_increment,
     username varchar(250) not null unique,
     password_hash varchar(2048) not null,
-    location varchar(250) not null,
+    city varchar(250) not null,
+    state varchar(250) not null,
     disabled bit not null default(0),
     `description` varchar(250) not null
 );
@@ -23,7 +24,8 @@ create table campaign (
     `name` varchar(250) not null,
     `description` varchar(250),
     `type` varchar(250) not null,
-    location varchar(250) not null,
+    city varchar(250) not null,
+    state varchar(250) not null,
     session_count int not null,
     max_players int not null,
     constraint fk_campaign_user_id
@@ -39,6 +41,20 @@ create table session (
     constraint fk_session_campaign_id
         foreign key (campaign_id)
         references campaign(campaign_id)
+);
+
+create table user_schedule (
+	user_schedule_id int primary key auto_increment,
+    user_id int not null,
+    session_id int,
+    start_date date not null,
+    end_date date not null,
+    constraint fk_user_schedule_user_id
+        foreign key (user_id)
+        references user(user_id),
+	constraint fk_user_schedule_session_id
+        foreign key (session_id)
+        references session(session_id)
 );
 
 create table campaign_user (
