@@ -79,7 +79,6 @@
 - [ ] [INTERFACE] AppUser findByUsername(String name)
 - [ ] [INTERFACE] AppUser create(AppUser user)
 - [ ] [INTERFACE] void update(AppUser user)
-
 -Monday:Data finished-
 
 # Service
