@@ -14,7 +14,7 @@ public class Campaign {
     private String type;
     private String city;
     private String state;
-    private int sessionCount
+    private int sessionCount;
     private int maxPlayers;
     int currentPlayers;
 
