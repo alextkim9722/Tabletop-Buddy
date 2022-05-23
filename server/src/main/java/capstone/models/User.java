@@ -19,38 +19,38 @@ public class User extends org.springframework.security.core.userdetails.User {
     @Getter
     @Setter
     @NonNull
-    int userid;
+    private int userid;
 
     @Getter
     @Setter
     @NonNull
-    String username;
+    private String username;
 
     @Getter
     @Setter
     @NonNull
-    String city;
+    private String city;
 
     @Getter
     @Setter
     @NonNull
-    String state;
+    private String state;
 
     @Getter
     @Setter
-    List< UserSession > sessionList;
+    private List< UserSession > sessionList;
 
     @Getter
     @Setter
-    List< UserCampaign > campaignList;
+    private List< UserCampaign > campaignList;
 
     @Getter
     @Setter
-    List< Campaign > hostedCampaignList;
+    private List< Campaign > hostedCampaignList;
 
     @Getter
     @Setter
-    List< UserSchedule > userScheduleList;
+    private List< UserSchedule > userScheduleList;
 
     public User(int appUserId, String username, String password,
                    boolean disabled, List<String> roles) {

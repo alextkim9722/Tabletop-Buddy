@@ -7,7 +7,7 @@ import lombok.NonNull;
 public class SessionUser {
 
     @NonNull
-    int sessionid;
+    private int sessionid;
     @NonNull
-    User user;
+    private User user;
 }

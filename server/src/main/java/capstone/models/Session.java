@@ -11,13 +11,13 @@ import java.util.List;
 @Data
 public class Session {
     @Setter(AccessLevel.NONE)
-    int session_id;
+    private int session_id;
 
-    List<SessionUser> userList;
-
-    @NonNull
-    Date startDate;
+    private List<SessionUser> userList;
 
     @NonNull
-    Date endDate;
+    private Date startDate;
+
+    @NonNull
+    private Date endDate;
 }
