@@ -1,15 +1,13 @@
 package capstone.models;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NonNull;
 
+@Data
 public class CampaignUser {
 
-    @Getter
-    @Setter
+    @NonNull
     int campaignid;
-
-    @Getter
-    @Setter
+    @NonNull
     User user;
 }

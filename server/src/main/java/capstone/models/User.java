@@ -1,6 +1,7 @@
 package capstone.models;
 
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,19 +18,23 @@ public class User extends org.springframework.security.core.userdetails.User {
 
     @Getter
     @Setter
+    @NonNull
     int userid;
 
     @Getter
     @Setter
+    @NonNull
     String username;
 
     @Getter
     @Setter
-    String location;
+    @NonNull
+    String city;
 
     @Getter
     @Setter
-    String description;
+    @NonNull
+    String state;
 
     @Getter
     @Setter

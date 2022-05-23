@@ -1,15 +1,13 @@
 package capstone.models;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NonNull;
 
+@Data
 public class SessionUser {
 
-    @Getter
-    @Setter
+    @NonNull
     int sessionid;
-
-    @Getter
-    @Setter
+    @NonNull
     User user;
 }
