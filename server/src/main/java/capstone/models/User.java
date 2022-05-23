@@ -38,6 +38,10 @@ public class User extends org.springframework.security.core.userdetails.User {
 
     @Getter
     @Setter
+    private String description;
+
+    @Getter
+    @Setter
     private List< UserSession > sessionList;
 
     @Getter
@@ -57,6 +61,7 @@ public class User extends org.springframework.security.core.userdetails.User {
         super(username, password, !disabled,
                 true, true, true,
                 convertRolesToAuthorities(roles));
+        this.username = username;
         this.userid = appUserId;
     }
 
