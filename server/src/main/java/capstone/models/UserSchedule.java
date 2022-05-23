@@ -6,13 +6,14 @@ import lombok.NonNull;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
-public class Session {
+public class UserSchedule {
     @Setter(AccessLevel.NONE)
-    int session_id;
+    int user_schedule_id;
 
-    List<SessionUser> userList;
+    List<Session> sessionList;
 
     @NonNull
     Date startDate;
