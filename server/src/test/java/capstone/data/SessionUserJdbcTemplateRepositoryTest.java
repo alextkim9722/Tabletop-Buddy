@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -59,8 +60,8 @@ public class SessionUserJdbcTemplateRepositoryTest {
         Session session = new Session(
                 5,
                 2,
-                Date.valueOf("2003-04-10"),
-                Date.valueOf("2003-04-11")
+                Timestamp.valueOf("2003-04-10 12:00:00.000"),
+                Timestamp.valueOf("2003-04-11 12:00:00.000")
         );
 
         SessionUser sessionUser = new SessionUser(5, user);

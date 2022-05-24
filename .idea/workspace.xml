@@ -5,17 +5,37 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2c61b609-8145-4656-ab69-dd064f9a7c6c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_classmate_1_5_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__jakarta_validation_jakarta_validation_api_2_0_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_hibernate_validator_hibernate_validator_6_1_5_Final.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jboss_logging_jboss_logging_3_4_1_Final.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_validation_2_3_4_RELEASE.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/capstone/service/SessionService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/capstone/service/Validations.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/TabletopBuddy_Server.iml" beforeDir="false" afterPath="$PROJECT_DIR$/server/TabletopBuddy_Server.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/server/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/data/tabletop-tables-test.sql" beforeDir="false" afterPath="$PROJECT_DIR$/server/data/tabletop-tables-test.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/capstone/data/CampaignJdbcTemplateRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/capstone/data/CampaignJdbcTemplateRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/capstone/data/CampaignRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/capstone/data/CampaignRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/capstone/data/SessionJdbcTemplateRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/capstone/data/SessionJdbcTemplateRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/capstone/data/UserScheduleJdbcTemplateRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/capstone/data/UserScheduleJdbcTemplateRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/capstone/data/mapper/SessionMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/capstone/data/mapper/SessionMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/capstone/data/mapper/UserScheduleMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/capstone/data/mapper/UserScheduleMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/capstone/models/Session.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/capstone/models/Session.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/capstone/models/UserSchedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/capstone/models/UserSchedule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/capstone/service/SessionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/capstone/service/SessionService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/capstone/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/capstone/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/test/java/capstone/data/CampaignJdbcTemplateRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/test/java/capstone/data/CampaignJdbcTemplateRepositoryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/test/java/capstone/data/SessionJdbcTemplateRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/test/java/capstone/data/SessionJdbcTemplateRepositoryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/test/java/capstone/data/SessionUserJdbcTemplateRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/test/java/capstone/data/SessionUserJdbcTemplateRepositoryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/test/java/capstone/data/UserJdbcTemplateRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/test/java/capstone/data/UserJdbcTemplateRepositoryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/test/java/capstone/data/UserScheduleJdbcTemplateRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/test/java/capstone/data/UserScheduleJdbcTemplateRepositoryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/classes/capstone/data/CampaignJdbcTemplateRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/classes/capstone/data/CampaignJdbcTemplateRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/classes/capstone/data/CampaignRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/classes/capstone/data/CampaignRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/classes/capstone/data/SessionJdbcTemplateRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/classes/capstone/data/SessionJdbcTemplateRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/classes/capstone/data/UserScheduleJdbcTemplateRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/classes/capstone/data/UserScheduleJdbcTemplateRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/classes/capstone/data/mapper/SessionMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/classes/capstone/data/mapper/SessionMapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/classes/capstone/data/mapper/UserScheduleMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/classes/capstone/data/mapper/UserScheduleMapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/classes/capstone/models/Session.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/classes/capstone/models/Session.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/classes/capstone/models/UserSchedule.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/classes/capstone/models/UserSchedule.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/classes/capstone/service/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/classes/capstone/service/UserService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/test-classes/capstone/data/CampaignJdbcTemplateRepositoryTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/test-classes/capstone/data/CampaignJdbcTemplateRepositoryTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/test-classes/capstone/data/SessionJdbcTemplateRepositoryTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/test-classes/capstone/data/SessionJdbcTemplateRepositoryTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/test-classes/capstone/data/SessionUserJdbcTemplateRepositoryTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/test-classes/capstone/data/SessionUserJdbcTemplateRepositoryTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/test-classes/capstone/data/UserJdbcTemplateRepositoryTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/test-classes/capstone/data/UserJdbcTemplateRepositoryTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/test-classes/capstone/data/UserScheduleJdbcTemplateRepositoryTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/test-classes/capstone/data/UserScheduleJdbcTemplateRepositoryTest.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

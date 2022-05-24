@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -60,7 +61,7 @@ public class UserJdbcTemplateRepositoryTest {
     @Order(5)
     void shouldFindDaleJoinedSessions() {
         User dale = repository.findByUsername("Dale");
-        assertEquals(Date.valueOf("2003-04-05"), dale.getSessionList().get(3).getSession().getStartDate());
+        assertEquals(Timestamp.valueOf("2003-04-05 12:00:00.000"), dale.getSessionList().get(3).getSession().getStartDate());
     }
 
     @Test
@@ -89,7 +90,7 @@ public class UserJdbcTemplateRepositoryTest {
     void shouldFindBobSchedule() {
         User bob = repository.findByUsername("Bob");
         assertEquals(5, bob.getUserScheduleList().size());
-        assertEquals(Date.valueOf("2003-04-03"), bob.getUserScheduleList().get(2).getStartDate());
+        assertEquals(Timestamp.valueOf("2003-04-03 12:00:00.000"), bob.getUserScheduleList().get(2).getStartDate());
     }
 
     @Test

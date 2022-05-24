@@ -50,8 +50,8 @@ create table campaign (
 create table session (
 	session_id int primary key auto_increment,
     campaign_id int not null,
-    start_date date not null,
-    end_date date not null,
+    start_date datetime not null,
+    end_date datetime not null,
     constraint fk_session_campaign_id
         foreign key (campaign_id)
         references campaign(campaign_id)
@@ -61,8 +61,8 @@ create table user_schedule (
 	user_schedule_id int primary key auto_increment,
     user_id int not null,
     session_id int,
-    start_date date not null,
-    end_date date not null,
+    start_date datetime not null,
+    end_date datetime not null,
     constraint fk_user_schedule_user_id
         foreign key (user_id)
         references user(user_id),
@@ -126,18 +126,18 @@ insert into campaign (user_id, `name`, `description`, `type`, city, state, sessi
     (1, "My Other DnD", "Fake DnD campaign.", "DnD", "LA", "California", 2, 5);
     
 insert into session (campaign_id, start_date, end_date) values
-	(1, '2003-03-10', '2003-03-14'),
-    (1, '2003-04-01', '2003-04-02'),
-    (1, '2003-04-03', '2003-04-04'),
-    (2, '2003-04-05', '2003-04-06'),
-    (2, '2003-04-07', '2003-04-08');
+	(1, '2003-03-10 12:00:00.000', '2003-03-14 12:00:00.000'),
+    (1, '2003-04-01 12:00:00.000', '2003-04-02 12:00:00.000'),
+    (1, '2003-04-03 12:00:00.000', '2003-04-04 12:00:00.000'),
+    (2, '2003-04-05 12:00:00.000', '2003-04-06 12:00:00.000'),
+    (2, '2003-04-07 12:00:00.000', '2003-04-08 12:00:00.000');
     
 insert into user_schedule (user_id, session_id, start_date, end_date) values
-	(1, 1, '2003-03-10', '2003-03-14'),
-    (1, 2, '2003-04-01', '2003-04-02'),
-    (1, 3, '2003-04-03', '2003-04-04'),
-    (1, 4, '2003-04-05', '2003-04-06'),
-    (1, 5, '2003-04-07', '2003-04-08');
+	(1, 1, '2003-03-10 12:00:00.000', '2003-03-14 12:00:00.000'),
+    (1, 2, '2003-04-01 12:00:00.000', '2003-04-02 12:00:00.000'),
+    (1, 3, '2003-04-03 12:00:00.000', '2003-04-04 12:00:00.000'),
+    (1, 4, '2003-04-05 12:00:00.000', '2003-04-06 12:00:00.000'),
+    (1, 5, '2003-04-07 12:00:00.000', '2003-04-08 12:00:00.000');
     
 insert into campaign_user (campaign_id, user_id) values
 	(1, 2),

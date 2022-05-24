@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -36,10 +37,10 @@ public class UserScheduleJdbcTemplateRepositoryTest {
     @Order(2)
     void update() {
         UserSchedule session = makeUserSchedule();
-        session.setStartDate(Date.valueOf("2003-04-12"));
+        session.setStartDate(Timestamp.valueOf("2003-04-12 12:00:00.000"));
         repository.update(session);
         List<UserSchedule> sessionList = repository.getFromUserId(1);
-        assertEquals(Date.valueOf("2003-04-12"), sessionList.get(5).getStartDate());
+        assertEquals(Timestamp.valueOf("2003-04-12 12:00:00.000"), sessionList.get(5).getStartDate());
     }
 
     @Test
@@ -59,8 +60,8 @@ public class UserScheduleJdbcTemplateRepositoryTest {
         UserSchedule userSchedule = new UserSchedule(
                 6,
                 1,
-                Date.valueOf("2003-04-10"),
-                Date.valueOf("2003-04-11")
+                Timestamp.valueOf("2003-04-10 12:00:00.000"),
+                Timestamp.valueOf("2003-04-11 12:00:00.000")
         );
 
         userSchedule.setSessionid(1);

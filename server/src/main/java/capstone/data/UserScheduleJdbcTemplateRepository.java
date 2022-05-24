@@ -12,19 +12,27 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Repository
 public class UserScheduleJdbcTemplateRepository implements UserScheduleRepository{
 
     private final JdbcTemplate jdbcTemplate;
+    private final java.text.SimpleDateFormat sdf;
 
     public UserScheduleJdbcTemplateRepository(JdbcTemplate jdbcTemplate) {
+        sdf = new java.text.SimpleDateFormat();
+        sdf.setTimeZone(java.util.TimeZone.getDefault());
+        sdf.applyPattern("yyyy-MM-dd hh:mm:ss");
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
     public UserSchedule create(UserSchedule session) {
+        long start = session.getStartDate().getTime();
+        long end = session.getEndDate().getTime();
+
         final String sql = "insert into user_schedule (user_schedule_id, user_id, session_id, start_date, end_date) " +
                 " values (?,?,?,?,?);";
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -33,8 +41,8 @@ public class UserScheduleJdbcTemplateRepository implements UserScheduleRepositor
             ps.setInt(1, session.getUserScheduleid());
             ps.setInt(2, session.getUserid());
             ps.setInt(3, session.getSessionid());
-            ps.setDate(4, session.getStartDate());
-            ps.setDate(5, session.getEndDate());
+            ps.setTimestamp(4, Timestamp.valueOf(sdf.format(start)));
+            ps.setTimestamp(5, Timestamp.valueOf(sdf.format(end)));
             // casted from java.util.Date to java.sql.Date
             return ps;
         }, keyHolder);
@@ -49,14 +57,17 @@ public class UserScheduleJdbcTemplateRepository implements UserScheduleRepositor
 
     @Override
     public boolean update(UserSchedule session) {
+        long start = session.getStartDate().getTime();
+        long end = session.getEndDate().getTime();
+
         final String sql = "update user_schedule set " +
                 "start_date = ?, " +
                 "end_date = ? " +
                 "where user_schedule_id = ?;";
 
         return jdbcTemplate.update(sql,
-                session.getStartDate(),
-                session.getEndDate(),
+                sdf.format(start),
+                sdf.format(end),
                 session.getUserScheduleid()) > 0;
     }
 

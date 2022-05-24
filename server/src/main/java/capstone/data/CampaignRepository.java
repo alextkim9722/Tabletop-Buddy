@@ -4,6 +4,7 @@ import capstone.models.Campaign;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 public interface CampaignRepository {
@@ -13,7 +14,7 @@ public interface CampaignRepository {
     Campaign findById(int campaignId);
 
     @Transactional
-    List<Campaign> findbyTag(String type, int players, int size, Date start);
+    List<Campaign> findbyTag(String type, int players, int size, Timestamp start);
 
     Campaign add(Campaign campaign);
 
