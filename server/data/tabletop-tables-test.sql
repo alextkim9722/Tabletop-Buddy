@@ -39,8 +39,9 @@ create table campaign (
     `type` varchar(250) not null,
     city varchar(250) not null,
     state varchar(250) not null,
-    session_count int not null,
+    session_count int not null default(0),
     max_players int not null,
+    current_players int not null default(0),
     constraint fk_campaign_user_id
         foreign key (user_id)
         references user(user_id)
@@ -103,6 +104,7 @@ insert into role (`name`) values
 delimiter //
 create procedure set_known_good_state()
 begin
+	delete from user_role;
     delete from user_schedule;
     alter table user_schedule auto_increment = 1;
     delete from session_user;
@@ -114,9 +116,6 @@ begin
     delete from user;
     alter table user auto_increment = 1;
 
-
-
-    
 -- database test
 insert into user (username, password_hash, city, state, disabled, `description`) values
 	("bob", "$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa", "LA", "california", 0, "fake account"),
@@ -146,20 +145,3 @@ insert into session_user (session_id, user_id) values
     
 end //
 delimiter ;
-    
-/*
-select
-	s.start_date,
-    s.end_date,
-    u.username
-from session_user su
-inner join user u on su.user_id = u.user_id
-inner join session s on su.session_id = s.session_id;
-
-select
-	s.start_date,
-    s.end_date,
-    c.name
-from session s
-inner join campaign c on s.campaign_id = c.campaign_id;
-*/

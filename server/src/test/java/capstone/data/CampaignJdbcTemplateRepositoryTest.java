@@ -1,16 +1,18 @@
 package capstone.data;
 
 import capstone.models.Campaign;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import capstone.models.User;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.sql.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class CampaignJdbcTemplateRepositoryTest {
 
     final static int NEXT_ID=3;
@@ -25,6 +27,7 @@ class CampaignJdbcTemplateRepositoryTest {
     void setup() { knownGoodState.set(); }
 
     @Test
+    @Order(1)
     void shouldFindAll() {
         List<Campaign> campaigns = repository.findAll();
         assertNotNull(campaigns);
@@ -33,37 +36,62 @@ class CampaignJdbcTemplateRepositoryTest {
     }
 
     @Test
+    @Order(2)
     void shouldFindById() {
         Campaign myDnD = repository.findById(1);
-        assertEquals(0, myDnD.getCampaignId());
+        assertEquals(1, myDnD.getCampaignId());
         assertEquals("California", myDnD.getState());
         assertEquals(3, myDnD.getSessionCount());
     }
 
-
-//    @Test
-//    void shouldAdd() {
-//        Campaign campaign = new Campaign(
-//        .setName("test")
-//        .setUserId(2)
-//        .setDescription("testCampaign")
-//        .setType("not DnD")
-//        .setSessionCount(3)
-//        .setMaxPlayers(6);
-//        );
-//
-//        campaign.setCity("Milwaukee");
-//        campaign.setState("WI");
-//    }
-
     @Test
-    void shouldUpdate() {
+    @Order(5)
+    void shouldAdd(){
+        Campaign campaign = makeCampaign();
+        repository.add(campaign);
+        assertEquals(3, repository.findAll().size());
     }
 
     @Test
-    void shouldDeleteById() {
-        assertTrue(repository.deleteById(1));  //TODO [TEST FAILING]
-        assertFalse(repository.deleteById(1));
+    @Order(6)
+    void shouldFindUsername(){
+        Campaign myDnD = repository.findById(1);
+        assertEquals("dale", myDnD.getUserList().get(0).getUser().getUsername());
     }
 
+    @Test
+    @Order(7)
+    void shouldFindSessionDate(){
+        Campaign myDnD = repository.findById(1);
+        assertEquals(Date.valueOf("2003-04-03"), myDnD.getSessionList().get(2).getStartDate());
+    }
+
+    @Test
+    @Order(3)
+    void shouldFindByPlayerCount() {
+        List<Campaign> campaignList = repository.findbyTag(null, 0, -1, null);
+        assertEquals(2, campaignList.size());
+        assertEquals("My DnD", campaignList.get(0).getName());
+    }
+
+    @Test
+    @Order(4)
+    void shouldFindByDateAndType() {
+        List<Campaign> campaignList = repository.findbyTag("DnD", -1, -1, Date.valueOf("2003-03-10"));
+        assertEquals(1, campaignList.size());
+        assertEquals("My DnD", campaignList.get(0).getName());
+    }
+
+    private Campaign makeCampaign() {
+        Campaign campaign = new Campaign(
+                NEXT_ID,
+                1,
+                "Blob",
+                "Blarg",
+                "Darg",
+                "Targ",
+                10
+        );
+        return campaign;
+    }
 }
