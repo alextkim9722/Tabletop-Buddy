@@ -12,17 +12,17 @@ public class CampaignMapper implements RowMapper <Campaign> {
     public Campaign mapRow(ResultSet resultSet, int i) throws SQLException {
         Campaign campaign = new Campaign(
                 resultSet.getInt("campaign_id"),
-                resultSet.getString("user_id"),
+                resultSet.getInt("user_id"),
                 resultSet.getString("name"),
-                resultSet.getString("description"),
                 resultSet.getString("type"),
-                resultSet.getInt("session_count"),
+                resultSet.getString("city"),
+                resultSet.getString("state"),
                 resultSet.getInt("max_players")
-              //  resultSet.getInt("current_player")
         );
 
-        campaign.setCity(resultSet.getString("city"));
-        campaign.setState(resultSet.getString("state"));
+        campaign.setSessionCount(resultSet.getInt("session_count"));
+        campaign.setDescription(resultSet.getString("description"));
+        campaign.setCurrentPlayers(resultSet.getInt("current_players"));
         return campaign;
     }
 }
