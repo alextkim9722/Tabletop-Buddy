@@ -14,7 +14,7 @@ public class Campaign {
     private List <Session> sessionList = new ArrayList<>();
     private List <CampaignUser> userList = new ArrayList<>();
 
-    @Setter(AccessLevel.NONE)
+
     private int CampaignId;
 
     @NonNull
@@ -32,6 +32,6 @@ public class Campaign {
     private int sessionCount;
     @NonNull
     private int maxPlayers;
-    @NonNull
-    private int currentPlayers;
+//    @NonNull
+//    private int currentPlayers;
 }
