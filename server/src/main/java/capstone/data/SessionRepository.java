@@ -16,5 +16,4 @@ public interface SessionRepository {
     List<Session> getFromUserId(int userid);
 
     List<Session> getFromCampaignId(int CampaignId);
-
 }

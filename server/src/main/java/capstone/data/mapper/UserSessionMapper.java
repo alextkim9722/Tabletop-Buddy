@@ -11,7 +11,6 @@ public class UserSessionMapper implements RowMapper<UserSession> {
 
     @Override
     public UserSession mapRow(ResultSet resultSet, int i) throws SQLException {
-        /*
         SessionMapper sessionMapper = new SessionMapper();
 
         UserSession userSession = new UserSession(
@@ -19,8 +18,5 @@ public class UserSessionMapper implements RowMapper<UserSession> {
                 sessionMapper.mapRow(resultSet, i)
         );
         return userSession;
-         */
-
-        return null;
     }
 }

@@ -1,8 +1,6 @@
 package capstone.data;
 
-import capstone.data.mapper.CampaignUserMapper;
-import capstone.data.mapper.UserCampaignMapper;
-import capstone.data.mapper.UserMapper;
+import capstone.data.mapper.*;
 import capstone.models.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -64,6 +62,8 @@ public class UserJdbcTemplateRepository implements UserRepository{
         if (user != null) {
             addHostedCampaigns(user);
             addUserSchedule(user);
+            addJoinedCampaign(user);
+            addJoinedSessions(user);
         }
 
         return user;
@@ -119,36 +119,45 @@ public class UserJdbcTemplateRepository implements UserRepository{
 
     private void addHostedCampaigns(User user) {
         final String sql = "select campaign_id, user_id, `name`, `description`, `type`, city, "
-                + "state, session_count, max_players "
+                + "state, session_count, max_players, current_players "
                 + "from campaign "
                 + "where user_id = ?";
-
-        /*
         var campaign = jdbcTemplate.query(sql, new CampaignMapper(), user.getUserid());
-        user.setCampaignList(campaign);
-         */
+        user.setHostedCampaignList(campaign);
     }
 
     private void addUserSchedule(User user) {
-        final String sql = "select user_schedule_id, user_id, session_id, start_date, end_date"
-                + "from user_schedule "
-                + "where user_id = ?";
+        final String sql = "select us.user_schedule_id, us.user_id, us.session_id, us.start_date, us.end_date, s.campaign_id "
+                + "from user_schedule us "
+                + "inner join session s on s.session_id = us.session_id "
+                + "where us.user_id = ?";
 
-        /*
         var userSchedule = jdbcTemplate.query(sql, new UserScheduleMapper(), user.getUserid());
         user.setUserScheduleList(userSchedule);
-         */
     }
 
     private void addJoinedCampaign(User user) {
-        final String sql = "select cu.campaign_id, cu.user_id, "
-                + "cu.campaign_id, cu.user_id, cu.name, cu.description, cu.type, cu.city, cu.state, cu.session_count, cu.max_players"
+        final String sql = "select cu.campaign_id, cu.user_id, c.`name`, c.`description`, "
+                + "c.`type`, c.city, c.state, c.session_count, c.max_players, c.current_players "
                 + "from campaign_user cu "
-                + "inner join user u on cu.user_id = u.user_id"
+                + "inner join user u on cu.user_id = u.user_id "
                 + "inner join campaign c on cu.campaign_id = c.campaign_id "
-                + "where aa.agent_id = ?;";
+                + "where cu.user_id = ?;";
 
-        var campaignUsers = jdbcTemplate.query(sql, new UserCampaignMapper(), user.getUserid());
-        user.setCampaignList(campaignUsers);
+        var userCampaigns = jdbcTemplate.query(sql, new UserCampaignMapper(), user.getUserid());
+        user.setCampaignList(userCampaigns);
     }
+
+    private void addJoinedSessions(User user) {
+        final String sql = "select su.user_id, su.session_id, s.campaign_id, s.start_date, s.end_date "
+                + "from session_user su "
+                + "inner join user u on su.user_id = u.user_id "
+                + "inner join session s on su.session_id = s.session_id "
+                + "where su.user_id = ?;";
+
+        var userSessions = jdbcTemplate.query(sql, new UserSessionMapper(), user.getUserid());
+        user.setSessionList(userSessions);
+    }
+
+
 }

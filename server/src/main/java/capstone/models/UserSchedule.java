@@ -1,23 +1,25 @@
 package capstone.models;
 
-import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NonNull;
-import lombok.Setter;
 
-import java.util.Date;
-import java.util.List;
+import java.sql.Date;
 
 @Data
 public class UserSchedule {
-    @Setter(AccessLevel.NONE)
-    private int user_schedule_id;
+    @NonNull
+    private int userScheduleid;
 
-    private List<Session> sessionList;
+    @NonNull
+    private int userid;
+
+    private int sessionid;
 
     @NonNull
     private Date startDate;
 
     @NonNull
     private Date endDate;
+
+    private Session session;
 }
