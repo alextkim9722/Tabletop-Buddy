@@ -64,7 +64,7 @@ public class UserJdbcTemplateRepositoryTest {
     }
 
     @Test
-    @Order(6)
+    @Order(7)
     void shouldAdd() {
         // all fields
         User user = makeUser();
@@ -74,7 +74,7 @@ public class UserJdbcTemplateRepositoryTest {
     }
 
     @Test
-    @Order(7)
+    @Order(8)
     void shouldUpdate() {
         User user = makeUser();
         user.setUsername("Porg");
@@ -82,6 +82,20 @@ public class UserJdbcTemplateRepositoryTest {
         repository.update(user);
         User actual = repository.findByUsername("Porg");
         assertEquals("Porg", actual.getUsername());
+    }
+
+    @Test
+    @Order(6)
+    void shouldFindBobSchedule() {
+        User bob = repository.findByUsername("Bob");
+        assertEquals(5, bob.getUserScheduleList().size());
+        assertEquals(Date.valueOf("2003-04-03"), bob.getUserScheduleList().get(2).getStartDate());
+    }
+
+    @Test
+    @Order(999)
+    void reset(){
+        KnownGoodState.hasRun = false;
     }
 
     private User makeUser() {

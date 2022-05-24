@@ -77,6 +77,12 @@ class SessionJdbcTemplateRepositoryTest {
         assertEquals("dale", sessionList.get(0).getUserList().get(0).getUser().getUsername());
     }
 
+    @Test
+    @Order(999)
+    void reset(){
+        KnownGoodState.hasRun = false;
+    }
+
     private Session makeSession() {
         Session session = new Session(
             NEXT_ID,

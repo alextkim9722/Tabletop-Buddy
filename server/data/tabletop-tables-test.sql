@@ -132,6 +132,13 @@ insert into session (campaign_id, start_date, end_date) values
     (2, '2003-04-05', '2003-04-06'),
     (2, '2003-04-07', '2003-04-08');
     
+insert into user_schedule (user_id, session_id, start_date, end_date) values
+	(1, 1, '2003-03-10', '2003-03-14'),
+    (1, 2, '2003-04-01', '2003-04-02'),
+    (1, 3, '2003-04-03', '2003-04-04'),
+    (1, 4, '2003-04-05', '2003-04-06'),
+    (1, 5, '2003-04-07', '2003-04-08');
+    
 insert into campaign_user (campaign_id, user_id) values
 	(1, 2),
     (2, 2);

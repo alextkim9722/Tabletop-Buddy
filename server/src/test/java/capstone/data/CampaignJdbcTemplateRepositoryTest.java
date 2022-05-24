@@ -67,6 +67,13 @@ class CampaignJdbcTemplateRepositoryTest {
     }
 
     @Test
+    @Order(8)
+    void shouldDelete(){
+        assertTrue(repository.deleteById(1));
+        assertFalse(repository.deleteById(1));
+    }
+
+    @Test
     @Order(3)
     void shouldFindByPlayerCount() {
         List<Campaign> campaignList = repository.findbyTag(null, 0, -1, null);
@@ -80,6 +87,12 @@ class CampaignJdbcTemplateRepositoryTest {
         List<Campaign> campaignList = repository.findbyTag("DnD", -1, -1, Date.valueOf("2003-03-10"));
         assertEquals(1, campaignList.size());
         assertEquals("My DnD", campaignList.get(0).getName());
+    }
+
+    @Test
+    @Order(999)
+    void reset(){
+        KnownGoodState.hasRun = false;
     }
 
     private Campaign makeCampaign() {

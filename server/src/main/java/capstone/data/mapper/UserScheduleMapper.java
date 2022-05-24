@@ -16,9 +16,12 @@ public class UserScheduleMapper implements RowMapper<UserSchedule> {
 
         UserSchedule userSchedule = new UserSchedule(
                 resultSet.getInt("user_schedule_id"),
+                resultSet.getInt("user_id"),
                 resultSet.getDate("start_date"),
                 resultSet.getDate("end_date")
         );
+
+        userSchedule.setSessionid(resultSet.getInt("session_id"));
 
         userSchedule.setSession(sessionMapper.mapRow(resultSet, i));
 

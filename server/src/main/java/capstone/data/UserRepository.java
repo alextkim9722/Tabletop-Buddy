@@ -1,6 +1,5 @@
 package capstone.data;
 
-import capstone.models.Campaign;
 import capstone.models.Session;
 import capstone.models.User;
 

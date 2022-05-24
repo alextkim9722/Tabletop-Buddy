@@ -119,7 +119,7 @@ public class UserJdbcTemplateRepository implements UserRepository{
 
     private void addHostedCampaigns(User user) {
         final String sql = "select campaign_id, user_id, `name`, `description`, `type`, city, "
-                + "state, session_count, max_players "
+                + "state, session_count, max_players, current_players "
                 + "from campaign "
                 + "where user_id = ?";
         var campaign = jdbcTemplate.query(sql, new CampaignMapper(), user.getUserid());
@@ -127,9 +127,10 @@ public class UserJdbcTemplateRepository implements UserRepository{
     }
 
     private void addUserSchedule(User user) {
-        final String sql = "select user_schedule_id, user_id, session_id, start_date, end_date "
-                + "from user_schedule "
-                + "where user_id = ?";
+        final String sql = "select us.user_schedule_id, us.user_id, us.session_id, us.start_date, us.end_date, s.campaign_id "
+                + "from user_schedule us "
+                + "inner join session s on s.session_id = us.session_id "
+                + "where us.user_id = ?";
 
         var userSchedule = jdbcTemplate.query(sql, new UserScheduleMapper(), user.getUserid());
         user.setUserScheduleList(userSchedule);
@@ -137,7 +138,7 @@ public class UserJdbcTemplateRepository implements UserRepository{
 
     private void addJoinedCampaign(User user) {
         final String sql = "select cu.campaign_id, cu.user_id, c.`name`, c.`description`, "
-                + "c.`type`, c.city, c.state, c.session_count, c.max_players "
+                + "c.`type`, c.city, c.state, c.session_count, c.max_players, c.current_players "
                 + "from campaign_user cu "
                 + "inner join user u on cu.user_id = u.user_id "
                 + "inner join campaign c on cu.campaign_id = c.campaign_id "

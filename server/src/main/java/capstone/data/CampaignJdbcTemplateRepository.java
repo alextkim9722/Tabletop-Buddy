@@ -122,8 +122,19 @@ public class CampaignJdbcTemplateRepository implements CampaignRepository{
     @Override
     @Transactional
     public boolean deleteById(int campaignId) {
+        jdbcTemplate.update(
+                "delete us from user_schedule us "
+                        + "inner join session s on us.session_id = s.session_id "
+                        + "where s.campaign_id = ?;"
+                , campaignId);
+        jdbcTemplate.update(
+                "delete su from session_user su "
+                + "inner join session s on su.session_id = s.session_id "
+                + "where s.campaign_id = ?;"
+                , campaignId);
         jdbcTemplate.update("delete from session where campaign_id = ?;", campaignId);
-        return jdbcTemplate.update("delete from campaign where campaign = ?;", campaignId) > 0;
+        jdbcTemplate.update("delete from campaign_user where campaign_id = ?;", campaignId);
+        return jdbcTemplate.update("delete from campaign where campaign_id = ?;", campaignId) > 0;
     }
 
     private void addSessions(Campaign campaign) {

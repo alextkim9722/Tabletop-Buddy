@@ -10,7 +10,6 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
@@ -62,6 +61,7 @@ public class SessionJdbcTemplateRepository implements SessionRepository {
     @Override
     @Transactional
     public boolean deleteById(int session_id) {
+        jdbcTemplate.update("delete from user_schedule where session_id = ?;", session_id);
         jdbcTemplate.update("delete from session_user where session_id = ?;", session_id);
         return jdbcTemplate.update("delete from session where session_id = ?;", session_id) > 0;
     }

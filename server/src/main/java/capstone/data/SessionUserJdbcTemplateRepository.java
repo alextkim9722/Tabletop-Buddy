@@ -2,12 +2,8 @@ package capstone.data;
 
 import capstone.models.Session;
 import capstone.models.SessionUser;
-import capstone.models.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
-import java.sql.Date;
-import java.util.ArrayList;
 
 @Repository
 public class SessionUserJdbcTemplateRepository implements SessionUserRepository{

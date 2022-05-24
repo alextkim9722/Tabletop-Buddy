@@ -38,8 +38,14 @@ public class SessionUserJdbcTemplateRepositoryTest {
     @Test
     @Order(2)
     void shouldDelete(){
-        assertTrue(repository.delete(5, 1));
-        assertFalse(repository.delete(5, 1));
+        assertTrue(repository.delete(5, 2));
+        assertFalse(repository.delete(5, 2));
+    }
+
+    @Test
+    @Order(999)
+    void reset(){
+        KnownGoodState.hasRun = false;
     }
 
     SessionUser makeSessionUser(){

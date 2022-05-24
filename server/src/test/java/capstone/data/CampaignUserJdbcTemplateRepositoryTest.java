@@ -36,8 +36,14 @@ public class CampaignUserJdbcTemplateRepositoryTest {
     @Test
     @Order(2)
     void shouldDelete(){
-        assertTrue(repository.delete(1, 1));
-        assertFalse(repository.delete(1, 1));
+        assertTrue(repository.delete(1, 2));
+        assertFalse(repository.delete(1, 2));
+    }
+
+    @Test
+    @Order(999)
+    void reset(){
+        KnownGoodState.hasRun = false;
     }
 
     CampaignUser makeCampaignUser(){
