@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -38,11 +39,11 @@ class SessionJdbcTemplateRepositoryTest {
     @Order(5)
     void update() {
         Session session = makeSession();
-        session.setStartDate(Date.valueOf("2003-04-12"));
+        session.setStartDate(Timestamp.valueOf("2003-04-12 12:00:00.000"));
         session.setSessionid(2);
         repository.update(session);
         List<Session> sessionList = repository.getFromUserId(2);
-        assertEquals(Date.valueOf("2003-04-12"), sessionList.get(1).getStartDate());
+        assertEquals(Timestamp.valueOf("2003-04-12 12:00:00.000"), sessionList.get(1).getStartDate());
     }
 
     @Test
@@ -58,7 +59,7 @@ class SessionJdbcTemplateRepositoryTest {
     void getFromUserId() {
         List<Session> sessionList = repository.getFromUserId(2);
         assertEquals(5, sessionList.size());
-        assertEquals(Date.valueOf("2003-04-05"), sessionList.get(3).getStartDate());
+        assertEquals(Timestamp.valueOf("2003-04-05 12:00:00.000"), sessionList.get(3).getStartDate());
     }
 
     @Test
@@ -66,7 +67,7 @@ class SessionJdbcTemplateRepositoryTest {
     void getFromCampaignId() {
         List<Session> sessionList = repository.getFromCampaignId(2);
         assertEquals(2, sessionList.size());
-        assertEquals(Date.valueOf("2003-04-05"), sessionList.get(0).getStartDate());
+        assertEquals(Timestamp.valueOf("2003-04-05 12:00:00.000"), sessionList.get(0).getStartDate());
     }
 
     @Test
@@ -87,8 +88,8 @@ class SessionJdbcTemplateRepositoryTest {
         Session session = new Session(
             NEXT_ID,
             2,
-            Date.valueOf("2003-04-10"),
-            Date.valueOf("2003-04-11")
+            Timestamp.valueOf("2003-04-10 12:00:00.000"),
+            Timestamp.valueOf("2003-04-11 12:00:00.000")
         );
         return session;
     }

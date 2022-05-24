@@ -12,27 +12,35 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Repository
 public class SessionJdbcTemplateRepository implements SessionRepository {
 
     private final JdbcTemplate jdbcTemplate;
+    private final java.text.SimpleDateFormat sdf;
 
     public SessionJdbcTemplateRepository(JdbcTemplate jdbcTemplate) {
+        sdf = new java.text.SimpleDateFormat();
+        sdf.setTimeZone(java.util.TimeZone.getDefault());
+        sdf.applyPattern("yyyy-MM-dd hh:mm:ss");
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
     public Session create(Session session) {
+        long start = session.getStartDate().getTime();
+        long end = session.getEndDate().getTime();
+
         final String sql = "insert into session (campaign_id, start_date, end_date) " +
                 " values (?,?,?);";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, session.getCampaignId());
-            ps.setDate(2, session.getStartDate());
-            ps.setDate(3, session.getEndDate());
+            ps.setTimestamp(2, Timestamp.valueOf(sdf.format(start)));
+            ps.setTimestamp(3, Timestamp.valueOf(sdf.format(end)));
             // casted from java.util.Date to java.sql.Date
             return ps;
         }, keyHolder);
@@ -47,14 +55,17 @@ public class SessionJdbcTemplateRepository implements SessionRepository {
 
     @Override
     public boolean update(Session session) {
+        long start = session.getStartDate().getTime();
+        long end = session.getEndDate().getTime();
+
         final String sql = "update session set " +
                 "start_date = ?, " +
                 "end_date = ? " +
                 "where session_id = ?;";
 
         return jdbcTemplate.update(sql,
-                session.getStartDate(),
-                session.getEndDate(),
+                sdf.format(start),
+                sdf.format(end),
                 session.getSessionid()) > 0;
     }
 

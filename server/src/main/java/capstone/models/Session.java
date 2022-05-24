@@ -3,7 +3,7 @@ package capstone.models;
 import lombok.Data;
 import lombok.NonNull;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Data
@@ -17,8 +17,8 @@ public class Session {
         private List<SessionUser> userList;
 
         @NonNull
-        private Date startDate;
+        private Timestamp startDate;
 
         @NonNull
-        private Date endDate;
+        private Timestamp endDate;
 }

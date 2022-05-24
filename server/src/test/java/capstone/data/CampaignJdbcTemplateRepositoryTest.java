@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -63,7 +64,7 @@ class CampaignJdbcTemplateRepositoryTest {
     @Order(7)
     void shouldFindSessionDate(){
         Campaign myDnD = repository.findById(1);
-        assertEquals(Date.valueOf("2003-04-03"), myDnD.getSessionList().get(2).getStartDate());
+        assertEquals(Timestamp.valueOf("2003-04-03 12:00:00.000"), myDnD.getSessionList().get(2).getStartDate());
     }
 
     @Test
@@ -84,7 +85,7 @@ class CampaignJdbcTemplateRepositoryTest {
     @Test
     @Order(4)
     void shouldFindByDateAndType() {
-        List<Campaign> campaignList = repository.findbyTag("DnD", -1, -1, Date.valueOf("2003-03-10"));
+        List<Campaign> campaignList = repository.findbyTag("DnD", -1, -1, Timestamp.valueOf("2003-03-10 12:00:00.000"));
         assertEquals(1, campaignList.size());
         assertEquals("My DnD", campaignList.get(0).getName());
     }
