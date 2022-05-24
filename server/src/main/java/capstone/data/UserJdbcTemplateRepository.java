@@ -1,5 +1,6 @@
 package capstone.data;
 
+import capstone.data.mapper.CampaignMapper;
 import capstone.data.mapper.CampaignUserMapper;
 import capstone.data.mapper.UserCampaignMapper;
 import capstone.data.mapper.UserMapper;
@@ -123,10 +124,10 @@ public class UserJdbcTemplateRepository implements UserRepository{
                 + "from campaign "
                 + "where user_id = ?";
 
-        /*
+
         var campaign = jdbcTemplate.query(sql, new CampaignMapper(), user.getUserid());
         user.setCampaignList(campaign);
-         */
+
     }
 
     private void addUserSchedule(User user) {
@@ -134,10 +135,8 @@ public class UserJdbcTemplateRepository implements UserRepository{
                 + "from user_schedule "
                 + "where user_id = ?";
 
-        /*
-        var userSchedule = jdbcTemplate.query(sql, new UserScheduleMapper(), user.getUserid());
+        var userSchedule = jdbcTemplate.query(sql, new User(), user.getUserid());
         user.setUserScheduleList(userSchedule);
-         */
     }
 
     private void addJoinedCampaign(User user) {
