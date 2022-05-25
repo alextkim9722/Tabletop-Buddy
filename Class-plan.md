@@ -127,7 +127,6 @@
 - [ ] Result< Campaign > getFromUserId(int id)
 - [ ] Result< Campaign > getFromCampaignId(int id)
 - [ ] Result< Void > createUser(Campaign-User cu)
-- [ ] Result< Void > updateUser(Campaign-User cu)
 - [ ] boolean deleteUser(int id)
 - [ ] Result< Campaign > validate(Campaign campaign)
 ### Domain Rules
