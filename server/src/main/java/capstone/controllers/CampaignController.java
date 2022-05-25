@@ -1,6 +1,7 @@
 package capstone.controllers;
 
 import capstone.models.Campaign;
+import capstone.models.Filter;
 import capstone.service.CampaignService;
 import capstone.service.Result;
 import org.springframework.http.HttpStatus;
@@ -8,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-// TODO: clarify what CORS we are allowing/use a global CORS configuration, clarify base URL
+
 @RestController
 @RequestMapping("/api/campaign")
 public class CampaignController {
@@ -29,7 +30,14 @@ public class CampaignController {
         return new ResponseEntity<>(campaign, HttpStatus.OK);
     }
 
-    // TODO: Write findbyTag controller
+    @GetMapping("/filtered")
+    public ResponseEntity<Object> findById(@RequestBody Filter filter) {
+        List<Campaign> campaignList = campaignService.findbyTag(filter);
+        if (campaignList == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(campaignList, HttpStatus.OK);
+    }
 
     @PostMapping
     public ResponseEntity<Object> add(@RequestBody Campaign campaign) {
