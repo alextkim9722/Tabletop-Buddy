@@ -54,13 +54,13 @@ public class CampaignJdbcTemplateRepository implements CampaignRepository{
     public List<Campaign> findbyTag(String type, int players, int size, Timestamp start) {
         final String sql = "select c.campaign_id, c.user_id, c.name, c.description, c.type, "
                 + "c.city, c.state, c.session_count, c.max_players, c.current_players "
-                + "from session s "
-                + "inner join campaign c on c.campaign_id = s.campaign_id "
+                + "from campaign c "
+                + "left outer join session s on c.campaign_id = s.campaign_id "
                 + "where "
                 + "c.type = " + (type == null ? "c.type" : "\""+type+"\"") + " "
                 + "and c.current_players = " + (players == -1 ? "c.current_players" : players) + " "
                 + "and c.session_count = " + (size == -1 ? "c.session_count" : size) + " "
-                + "and s.start_date = " + (start == null ? "s.start_date" : "\""+start.toString()+"\"") + " "
+                + (start == null ? "" : "and s.start_date = \""+start.toString()+"\"") + " "
                 + "group by c.campaign_id, c.user_id, c.name, c.description, c.type, "
                 + "c.city, c.state, c.session_count, c.max_players, c.current_players;";
 
@@ -116,8 +116,8 @@ public class CampaignJdbcTemplateRepository implements CampaignRepository{
                 campaign.getCity(),
                 campaign.getState(),
                 campaign.getSessionCount(),
-                campaign.getCurrentPlayers(),
                 campaign.getMaxPlayers(),
+                campaign.getCurrentPlayers(),
                 campaign.getCampaignId()) >0;
     }
 

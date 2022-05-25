@@ -161,3 +161,17 @@ end //
 delimiter ;
 
 call set_known_good_state();
+
+select * from campaign;
+
+select * from session;
+
+select
+	c.campaign_id, c.user_id, c.name, c.description, c.type, c.city, c.state, c.session_count, c.max_players, c.current_players
+from campaign c
+left outer join session s on c.campaign_id = s.campaign_id
+where
+c.type = "DnD"
+and c.current_players = c.current_players
+and c.session_count = c.session_count
+and s.start_date = s.start_date;

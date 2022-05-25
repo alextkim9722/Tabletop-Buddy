@@ -1,5 +1,5 @@
 @url = http://localhost:8080/api/campaign
-@token = eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0YWJsZXRvcCIsInN1YiI6ImRhbGUiLCJhdXRob3JpdGllcyI6IlJPTEVfVVNFUiIsImV4cCI6MTY1MzUxMjU3N30.fKkc9af2xtU3p151hqOpb9w6WjnF-Is2ony0p53M33Y
+@token = eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0YWJsZXRvcCIsInN1YiI6ImRhbGUiLCJhdXRob3JpdGllcyI6IlJPTEVfVVNFUiIsImV4cCI6MTY1MzUxNTA0NX0.BGkmOYe2cZ6xuR0o0dDwmzSW6hOX23b_Si4TUB5fnec
 
 ###
 
@@ -15,7 +15,7 @@ GET {{url}}/filtered HTTP/1.1
 Content-Type: application/json
 
 {
-    "type": "Warhammer",
+    "type": null,
     "players": -1,
     "size": -1,
     "start": null
@@ -23,16 +23,16 @@ Content-Type: application/json
 
 ###
 
-PUT {{url}}/1 HTTP/1.1
+PUT {{url}}/3 HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "campaignId": 1,
+    "campaignId": 3,
     "userId": 1,
     "name": "asdf",
     "description": "Warhammer 40k game",
-    "type": "Warhammer",
+    "type": "DnD",
     "city": "LA",
     "state": "California",
     "sessionCount": 3,
