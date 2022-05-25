@@ -1,0 +1,65 @@
+@url = http://localhost:8080/api/campaign
+@token = eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0YWJsZXRvcCIsInN1YiI6ImRhbGUiLCJhdXRob3JpdGllcyI6IlJPTEVfVVNFUiIsImV4cCI6MTY1MzUxMjU3N30.fKkc9af2xtU3p151hqOpb9w6WjnF-Is2ony0p53M33Y
+
+###
+
+GET {{url}} HTTP/1.1
+
+###
+
+GET {{url}}/1 HTTP/1.1
+
+###
+
+GET {{url}}/filtered HTTP/1.1
+Content-Type: application/json
+
+{
+    "type": "Warhammer",
+    "players": -1,
+    "size": -1,
+    "start": null
+}
+
+###
+
+PUT {{url}}/1 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "campaignId": 1,
+    "userId": 1,
+    "name": "asdf",
+    "description": "Warhammer 40k game",
+    "type": "Warhammer",
+    "city": "LA",
+    "state": "California",
+    "sessionCount": 3,
+    "maxPlayers": 5,
+    "currentPlayers": 0
+}
+
+###
+
+POST {{url}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "userId": 1,
+    "name": "My Warhammer",
+    "description": "Warhammer 40k game",
+    "type": "Warhammer",
+    "city": "LA",
+    "state": "California",
+    "sessionCount": 3,
+    "maxPlayers": 5,
+    "currentPlayers": 0
+}
+
+###
+
+DELETE {{url}}/1 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}

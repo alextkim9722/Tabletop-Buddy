@@ -1,6 +1,7 @@
 drop database if exists tabletop_tables_test;
 create database tabletop_tables_test;
 use tabletop_tables_test;
+SET SQL_SAFE_UPDATES = 0;
 
 -- create tables
 create table user (
@@ -101,6 +102,7 @@ insert into role (`name`) values
     ('USER'),
     ('ADMIN');
 
+
 delimiter //
 create procedure set_known_good_state()
 begin
@@ -149,6 +151,13 @@ insert into session_user (session_id, user_id) values
     (3, 2),
     (4, 2),
     (5, 2);
+
+insert into user_role(user_id, role_id) values
+	(1, 1),
+    (2, 1);
+
     
 end //
 delimiter ;
+
+call set_known_good_state();

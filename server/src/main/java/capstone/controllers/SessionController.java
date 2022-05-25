@@ -18,12 +18,12 @@ public class SessionController {
 
     public SessionController (SessionService sessionService) { this.sessionService = sessionService; }
 
-    @GetMapping("/{userId}")
+    @GetMapping("/use/{userId}")
     public List<Session> getFromUserId(@PathVariable int userId) {
         return sessionService.getFromUserId(userId);
     }
 
-    @GetMapping("/{campaignId}")
+    @GetMapping("/camp/{campaignId}")
     public List<Session> getFromCampaignId(@PathVariable int campaignId) {
         return sessionService.getFromCampaignId(campaignId);
     }

@@ -26,7 +26,7 @@ public class CampaignUserController {
         return ErrorResponse.build(result);
     }
 
-    @DeleteMapping("/{agencyId}/{agentId}")
+    @DeleteMapping("/{campaignId}/{userId}")
     public ResponseEntity<Void> deleteByKey(@PathVariable int campaignId, @PathVariable int userId) {
         if (service.deleteUserById(campaignId, userId)) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

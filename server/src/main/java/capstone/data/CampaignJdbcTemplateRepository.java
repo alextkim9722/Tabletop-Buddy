@@ -98,15 +98,15 @@ public class CampaignJdbcTemplateRepository implements CampaignRepository{
 
     @Override
     public boolean update(Campaign campaign) {
-        final String sql = "update campaign set"
+        final String sql = "update campaign set "
                 + "name = ?, "
                 + "description = ?, "
                 + "type = ?, "
                 + "city = ?, "
                 + "state = ?, "
                 + "session_count = ?, "
-                + "max_players = ?,"
-                + "current_players = ?, "
+                + "max_players = ?, "
+                + "current_players = ? "
                 + "where campaign_id = ?;";
 
         return jdbcTemplate.update(sql,
@@ -117,7 +117,8 @@ public class CampaignJdbcTemplateRepository implements CampaignRepository{
                 campaign.getState(),
                 campaign.getSessionCount(),
                 campaign.getCurrentPlayers(),
-                campaign.getMaxPlayers()) >0;
+                campaign.getMaxPlayers(),
+                campaign.getCampaignId()) >0;
     }
 
     @Override
