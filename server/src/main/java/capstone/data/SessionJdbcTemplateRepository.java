@@ -1,6 +1,7 @@
 package capstone.data;
 
 import capstone.data.mapper.SessionMapper;
+import capstone.data.mapper.SessionUserMapper;
 import capstone.models.Session;
 
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -9,30 +10,37 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Repository
 public class SessionJdbcTemplateRepository implements SessionRepository {
 
     private final JdbcTemplate jdbcTemplate;
+    private final java.text.SimpleDateFormat sdf;
 
     public SessionJdbcTemplateRepository(JdbcTemplate jdbcTemplate) {
+        sdf = new java.text.SimpleDateFormat();
+        sdf.setTimeZone(java.util.TimeZone.getDefault());
+        sdf.applyPattern("yyyy-MM-dd hh:mm:ss");
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
     public Session create(Session session) {
+        long start = session.getStartDate().getTime();
+        long end = session.getEndDate().getTime();
+
         final String sql = "insert into session (campaign_id, start_date, end_date) " +
                 " values (?,?,?);";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, session.getCampaignId());
-            ps.setDate(2, session.getStartDate());
-            ps.setDate(3, session.getEndDate());
+            ps.setTimestamp(2, Timestamp.valueOf(sdf.format(start)));
+            ps.setTimestamp(3, Timestamp.valueOf(sdf.format(end)));
             // casted from java.util.Date to java.sql.Date
             return ps;
         }, keyHolder);
@@ -41,30 +49,33 @@ public class SessionJdbcTemplateRepository implements SessionRepository {
             return null;
         }
 
-        session.setSession_id(keyHolder.getKey().intValue());
+        session.setSessionid(keyHolder.getKey().intValue());
         return session;
     }
 
     @Override
     public boolean update(Session session) {
+        long start = session.getStartDate().getTime();
+        long end = session.getEndDate().getTime();
+
         final String sql = "update session set " +
                 "start_date = ?, " +
-                "end_date = ?, " +
+                "end_date = ? " +
                 "where session_id = ?;";
 
         return jdbcTemplate.update(sql,
-                session.getStartDate(),
-                session.getEndDate(),
-                session.getSession_id()) > 0;
+                sdf.format(start),
+                sdf.format(end),
+                session.getSessionid()) > 0;
     }
 
     @Override
     @Transactional
     public boolean deleteById(int session_id) {
+        jdbcTemplate.update("delete from user_schedule where session_id = ?;", session_id);
         jdbcTemplate.update("delete from session_user where session_id = ?;", session_id);
         return jdbcTemplate.update("delete from session where session_id = ?;", session_id) > 0;
     }
-
 
     @Override
     public List<Session> getFromUserId(int userid) {
@@ -73,6 +84,11 @@ public class SessionJdbcTemplateRepository implements SessionRepository {
                 "inner join session_user su on s.session_id = su.session_id " +
                 "where su.user_id = ?;";
         var sessions = jdbcTemplate.query(sql, new SessionMapper(), userid);
+
+        for(Session s : sessions) {
+            addUsers(s);
+        }
+
         return sessions;
     }
 
@@ -83,21 +99,25 @@ public class SessionJdbcTemplateRepository implements SessionRepository {
                 "inner join campaign c on s.campaign_id = c.campaign_id " +
                 "where c.campaign_id = ?;";
         var sessions = jdbcTemplate.query(sql, new SessionMapper(), CampaignId);
+
+        for(Session s : sessions) {
+            addUsers(s);
+        }
+
         return sessions;
     }
 
     private void addUsers(Session session) {
 
-        final String sql = "select su.session_id, su.user_id " +
-                "select u.user_id, u.username, u.city, u.state, u.`description` " +
+        final String sql = "select su.session_id, su.user_id, " +
+                "u.user_id, u.username, u.city, u.state, u.`description`, u.password_hash, u.disabled, " +
                 "s.session_id, s.campaign_id, s.start_date, s.end_date " +
                 "from session_user su " +
                 "inner join session s on su.session_id = s.session_id " +
                 "inner join user u on su.user_id = u.user_id " +
                 "where su.session_id = ?;";
 
-        // var sessionUsers = jdbcTemplate.query(sql, new SessionUserMapper(), session.getSessionId());
+        var sessionUsers = jdbcTemplate.query(sql, new SessionUserMapper(), session.getSessionid());
+        session.setUserList(sessionUsers);
     }
-
-
 }

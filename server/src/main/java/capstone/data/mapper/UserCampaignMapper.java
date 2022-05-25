@@ -11,7 +11,6 @@ public class UserCampaignMapper implements RowMapper<UserCampaign> {
 
     @Override
     public UserCampaign mapRow(ResultSet resultSet, int i) throws SQLException {
-        /*
         CampaignMapper campaignMapper = new CampaignMapper();
 
         UserCampaign userCampaign = new UserCampaign(
@@ -19,8 +18,5 @@ public class UserCampaignMapper implements RowMapper<UserCampaign> {
                 campaignMapper.mapRow(resultSet, i)
         );
         return userCampaign;
-         */
-
-        return null;
     }
 }

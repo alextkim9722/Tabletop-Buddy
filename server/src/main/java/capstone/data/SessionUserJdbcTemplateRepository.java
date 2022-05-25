@@ -1,5 +1,6 @@
 package capstone.data;
 
+import capstone.models.Session;
 import capstone.models.SessionUser;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -19,20 +20,6 @@ public class SessionUserJdbcTemplateRepository implements SessionUserRepository{
                 + "(?,?);";
 
         return jdbcTemplate.update(sql,
-                su.getSessionid(),
-                su.getUser().getUserid()) > 0;
-    }
-
-    @Override
-    public boolean update(SessionUser su) {
-        final String sql = "update session_user set "
-                + "session_id = ?,"
-                + "user_id = ?,"
-                + "where session_id = ? and user_id = ?;";
-
-        return jdbcTemplate.update(sql,
-                su.getSessionid(),
-                su.getUser().getUserid(),
                 su.getSessionid(),
                 su.getUser().getUserid()) > 0;
     }

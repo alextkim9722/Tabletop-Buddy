@@ -1,9 +1,7 @@
 package capstone.models;
 
-import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NonNull;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +13,8 @@ public class Campaign {
     private List <CampaignUser> userList = new ArrayList<>();
 
 
-    private int CampaignId;
-
+    @NonNull
+    private int campaignId;
     @NonNull
     private int userId;
     @NonNull
@@ -28,10 +26,8 @@ public class Campaign {
     private String city;
     @NonNull
     private String state;
-    @NonNull
     private int sessionCount;
     @NonNull
     private int maxPlayers;
-//    @NonNull
-//    private int currentPlayers;
+    private int currentPlayers;
 }
