@@ -44,6 +44,8 @@ public class SessionServiceTest {
         assertEquals(expected.get(0).getStartDate(), actual.get(0).getStartDate());
     }
 
+    /*
+    Lombok already fills this issue.
     @Test
     void shouldNotAddWhenDatesAreNull() {
         Session session = makeSession();
@@ -54,6 +56,15 @@ public class SessionServiceTest {
         session.setEndDate(null);
         result = service.create(session);
         assertEquals(ResultType.INVALID, result.getType());
+    }
+     */
+
+    @Test
+    void shouldAddWhenValid() {
+        Session session = makeSession();
+        session.setSessionid(0);
+        Result<Session> result = service.create(session);
+        assertEquals(ResultType.SUCCESS, result.getType());
     }
 
     @Test
@@ -70,21 +81,19 @@ public class SessionServiceTest {
         Session session = makeSession();
         Campaign campaign = makeCampaign();
 
+        // For the start date
         Session sessionA = makeSession();
         sessionA.setStartDate(Timestamp.valueOf("2023-04-10 11:00:00.000"));
         sessionA.setEndDate(Timestamp.valueOf("2023-04-10 13:00:00.000"));
         campaign.getSessionList().add(sessionA);
 
+        // For the end date
+        Session sessionB = makeSession();
+        sessionB.setStartDate(Timestamp.valueOf("2023-04-11 11:00:00.000"));
+        sessionB.setEndDate(Timestamp.valueOf("2023-04-11 13:00:00.000"));
+        campaign.getSessionList().add(sessionB);
+
         Result<Session> result = service.create(session);
-        when(repository.getFromCampaignId(1)).thenReturn(campaign.getSessionList());
-        assertEquals(ResultType.INVALID, result.getType());
-
-        sessionA = makeSession();
-        sessionA.setStartDate(Timestamp.valueOf("2023-04-11 11:00:00.000"));
-        sessionA.setEndDate(Timestamp.valueOf("2023-04-11 13:00:00.000"));
-        campaign.getSessionList().add(sessionA);
-
-        result = service.create(session);
         when(repository.getFromCampaignId(1)).thenReturn(campaign.getSessionList());
         assertEquals(ResultType.INVALID, result.getType());
     }

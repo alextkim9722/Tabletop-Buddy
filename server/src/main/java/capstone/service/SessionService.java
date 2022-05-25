@@ -34,7 +34,7 @@ public class SessionService {
         }
 
         if (session.getSessionid() != 0) {
-            result.addMessage("agentId cannot be set for `add` operation", ResultType.INVALID);
+            result.addMessage("session_id cannot be set for `add` operation", ResultType.INVALID);
             return result;
         }
 
@@ -50,12 +50,12 @@ public class SessionService {
         }
 
         if (session.getSessionid() <= 0) {
-            result.addMessage("agentId must be set for `update` operation", ResultType.INVALID);
+            result.addMessage("session_id must be set for `update` operation", ResultType.INVALID);
             return result;
         }
 
         if (!repository.update(session)) {
-            String msg = String.format("agentId: %s, not found", session.getSessionid());
+            String msg = String.format("session_id: %s, not found", session.getSessionid());
             result.addMessage(msg, ResultType.NOT_FOUND);
         }
 
@@ -88,6 +88,7 @@ public class SessionService {
             return result;
         }
 
+        /*
         if (session.getStartDate() == null) {
             result.addMessage("start date is required", ResultType.INVALID);
         }
@@ -95,6 +96,7 @@ public class SessionService {
         if (session.getEndDate() == null) {
             result.addMessage("end date is required", ResultType.INVALID);
         }
+         */
 
         if (session.getStartDate().after(session.getEndDate())) {
             result.addMessage("start date should be after the end date", ResultType.INVALID);
