@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 // TODO: clarify what CORS we are allowing/use a global CORS configuration, clarify base URL
 @RestController
-@CrossOrigin(origins = {"http://localhost:3000"})
 @RequestMapping("/api/campaign")
 public class CampaignController {
 
