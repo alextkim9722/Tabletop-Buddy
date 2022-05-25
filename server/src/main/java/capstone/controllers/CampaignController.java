@@ -31,7 +31,7 @@ public class CampaignController {
     }
 
     @GetMapping("/filtered")
-    public ResponseEntity<Object> findById(@RequestBody Filter filter) {
+    public ResponseEntity<Object> findByFilter(@RequestBody Filter filter) {
         List<Campaign> campaignList = campaignService.findbyTag(filter);
         if (campaignList == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
