@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import javax.validation.ValidationException;
 import java.util.List;
 
-
+@Service
 public class UserService implements UserDetailsService {
 
     private final UserRepository repository;
