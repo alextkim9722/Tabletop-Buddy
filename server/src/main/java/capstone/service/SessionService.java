@@ -81,6 +81,10 @@ public class SessionService {
         return result;
     }
 
+    public boolean deleteUserByKey(int sessionId, int userId) {
+        return sessionUserRepository.delete(sessionId, userId);
+    }
+
     private Result<Session> validate(Session session) {
         Result<Session> result = new Result<>();
         if (session == null) {
