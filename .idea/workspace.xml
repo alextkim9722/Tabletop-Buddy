@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="2c61b609-8145-4656-ab69-dd064f9a7c6c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/capstone/service/SessionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/capstone/service/SessionService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/capstone/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/capstone/service/UserService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
