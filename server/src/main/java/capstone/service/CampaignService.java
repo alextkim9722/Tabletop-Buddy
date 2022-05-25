@@ -1,8 +1,12 @@
 package capstone.service;
 
 import capstone.data.CampaignRepository;
+import capstone.data.CampaignUserRepository;
 import capstone.data.UserRepository;
 import capstone.models.Campaign;
+import capstone.models.CampaignUser;
+import capstone.models.Filter;
+import capstone.models.SessionUser;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -11,17 +15,19 @@ import java.util.List;
 @Service
 public class CampaignService {
     private final CampaignRepository campaignRepository;
+    private final CampaignUserRepository campaignUserRepository;
 
-    public CampaignService(CampaignRepository campaignRepository) {
+    public CampaignService(CampaignRepository campaignRepository, CampaignUserRepository campaignUserRepository) {
         this.campaignRepository = campaignRepository;
+        this.campaignUserRepository = campaignUserRepository;
     }
 
     public List<Campaign> findAll() { return campaignRepository.findAll(); }
 
     public Campaign findById(int campaignId) { return campaignRepository.findById(campaignId); }
 
-    public List<Campaign> findbyTag(String type, int players, int size, Timestamp start) {
-        return campaignRepository.findbyTag(type, players, size, start); }
+    public List<Campaign> findbyTag(Filter filter) {
+        return campaignRepository.findbyTag(filter.getType(), filter.getPlayers(), filter.getSize(), filter.getStart()); }
 
     public boolean deleteById(int campaignId) { return campaignRepository.deleteById(campaignId); }
 
@@ -60,6 +66,23 @@ public class CampaignService {
         return result;
     }
 
+    public Result<Void> createUser(CampaignUser cu) {
+        Result<Void> result = validate(cu);
+        if (!result.isSuccess()) {
+            return result;
+        }
+
+        if (!campaignUserRepository.add(cu)) {
+            result.addMessage("user not added", ResultType.INVALID);
+        }
+
+        return result;
+    }
+
+    public boolean deleteUserById(int campaignId, int userId) {
+        return campaignUserRepository.delete(campaignId, userId);
+    }
+
     private Result<Campaign> validate(Campaign campaign) {
         Result<Campaign> result = new Result<>();
         if (campaign == null) {
@@ -74,6 +97,19 @@ public class CampaignService {
         }
 
         return result;
+    }
 
+    private Result<Void> validate(CampaignUser campaignUser) {
+        Result<Void> result = new Result<>();
+        if (campaignUser == null) {
+            result.addMessage("Campaign cannot be null", ResultType.INVALID);
+            return result;
+        }
+
+        if (campaignUser.getUser() == null) {
+            result.addMessage("There must be a user that is a part of the campaign ", ResultType.INVALID);
+        }
+
+        return result;
     }
 }

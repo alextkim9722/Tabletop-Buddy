@@ -32,7 +32,7 @@ public class UserScheduleService {
         return result;
     }
 
-    Result<UserSchedule> update(UserSchedule userSchedule) {
+    public Result<UserSchedule> update(UserSchedule userSchedule) {
         Result<UserSchedule> result = validate(userSchedule);
         if (!result.isSuccess()) {
             return result;

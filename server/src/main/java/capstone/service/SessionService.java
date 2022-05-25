@@ -43,7 +43,7 @@ public class SessionService {
         return result;
     }
 
-    Result<Session> update(Session session) {
+    public Result<Session> update(Session session) {
         Result<Session> result = validate(session);
         if (!result.isSuccess()) {
             return result;
@@ -68,7 +68,7 @@ public class SessionService {
 
     public List<Session> getFromCampaignId(int id) { return repository.getFromCampaignId(id); }
 
-    Result<Void> createUser(SessionUser su) {
+    public Result<Void> createUser(SessionUser su) {
         Result<Void> result = validate(su);
         if (!result.isSuccess()) {
             return result;

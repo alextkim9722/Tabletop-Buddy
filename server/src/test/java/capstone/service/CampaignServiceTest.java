@@ -2,10 +2,15 @@ package capstone.service;
 
 import capstone.data.CampaignRepository;
 import capstone.models.Campaign;
+import capstone.models.Filter;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -103,6 +108,21 @@ class CampaignServiceTest {
         when(campaignRepository.update(campaign)).thenReturn(false);
         Result<Campaign> result = campaignService.update(campaign);
         assertEquals(ResultType.NOT_FOUND, result.getType());
+    }
+
+    @Test
+    void shouldFindCampaignWithStartFilter(){
+        Campaign campaign = makeCampaign();
+        List<Campaign> campaignList = new ArrayList<>();
+        campaignList.add(campaign);
+        Filter filter = new Filter();
+        filter.setType(null);
+        filter.setPlayers(-1);
+        filter.setSize(-1);
+        filter.setStart(Timestamp.valueOf("2023-04-10 12:00:00.000"));
+        when(campaignRepository.findbyTag(null, -1, -1, Timestamp.valueOf("2023-04-10 12:00:00.000"))).thenReturn(campaignList);
+        List<Campaign> actual = campaignService.findbyTag(filter);
+        assertEquals("Warhammer 40k Pros", actual.get(0).getName());
     }
 
     Campaign makeCampaign() {
