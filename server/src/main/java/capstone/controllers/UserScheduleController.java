@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/userschedule")
+@RequestMapping("api/userSchedule")
 public class UserScheduleController {
 
     private final UserScheduleService service;

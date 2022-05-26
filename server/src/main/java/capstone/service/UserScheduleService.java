@@ -38,7 +38,7 @@ public class UserScheduleService {
             return result;
         }
 
-        if (userSchedule.getSessionid() <= 0) {
+        if (userSchedule.getUserScheduleid() <= 0) {
             result.addMessage("userScheduleid must be set for `update` operation", ResultType.INVALID);
             return result;
         }
@@ -78,10 +78,14 @@ public class UserScheduleService {
 
         List<UserSchedule> userList = getFromUserId(userSchedule.getUserid());
 
-        for(UserSchedule us : userList) {
-            if(userSchedule.getStartDate().before(us.getEndDate()) && userSchedule.getStartDate().after(us.getStartDate())
-                    || userSchedule.getEndDate().before(us.getEndDate()) && userSchedule.getEndDate().after(us.getStartDate())) {
-                result.addMessage("An overlap has been detected with user " + us.getUserid(), ResultType.INVALID);
+        if(userList != null && !userList.isEmpty()) {
+            for (UserSchedule us : userList) {
+                if(us.getUserScheduleid() != userSchedule.getUserScheduleid()) {
+                    if (userSchedule.getStartDate().before(us.getEndDate()) && userSchedule.getStartDate().after(us.getStartDate())
+                            || userSchedule.getEndDate().before(us.getEndDate()) && userSchedule.getEndDate().after(us.getStartDate())) {
+                        result.addMessage("An overlap has been detected with user " + us.getUserid(), ResultType.INVALID);
+                    }
+                }
             }
         }
 

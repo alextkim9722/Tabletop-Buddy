@@ -19,20 +19,13 @@ import java.util.List;
 public class UserScheduleJdbcTemplateRepository implements UserScheduleRepository{
 
     private final JdbcTemplate jdbcTemplate;
-    private final java.text.SimpleDateFormat sdf;
 
     public UserScheduleJdbcTemplateRepository(JdbcTemplate jdbcTemplate) {
-        sdf = new java.text.SimpleDateFormat();
-        sdf.setTimeZone(java.util.TimeZone.getDefault());
-        sdf.applyPattern("yyyy-MM-dd hh:mm:ss");
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
     public UserSchedule create(UserSchedule session) {
-        long start = session.getStartDate().getTime();
-        long end = session.getEndDate().getTime();
-
         final String sql = "insert into user_schedule (user_schedule_id, user_id, session_id, start_date, end_date) " +
                 " values (?,?,?,?,?);";
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -40,10 +33,9 @@ public class UserScheduleJdbcTemplateRepository implements UserScheduleRepositor
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, session.getUserScheduleid());
             ps.setInt(2, session.getUserid());
-            ps.setInt(3, session.getSessionid());
-            ps.setTimestamp(4, Timestamp.valueOf(sdf.format(start)));
-            ps.setTimestamp(5, Timestamp.valueOf(sdf.format(end)));
-            // casted from java.util.Date to java.sql.Date
+            ps.setObject(3, (session.getSessionid() == 0 ? null : session.getSessionid()));
+            ps.setTimestamp(4, session.getStartDate());
+            ps.setTimestamp(5, session.getEndDate());
             return ps;
         }, keyHolder);
 
@@ -57,8 +49,6 @@ public class UserScheduleJdbcTemplateRepository implements UserScheduleRepositor
 
     @Override
     public boolean update(UserSchedule session) {
-        long start = session.getStartDate().getTime();
-        long end = session.getEndDate().getTime();
 
         final String sql = "update user_schedule set " +
                 "start_date = ?, " +
@@ -66,8 +56,8 @@ public class UserScheduleJdbcTemplateRepository implements UserScheduleRepositor
                 "where user_schedule_id = ?;";
 
         return jdbcTemplate.update(sql,
-                sdf.format(start),
-                sdf.format(end),
+                session.getStartDate(),
+                session.getEndDate(),
                 session.getUserScheduleid()) > 0;
     }
 
@@ -80,7 +70,7 @@ public class UserScheduleJdbcTemplateRepository implements UserScheduleRepositor
     public List<UserSchedule> getFromUserId(int userid) {
         final String sql = "select s.user_schedule_id, s.user_id, s.session_id, s.start_date, s.end_date, se.campaign_id " +
                 "from user_schedule s " +
-                "inner join session se on s.session_id = se.session_id " +
+                "left outer join session se on s.session_id = se.session_id " +
                 "where s.user_id = ?;";
         var sessions = jdbcTemplate.query(sql, new UserScheduleMapper(), userid);
 

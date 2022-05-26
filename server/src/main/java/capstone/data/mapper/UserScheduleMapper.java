@@ -15,18 +15,11 @@ public class UserScheduleMapper implements RowMapper<UserSchedule> {
 
         SessionMapper sessionMapper = new SessionMapper();
 
-        long start = resultSet.getTimestamp("start_date").getTime();
-        long end = resultSet.getTimestamp("end_date").getTime();
-
-        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat();
-        sdf.setTimeZone(java.util.TimeZone.getTimeZone("GMT"));
-        sdf.applyPattern("yyyy-MM-dd hh:mm:ss");
-
         UserSchedule userSchedule = new UserSchedule(
                 resultSet.getInt("user_schedule_id"),
                 resultSet.getInt("user_id"),
-                Timestamp.valueOf(sdf.format(start)),
-                Timestamp.valueOf(sdf.format(end))
+                resultSet.getTimestamp("start_date"),
+                resultSet.getTimestamp("end_date")
         );
 
         userSchedule.setSessionid(resultSet.getInt("session_id"));

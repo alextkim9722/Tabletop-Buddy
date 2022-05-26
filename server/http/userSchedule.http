@@ -1,13 +1,9 @@
-@url = http://localhost:8080/api/session
-@token = eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0YWJsZXRvcCIsInN1YiI6ImRhbGUiLCJhdXRob3JpdGllcyI6IlJPTEVfVVNFUiIsImV4cCI6MTY1MzU3ODQzMH0.bgWO_Ia2GjbL5I1gT70dDc80MQAgdXTzt_xVQ0b4sAc
+@url = http://localhost:8080/api/userSchedule
+@token = eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0YWJsZXRvcCIsInN1YiI6ImRhbGUiLCJhdXRob3JpdGllcyI6IlJPTEVfVVNFUiIsImV4cCI6MTY1MzU3OTcyNn0.HWgP_ES0zRGhjGgm0pJRAoCdWtcfGM4PE-x5sjq77DU
 
 ###
 
-GET {{url}}/use/2 HTTP/1.1
-
-###
-
-GET {{url}}/camp/2 HTTP/1.1
+GET {{url}}/2 HTTP/1.1
 
 ###
 
@@ -16,10 +12,10 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "sessionid": 4,
-    "startDate": "2033-05-05T18:23:22.000+00:00",
+    "userScheduleid": 4,
+    "startDate": "2033-05-05T20:23:22.000+00:00",
     "endDate": "2033-05-06T23:59:17.000+00:00",
-    "campaignId": 2
+    "userid": 1
 }
 
 ###
@@ -31,7 +27,7 @@ Authorization: Bearer {{token}}
 {
     "startDate": "2033-05-10T19:23:22.000+00:00",
     "endDate": "2033-05-11T23:59:17.000+00:00",
-    "campaignId": 2
+    "userid": 1
 }
 
 ###
