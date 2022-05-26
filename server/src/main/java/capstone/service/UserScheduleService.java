@@ -22,8 +22,8 @@ public class UserScheduleService {
             return result;
         }
 
-        if (userSchedule.getUserScheduleid() != 0) {
-            result.addMessage("userScheduleid cannot be set for `add` operation", ResultType.INVALID);
+        if (userSchedule.getUserScheduleId() != 0) {
+            result.addMessage("userScheduleId cannot be set for `add` operation", ResultType.INVALID);
             return result;
         }
 
@@ -38,13 +38,13 @@ public class UserScheduleService {
             return result;
         }
 
-        if (userSchedule.getUserScheduleid() <= 0) {
-            result.addMessage("userScheduleid must be set for `update` operation", ResultType.INVALID);
+        if (userSchedule.getUserScheduleId() <= 0) {
+            result.addMessage("userScheduleId must be set for `update` operation", ResultType.INVALID);
             return result;
         }
 
         if (!repository.update(userSchedule)) {
-            String msg = String.format("userScheduleid: %s, not found", userSchedule.getSessionid());
+            String msg = String.format("userScheduleId: %s, not found", userSchedule.getSessionId());
             result.addMessage(msg, ResultType.NOT_FOUND);
         }
 
@@ -76,14 +76,14 @@ public class UserScheduleService {
             result.addMessage("start date should be after the end date", ResultType.INVALID);
         }
 
-        List<UserSchedule> userList = getFromUserId(userSchedule.getUserid());
+        List<UserSchedule> userList = getFromUserId(userSchedule.getUserId());
 
         if(userList != null && !userList.isEmpty()) {
             for (UserSchedule us : userList) {
-                if(us.getUserScheduleid() != userSchedule.getUserScheduleid()) {
+                if(us.getUserScheduleId() != userSchedule.getUserScheduleId()) {
                     if (userSchedule.getStartDate().before(us.getEndDate()) && userSchedule.getStartDate().after(us.getStartDate())
                             || userSchedule.getEndDate().before(us.getEndDate()) && userSchedule.getEndDate().after(us.getStartDate())) {
-                        result.addMessage("An overlap has been detected with user " + us.getUserid(), ResultType.INVALID);
+                        result.addMessage("An overlap has been detected with user " + us.getUserId(), ResultType.INVALID);
                     }
                 }
             }

@@ -12,10 +12,10 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "userScheduleid": 4,
+    "userScheduleId": 4,
     "startDate": "2033-05-05T20:23:22.000+00:00",
     "endDate": "2033-05-06T23:59:17.000+00:00",
-    "userid": 1
+    "userId": 1
 }
 
 ###
@@ -27,7 +27,7 @@ Authorization: Bearer {{token}}
 {
     "startDate": "2033-05-10T19:23:22.000+00:00",
     "endDate": "2033-05-11T23:59:17.000+00:00",
-    "userid": 1
+    "userId": 1
 }
 
 ###

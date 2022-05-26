@@ -16,7 +16,7 @@ function AddCampaign({}) {
     const [errors, setErrors] = useState([]);
     const history = useHistory();
     const authManager = useContext(AuthContext);
-    const [campaignUserId, setCampaignUserId] = useState(authManager.userid);
+    const [campaignUserId, setCampaignUserId] = useState(authManager.userId);
 
     const handleName = (event) => {
         setName(event.target.value);
@@ -57,48 +57,48 @@ function AddCampaign({}) {
         event.preventDefault();
         // setCampaignUserId(authManager.userid);
 
-          const newCampaign = {
-            name,
-            userId: campaignUserId,
-            description,
-            type,
-            city,
-            state,
-            sessionCount,
-            maxPlayers
-          };
+        const newCampaign = {
+          name,
+          userId: campaignUserId,
+          description,
+          type,
+          city,
+          state,
+          sessionCount,
+          maxPlayers
+        };
 
-          const init = {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
-            },
-            body: JSON.stringify(newCampaign)
-          };
+        const init = {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
+          },
+          body: JSON.stringify(newCampaign)
+        };
 
-        fetch('http://localhost:8080/api/campaign', init)
-        .then(response => {
-          switch (response.status) {
-            case 201:
-            case 400:
-              return response.json();
-            case 403:
-              authManager.logout();
-              history.push('/login');
-              break;
-            default:
-              return Promise.reject('Something went wrong on the server :)');
-          }
-        })
-        .then(json => {
-          if (json.campaignId) {
-            history.push('/campaign');
-          } else {
-            setErrors(json);
-          }
-        })
-        .catch(err => console.error(err));
+      fetch('http://localhost:8080/api/campaign', init)
+      .then(response => {
+        switch (response.status) {
+          case 201:
+          case 400:
+            return response.json();
+          case 403:
+            authManager.logout();
+            history.push('/login');
+            break;
+          default:
+            return Promise.reject('Something went wrong on the server :)');
+        }
+      })
+      .then(json => {
+        if (json.campaignId) {
+          history.push('/campaign');
+        } else {
+          setErrors(json);
+        }
+      })
+      .catch(err => console.error(err));
       }
 
 

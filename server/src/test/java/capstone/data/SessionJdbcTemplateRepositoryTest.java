@@ -32,7 +32,7 @@ class SessionJdbcTemplateRepositoryTest {
         Session session = makeSession();
         Session actual = repository.create(session);
         assertNotNull(actual);
-        assertEquals(NEXT_ID, actual.getSessionid());
+        assertEquals(NEXT_ID, actual.getSessionId());
     }
 
     @Test
@@ -40,7 +40,7 @@ class SessionJdbcTemplateRepositoryTest {
     void update() {
         Session session = makeSession();
         session.setStartDate(Timestamp.valueOf("2003-04-12 12:00:00.000"));
-        session.setSessionid(2);
+        session.setSessionId(2);
         repository.update(session);
         List<Session> sessionList = repository.getFromUserId(2);
         assertEquals(Timestamp.valueOf("2003-04-12 12:00:00.000"), sessionList.get(1).getStartDate());

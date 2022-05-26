@@ -20,8 +20,8 @@ public class SessionUserJdbcTemplateRepository implements SessionUserRepository{
                 + "(?,?);";
 
         return jdbcTemplate.update(sql,
-                su.getSessionid(),
-                su.getUser().getUserid()) > 0;
+                su.getSessionId(),
+                su.getUser().getUserId()) > 0;
     }
 
     @Override

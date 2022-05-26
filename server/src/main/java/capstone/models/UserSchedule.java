@@ -8,12 +8,12 @@ import java.sql.Timestamp;
 @Data
 public class UserSchedule {
     @NonNull
-    private int userScheduleid;
+    private int userScheduleId;
 
     @NonNull
-    private int userid;
+    private int userId;
 
-    private int sessionid;
+    private int sessionId;
 
     @NonNull
     private Timestamp startDate;

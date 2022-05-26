@@ -7,7 +7,7 @@ import lombok.NonNull;
 public class UserCampaign {
 
     @NonNull
-    private int userid;
+    private int userId;
     @NonNull
     private Campaign campaign;
 }

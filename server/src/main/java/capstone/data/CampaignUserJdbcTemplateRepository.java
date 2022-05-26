@@ -19,8 +19,8 @@ public class CampaignUserJdbcTemplateRepository implements  CampaignUserReposito
                 + "(?,?);";
 
         return jdbcTemplate.update(sql,
-                cu.getCampaignid(),
-                cu.getUser().getUserid()) > 0;
+                cu.getCampaignId(),
+                cu.getUser().getUserId()) > 0;
     }
 
     @Override
@@ -31,10 +31,10 @@ public class CampaignUserJdbcTemplateRepository implements  CampaignUserReposito
                 + "where campaign_id = ? and user_id = ?;";
 
         return jdbcTemplate.update(sql,
-                cu.getCampaignid(),
-                cu.getUser().getUserid(),
-                cu.getCampaignid(),
-                cu.getUser().getUserid()) > 0;
+                cu.getCampaignId(),
+                cu.getUser().getUserId(),
+                cu.getCampaignId(),
+                cu.getUser().getUserId()) > 0;
     }
 
     @Override

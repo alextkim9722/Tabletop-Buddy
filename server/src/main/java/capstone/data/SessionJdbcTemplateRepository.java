@@ -44,7 +44,7 @@ public class SessionJdbcTemplateRepository implements SessionRepository {
             return null;
         }
 
-        session.setSessionid(keyHolder.getKey().intValue());
+        session.setSessionId(keyHolder.getKey().intValue());
         return session;
     }
 
@@ -58,7 +58,7 @@ public class SessionJdbcTemplateRepository implements SessionRepository {
         return jdbcTemplate.update(sql,
                 session.getStartDate(),
                 session.getEndDate(),
-                session.getSessionid()) > 0;
+                session.getSessionId()) > 0;
     }
 
     @Override
@@ -70,12 +70,12 @@ public class SessionJdbcTemplateRepository implements SessionRepository {
     }
 
     @Override
-    public List<Session> getFromUserId(int userid) {
+    public List<Session> getFromUserId(int userId) {
         final String sql = "select s.session_id, s.campaign_id, s.start_date, s.end_date " +
                 "from session s " +
                 "inner join session_user su on s.session_id = su.session_id " +
                 "where su.user_id = ?;";
-        var sessions = jdbcTemplate.query(sql, new SessionMapper(), userid);
+        var sessions = jdbcTemplate.query(sql, new SessionMapper(), userId);
 
         for(Session s : sessions) {
             addUsers(s);
@@ -109,7 +109,7 @@ public class SessionJdbcTemplateRepository implements SessionRepository {
                 "inner join user u on su.user_id = u.user_id " +
                 "where su.session_id = ?;";
 
-        var sessionUsers = jdbcTemplate.query(sql, new SessionUserMapper(), session.getSessionid());
+        var sessionUsers = jdbcTemplate.query(sql, new SessionUserMapper(), session.getSessionId());
         session.setUserList(sessionUsers);
     }
 }

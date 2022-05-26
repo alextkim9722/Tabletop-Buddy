@@ -7,11 +7,11 @@ import lombok.NonNull;
 @Data
 public class CampaignUser {
 
-    private int campaignid;
+    private int campaignId;
     private User user;
 
-    public CampaignUser(int campaignid, User user) {
-        this.campaignid = campaignid;
+    public CampaignUser(int campaignId, User user) {
+        this.campaignId = campaignId;
         this.user = user;
     }
 

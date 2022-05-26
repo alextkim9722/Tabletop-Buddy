@@ -33,7 +33,7 @@ public class SessionService {
             return result;
         }
 
-        if (session.getSessionid() != 0) {
+        if (session.getSessionId() != 0) {
             result.addMessage("session_id cannot be set for `add` operation", ResultType.INVALID);
             return result;
         }
@@ -49,13 +49,13 @@ public class SessionService {
             return result;
         }
 
-        if (session.getSessionid() <= 0) {
+        if (session.getSessionId() <= 0) {
             result.addMessage("session_id must be set for `update` operation", ResultType.INVALID);
             return result;
         }
 
         if (!repository.update(session)) {
-            String msg = String.format("session_id: %s, not found", session.getSessionid());
+            String msg = String.format("session_id: %s, not found", session.getSessionId());
             result.addMessage(msg, ResultType.NOT_FOUND);
         }
 
@@ -108,7 +108,7 @@ public class SessionService {
 
         List<Session> sessionList = repository.getFromCampaignId(session.getCampaignId());
         for(Session s : sessionList) {
-            if(s.getSessionid() != session.getSessionid()) {
+            if(s.getSessionId() != session.getSessionId()) {
                 if (session.getStartDate().before(s.getEndDate()) && session.getStartDate().after(s.getStartDate())
                         || session.getEndDate().before(s.getEndDate()) && session.getEndDate().after(s.getStartDate())) {
                     result.addMessage("An overlap has been detected", ResultType.INVALID);

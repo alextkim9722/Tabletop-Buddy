@@ -62,7 +62,7 @@ public class SessionServiceTest {
     @Test
     void shouldAddWhenValid() {
         Session session = makeSession();
-        session.setSessionid(0);
+        session.setSessionId(0);
         Result<Session> result = service.create(session);
         assertEquals(ResultType.SUCCESS, result.getType());
     }

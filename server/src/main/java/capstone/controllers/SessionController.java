@@ -39,7 +39,7 @@ public class SessionController {
 
     @PutMapping("/{sessionId}")
     public ResponseEntity<Object> update(@PathVariable int sessionId, @RequestBody Session session) {
-        if (sessionId != session.getSessionid()) {
+        if (sessionId != session.getSessionId()) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 

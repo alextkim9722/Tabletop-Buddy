@@ -26,8 +26,8 @@ public class CampaignService {
 
     public Campaign findById(int campaignId) { return campaignRepository.findById(campaignId); }
 
-    public List<Campaign> findbyTag(Filter filter) {
-        return campaignRepository.findbyTag(filter.getType(), filter.getPlayers(), filter.getSize(), filter.getStart()); }
+    public List<Campaign> findByTag(Filter filter) {
+        return campaignRepository.findByTag(filter.getType(), filter.getPlayers(), filter.getSize(), filter.getStart()); }
 
     public boolean deleteById(int campaignId) { return campaignRepository.deleteById(campaignId); }
 

@@ -51,7 +51,7 @@ public class CampaignJdbcTemplateRepository implements CampaignRepository{
     }
 
     @Override
-    public List<Campaign> findbyTag(String type, int players, int size, Timestamp start) {
+    public List<Campaign> findByTag(String type, int players, int size, Timestamp start) {
         final String sql = "select c.campaign_id, c.user_id, c.name, c.description, c.type, "
                 + "c.city, c.state, c.session_count, c.max_players, c.current_players "
                 + "from campaign c "

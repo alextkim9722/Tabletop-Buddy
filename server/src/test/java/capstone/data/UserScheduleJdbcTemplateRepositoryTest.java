@@ -30,7 +30,7 @@ public class UserScheduleJdbcTemplateRepositoryTest {
         UserSchedule session = makeUserSchedule();
         UserSchedule actual = repository.create(session);
         assertNotNull(actual);
-        assertEquals(6, actual.getUserScheduleid());
+        assertEquals(6, actual.getUserScheduleId());
     }
 
     @Test
@@ -64,7 +64,7 @@ public class UserScheduleJdbcTemplateRepositoryTest {
                 Timestamp.valueOf("2003-04-11 12:00:00.000")
         );
 
-        userSchedule.setSessionid(1);
+        userSchedule.setSessionId(1);
 
         return userSchedule;
     }

@@ -41,7 +41,7 @@ public class UserJdbcTemplateRepository implements UserRepository{
             return null;
         }
 
-        user.setUserid(keyHolder.getKey().intValue());
+        user.setUserId(keyHolder.getKey().intValue());
 
         updateRoles(user);
 
@@ -86,14 +86,14 @@ public class UserJdbcTemplateRepository implements UserRepository{
                 user.getState(),
                 user.getDescription(),
                 !user.isEnabled(),
-                user.getUserid());
+                user.getUserId());
 
         updateRoles(user);
     }
 
     private void updateRoles(User user) {
         // delete all roles, then re-add
-        jdbcTemplate.update("delete from user_role where user_id = ?;", user.getUserid());
+        jdbcTemplate.update("delete from user_role where user_id = ?;", user.getUserId());
 
         Collection<GrantedAuthority> authorities = user.getAuthorities();
 
@@ -104,7 +104,7 @@ public class UserJdbcTemplateRepository implements UserRepository{
         for (String role : user.convertAuthoritiesToRoles(authorities)) {
             String sql = "insert into user_role (user_id, role_id) "
                     + "select ?, role_id from role where `name` = ?;";
-            jdbcTemplate.update(sql, user.getUserid(), role);
+            jdbcTemplate.update(sql, user.getUserId(), role);
         }
     }
 
@@ -122,7 +122,7 @@ public class UserJdbcTemplateRepository implements UserRepository{
                 + "state, session_count, max_players, current_players "
                 + "from campaign "
                 + "where user_id = ?";
-        var campaign = jdbcTemplate.query(sql, new CampaignMapper(), user.getUserid());
+        var campaign = jdbcTemplate.query(sql, new CampaignMapper(), user.getUserId());
         user.setHostedCampaignList(campaign);
     }
 
@@ -132,7 +132,7 @@ public class UserJdbcTemplateRepository implements UserRepository{
                 + "inner join session s on s.session_id = us.session_id "
                 + "where us.user_id = ?";
 
-        var userSchedule = jdbcTemplate.query(sql, new UserScheduleMapper(), user.getUserid());
+        var userSchedule = jdbcTemplate.query(sql, new UserScheduleMapper(), user.getUserId());
         user.setUserScheduleList(userSchedule);
     }
 
@@ -144,7 +144,7 @@ public class UserJdbcTemplateRepository implements UserRepository{
                 + "inner join campaign c on cu.campaign_id = c.campaign_id "
                 + "where cu.user_id = ?;";
 
-        var userCampaigns = jdbcTemplate.query(sql, new UserCampaignMapper(), user.getUserid());
+        var userCampaigns = jdbcTemplate.query(sql, new UserCampaignMapper(), user.getUserId());
         user.setCampaignList(userCampaigns);
     }
 
@@ -155,7 +155,7 @@ public class UserJdbcTemplateRepository implements UserRepository{
                 + "inner join session s on su.session_id = s.session_id "
                 + "where su.user_id = ?;";
 
-        var userSessions = jdbcTemplate.query(sql, new UserSessionMapper(), user.getUserid());
+        var userSessions = jdbcTemplate.query(sql, new UserSessionMapper(), user.getUserId());
         user.setSessionList(userSessions);
     }
 

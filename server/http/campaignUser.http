@@ -8,9 +8,9 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "campaignid": 2,
+    "campaignId": 2,
     "user": {
-        "userid": 1,
+        "userId": 1,
         "username": "a",
         "city": "a",
         "state": "a"

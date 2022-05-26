@@ -19,7 +19,7 @@ public class User extends org.springframework.security.core.userdetails.User {
 
     @Getter
     @Setter
-    private int userid;
+    private int userId;
 
     @Getter
     @Setter
@@ -59,14 +59,14 @@ public class User extends org.springframework.security.core.userdetails.User {
                 true, true, true,
                 convertRolesToAuthorities(roles));
         this.username = username;
-        this.userid = appUserId;
+        this.userId = appUserId;
     }
 
-    public User(@JsonProperty("userid") int userid,@JsonProperty("username") String username,@JsonProperty("city") String city,@JsonProperty("state") String state){
+    public User(@JsonProperty("userId") int userId,@JsonProperty("username") String username,@JsonProperty("city") String city,@JsonProperty("state") String state){
         super(username, "a", true, true, true, true, new ArrayList<>());
         this.city = city;
         this.state = state;
-        this.userid = userid;
+        this.userId = userId;
     }
 
     public User(int appUserId, String username, String password,

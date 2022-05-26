@@ -77,7 +77,7 @@ class CampaignJdbcTemplateRepositoryTest {
     @Test
     @Order(3)
     void shouldFindByPlayerCount() {
-        List<Campaign> campaignList = repository.findbyTag(null, 0, -1, null);
+        List<Campaign> campaignList = repository.findByTag(null, 0, -1, null);
         assertEquals(2, campaignList.size());
         assertEquals("My DnD", campaignList.get(0).getName());
     }
@@ -85,7 +85,7 @@ class CampaignJdbcTemplateRepositoryTest {
     @Test
     @Order(4)
     void shouldFindByDateAndType() {
-        List<Campaign> campaignList = repository.findbyTag("DnD", -1, -1, Timestamp.valueOf("2003-03-10 12:00:00.000"));
+        List<Campaign> campaignList = repository.findByTag("DnD", -1, -1, Timestamp.valueOf("2003-03-10 12:00:00.000"));
         assertEquals(1, campaignList.size());
         assertEquals("My DnD", campaignList.get(0).getName());
     }

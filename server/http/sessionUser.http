@@ -8,9 +8,9 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "sessionid": 2,
+    "sessionId": 2,
     "user": {
-        "userid": 1,
+        "userId": 1,
         "username": "a",
         "city": "a",
         "state": "a"

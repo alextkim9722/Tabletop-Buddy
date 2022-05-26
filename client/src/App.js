@@ -12,6 +12,7 @@ import { Route, Switch } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
 import jwtDecode from "jwt-decode";
+import AddSession from "./components/AddSession";
 
 const TOKEN = 'jwt_token';
 
@@ -19,7 +20,7 @@ function App() {
   const [init, setInit] = useState(false);
   const [authManager, setAuthManager] = useState({
     user: null,
-    userid: null,
+    userId: null,
     state: null,
     city: null,
     description: null,
@@ -28,13 +29,13 @@ function App() {
       if (!this.user) {
         const userData = jwtDecode(token);
         localStorage.setItem(TOKEN, token);
-        setAuthManager((prevState) => ({...prevState, user: userData.sub, userid: userData.userid, state: userData.state, city: userData.city, description: userData.description, roles: userData.authorities}));
+        setAuthManager((prevState) => ({...prevState, user: userData.sub, userId: userData.userId, state: userData.state, city: userData.city, description: userData.description, roles: userData.authorities}));
       }
     },
     logout() {
       if (this.user) {
         localStorage.removeItem(TOKEN);
-        setAuthManager((prevState) => ({...prevState, user: null, userid: null, state: null, city: null, description: null, roles: null}));
+        setAuthManager((prevState) => ({...prevState, user: null, userId: null, state: null, city: null, description: null, roles: null}));
       }
     },
     hasRole(role) {
@@ -73,10 +74,13 @@ function App() {
               {authManager.user ? <UpdateCampaign />  : <Redirect to="/login" /> }
             </Route>
             <Route path="/campaign/delete/:campaignId" >
-              {authManager.hasRole('admin') ? <DeleteCampaign />  : <Redirect to="/login" /> }
+              {authManager.user ? <DeleteCampaign />  : <Redirect to="/login" /> }
             </Route>
             <Route path="/login" >
               {authManager.user ? <Redirect to="/" /> : <Login />}
+            </Route>
+            <Route path="/schedule" >
+              {authManager.user ? <AddSession /> : <AddSession />}
             </Route>
             <Route>
               <NotFound />

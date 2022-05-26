@@ -35,7 +35,7 @@ public class UserScheduleController {
 
     @PutMapping("/{userScheduleId}")
     public ResponseEntity<Object> update(@PathVariable int userScheduleId, @RequestBody UserSchedule userSchedule) {
-        if (userScheduleId != userSchedule.getUserScheduleid()) {
+        if (userScheduleId != userSchedule.getUserScheduleId()) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 

@@ -22,7 +22,7 @@ public class UserScheduleMapper implements RowMapper<UserSchedule> {
                 resultSet.getTimestamp("end_date")
         );
 
-        userSchedule.setSessionid(resultSet.getInt("session_id"));
+        userSchedule.setSessionId(resultSet.getInt("session_id"));
 
         userSchedule.setSession(sessionMapper.mapRow(resultSet, i));
 

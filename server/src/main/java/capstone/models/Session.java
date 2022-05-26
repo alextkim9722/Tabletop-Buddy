@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 public class Session {
         @NonNull
-        private int sessionid;
+        private int sessionId;
 
         @NonNull
         private int CampaignId;

@@ -61,7 +61,7 @@ public class AuthController {
         user = service.create(username, password, city, state, description);
 
         HashMap<String, Integer> map = new HashMap<>();
-        map.put("appUserId", user.getUserid());
+        map.put("appUserId", user.getUserId());
 
         return new ResponseEntity<>(map, HttpStatus.CREATED);
     }

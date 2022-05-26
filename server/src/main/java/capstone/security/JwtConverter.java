@@ -31,7 +31,7 @@ public class JwtConverter {
                 .setIssuer(ISSUER)
                 .setSubject(user.getUsername())
                 .claim("authorities", authorities)
-                .claim("userid", user.getUserid())
+                .claim("userId", user.getUserId())
                 .claim("state", user.getState())
                 .claim("city", user.getCity())
                 .claim("description", user.getDescription())
@@ -55,7 +55,7 @@ public class JwtConverter {
 
             String username = jws.getBody().getSubject();
             String authStr = (String) jws.getBody().get("authorities");
-            int userid = (int) jws.getBody().get("userid");
+            int userId = (int) jws.getBody().get("userId");
             String state = (String) jws.getBody().get("state");
             String city = (String) jws.getBody().get("city");
             String description = (String) jws.getBody().get("description");
@@ -63,7 +63,7 @@ public class JwtConverter {
                     .map(i -> new SimpleGrantedAuthority(i))
                     .collect(Collectors.toList());
 
-            return new User(userid, username, username, false, authorities, city, state, description);
+            return new User(userId, username, username, false, authorities, city, state, description);
 
         } catch (JwtException e) {
             System.out.println(e);

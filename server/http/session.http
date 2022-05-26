@@ -16,7 +16,7 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "sessionid": 4,
+    "sessionId": 4,
     "startDate": "2033-05-05T18:23:22.000+00:00",
     "endDate": "2033-05-06T23:59:17.000+00:00",
     "campaignId": 2

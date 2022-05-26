@@ -65,7 +65,7 @@ function Campaigns() {
                 {authManager.user ? (<>
                   <button className="btn btn-info" type="button" onClick={() => handleEditSelect(cmp)} >Edit</button>
                   &nbsp;
-                  {authManager.hasRole('admin') ? <button className="btn btn-secondary" type="button" onClick={() => handleDeleteSelect(cmp)} >Delete</button> : null }
+                  <button className="btn btn-secondary" type="button" onClick={() => handleDeleteSelect(cmp)} >Delete</button>
                 </>) : null}
               </td>
               <td>

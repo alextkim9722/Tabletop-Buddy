@@ -54,7 +54,7 @@ public class UserScheduleServiceTest {
     @Test
     void shouldAddWhenValid() {
         UserSchedule userSchedule = makeUserSchedule();
-        userSchedule.setUserScheduleid(0);
+        userSchedule.setUserScheduleId(0);
         Result<UserSchedule> result = service.create(userSchedule);
         assertEquals(ResultType.SUCCESS, result.getType());
     }
@@ -108,7 +108,7 @@ public class UserScheduleServiceTest {
                 Timestamp.valueOf("2023-04-11 12:00:00.000")
         );
 
-        userSchedule.setSessionid(1);
+        userSchedule.setSessionId(1);
 
         return userSchedule;
     }

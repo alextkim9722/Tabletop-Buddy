@@ -14,7 +14,7 @@ public interface CampaignRepository {
     Campaign findById(int campaignId);
 
     @Transactional
-    List<Campaign> findbyTag(String type, int players, int size, Timestamp start);
+    List<Campaign> findByTag(String type, int players, int size, Timestamp start);
 
     Campaign add(Campaign campaign);
 

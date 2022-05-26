@@ -31,9 +31,9 @@ public class UserScheduleJdbcTemplateRepository implements UserScheduleRepositor
         KeyHolder keyHolder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setInt(1, session.getUserScheduleid());
-            ps.setInt(2, session.getUserid());
-            ps.setObject(3, (session.getSessionid() == 0 ? null : session.getSessionid()));
+            ps.setInt(1, session.getUserScheduleId());
+            ps.setInt(2, session.getUserId());
+            ps.setObject(3, (session.getSessionId() == 0 ? null : session.getSessionId()));
             ps.setTimestamp(4, session.getStartDate());
             ps.setTimestamp(5, session.getEndDate());
             return ps;
@@ -43,7 +43,7 @@ public class UserScheduleJdbcTemplateRepository implements UserScheduleRepositor
             return null;
         }
 
-        session.setUserScheduleid(keyHolder.getKey().intValue());
+        session.setUserScheduleId(keyHolder.getKey().intValue());
         return session;
     }
 
@@ -58,7 +58,7 @@ public class UserScheduleJdbcTemplateRepository implements UserScheduleRepositor
         return jdbcTemplate.update(sql,
                 session.getStartDate(),
                 session.getEndDate(),
-                session.getUserScheduleid()) > 0;
+                session.getUserScheduleId()) > 0;
     }
 
     @Override
@@ -67,12 +67,12 @@ public class UserScheduleJdbcTemplateRepository implements UserScheduleRepositor
     }
 
     @Override
-    public List<UserSchedule> getFromUserId(int userid) {
+    public List<UserSchedule> getFromUserId(int userId) {
         final String sql = "select s.user_schedule_id, s.user_id, s.session_id, s.start_date, s.end_date, se.campaign_id " +
                 "from user_schedule s " +
                 "left outer join session se on s.session_id = se.session_id " +
                 "where s.user_id = ?;";
-        var sessions = jdbcTemplate.query(sql, new UserScheduleMapper(), userid);
+        var sessions = jdbcTemplate.query(sql, new UserScheduleMapper(), userId);
 
         return sessions;
     }

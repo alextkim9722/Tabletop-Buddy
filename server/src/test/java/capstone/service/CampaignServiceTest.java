@@ -120,8 +120,8 @@ class CampaignServiceTest {
         filter.setPlayers(-1);
         filter.setSize(-1);
         filter.setStart(Timestamp.valueOf("2023-04-10 12:00:00.000"));
-        when(campaignRepository.findbyTag(null, -1, -1, Timestamp.valueOf("2023-04-10 12:00:00.000"))).thenReturn(campaignList);
-        List<Campaign> actual = campaignService.findbyTag(filter);
+        when(campaignRepository.findByTag(null, -1, -1, Timestamp.valueOf("2023-04-10 12:00:00.000"))).thenReturn(campaignList);
+        List<Campaign> actual = campaignService.findByTag(filter);
         assertEquals("Warhammer 40k Pros", actual.get(0).getName());
     }
 

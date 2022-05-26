@@ -13,7 +13,7 @@ public interface SessionRepository {
     @Transactional
     boolean deleteById(int session_id);
 
-    List<Session> getFromUserId(int userid);
+    List<Session> getFromUserId(int userId);
 
     List<Session> getFromCampaignId(int CampaignId);
 }

@@ -113,7 +113,7 @@
 
 -Friday: Front-End Finished-
 
--Another day to work on security-
+-Another day to work on security- *DONE*
 -Another day to work on AWS-
 -Another day to work on presentation-
 -Last half of final day to work on powerpoint-

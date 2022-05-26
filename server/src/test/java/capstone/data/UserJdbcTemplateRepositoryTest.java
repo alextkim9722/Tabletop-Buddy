@@ -71,7 +71,7 @@ public class UserJdbcTemplateRepositoryTest {
         User user = makeUser();
         User actual = repository.create(user);
         assertNotNull(actual);
-        assertEquals(NEXT_ID, actual.getUserid());
+        assertEquals(NEXT_ID, actual.getUserId());
     }
 
     @Test
@@ -79,7 +79,7 @@ public class UserJdbcTemplateRepositoryTest {
     void shouldUpdate() {
         User user = makeUser();
         user.setUsername("Porg");
-        user.setUserid(2);
+        user.setUserId(2);
         repository.update(user);
         User actual = repository.findByUsername("Porg");
         assertEquals("Porg", actual.getUsername());
