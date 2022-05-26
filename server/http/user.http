@@ -1,0 +1,6 @@
+@url = http://localhost:8080/api
+@token = eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0YWJsZXRvcCIsInN1YiI6ImRhbGUiLCJhdXRob3JpdGllcyI6IlJPTEVfVVNFUiIsImV4cCI6MTY1MzU5MDg3OH0.Ybp_44eC3oNJXp-8V8LvyWIIFYApLH8E77x_ics7AbU
+
+###
+
+GET {{url}} HTTP/1.1

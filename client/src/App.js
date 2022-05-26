@@ -19,18 +19,22 @@ function App() {
   const [init, setInit] = useState(false);
   const [authManager, setAuthManager] = useState({
     user: null,
+    userid: null,
+    state: null,
+    city: null,
+    description: null,
     roles: null,
     login(token) {
       if (!this.user) {
         const userData = jwtDecode(token);
         localStorage.setItem(TOKEN, token);
-        setAuthManager((prevState) => ({...prevState, user: userData.sub, roles: userData.authorities}));
+        setAuthManager((prevState) => ({...prevState, user: userData.sub, userid: userData.userid, state: userData.state, city: userData.city, description: userData.description, roles: userData.authorities}));
       }
     },
     logout() {
       if (this.user) {
         localStorage.removeItem(TOKEN);
-        setAuthManager((prevState) => ({...prevState, user: null, roles: null}));
+        setAuthManager((prevState) => ({...prevState, user: null, userid: null, state: null, city: null, description: null, roles: null}));
       }
     },
     hasRole(role) {
@@ -45,8 +49,6 @@ function App() {
     }
     setInit(true);
   }, []);
-
-
 
   return (
     <div className="App">

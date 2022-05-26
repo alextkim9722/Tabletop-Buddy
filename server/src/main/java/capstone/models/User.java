@@ -69,8 +69,17 @@ public class User extends org.springframework.security.core.userdetails.User {
         this.userid = userid;
     }
 
+    public User(int appUserId, String username, String password,
+                boolean disabled, List<GrantedAuthority> roles, String city, String state, String description) {
+        this(appUserId, username, password, disabled, convertAuthoritiesToRoles(roles));
+        this.city = city;
+        this.state = state;
+        this.description = description;
+    }
+
     private List<String> roles = new ArrayList<>();
 
+    // Going from sql to server
     public static List<GrantedAuthority> convertRolesToAuthorities(List<String> roles) {
         List<GrantedAuthority> authorities = new ArrayList<>(roles.size());
         for (String role : roles) {
@@ -84,6 +93,7 @@ public class User extends org.springframework.security.core.userdetails.User {
         return authorities;
     }
 
+    // Going from server to sql
     public static List<String> convertAuthoritiesToRoles(Collection<GrantedAuthority> authorities) {
         return authorities.stream()
                 .map(a -> a.getAuthority().substring(AUTHORITY_PREFIX.length()))

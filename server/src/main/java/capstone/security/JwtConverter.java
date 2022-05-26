@@ -1,10 +1,10 @@
 package capstone.security;
 
+import capstone.models.User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -31,6 +31,10 @@ public class JwtConverter {
                 .setIssuer(ISSUER)
                 .setSubject(user.getUsername())
                 .claim("authorities", authorities)
+                .claim("userid", user.getUserid())
+                .claim("state", user.getState())
+                .claim("city", user.getCity())
+                .claim("description", user.getDescription())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_MILLIS))
                 .signWith(key)
                 .compact();
@@ -51,11 +55,15 @@ public class JwtConverter {
 
             String username = jws.getBody().getSubject();
             String authStr = (String) jws.getBody().get("authorities");
+            int userid = (int) jws.getBody().get("userid");
+            String state = (String) jws.getBody().get("state");
+            String city = (String) jws.getBody().get("city");
+            String description = (String) jws.getBody().get("description");
             List<GrantedAuthority> authorities = Arrays.stream(authStr.split(","))
                     .map(i -> new SimpleGrantedAuthority(i))
                     .collect(Collectors.toList());
 
-            return new User(username, username, authorities);
+            return new User(userid, username, username, false, authorities, city, state, description);
 
         } catch (JwtException e) {
             System.out.println(e);

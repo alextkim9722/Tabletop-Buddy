@@ -22,7 +22,7 @@ function NavBar() {
             <Link className="nav-link" to="/about">About</Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/campaignList">Campaigns</Link>            {/*double check later*/}
+            <Link className="nav-link" to="/campaign">Campaigns</Link>            {/*double check later*/}
           </li>
           <li className="nav-item">
             <Link className="nav-link" to="/sessionList">Schedule</Link>              {/*double check later*/}

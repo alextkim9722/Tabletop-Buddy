@@ -34,6 +34,10 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
+    public User findbyUsername(String username) {
+        return repository.findByUsername(username);
+    }
+
     public User create(String username, String password, String city, String state, String description) {
         validateName(username);
         validatePassword(password);

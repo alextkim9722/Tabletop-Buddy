@@ -1,5 +1,6 @@
 package capstone.controllers;
 
+import capstone.models.Campaign;
 import capstone.models.User;
 import capstone.security.JwtConverter;
 import capstone.service.UserService;
@@ -8,10 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,7 +38,7 @@ public class AuthController {
 
         Authentication authentication = authManager.authenticate(token);
         if (authentication.isAuthenticated()) {
-            String jwtToken = jwtConverter.getTokenFromUser((org.springframework.security.core.userdetails.User) authentication.getPrincipal());
+            String jwtToken = jwtConverter.getTokenFromUser((User) authentication.getPrincipal());
             HashMap<String, String> whateverMap = new HashMap<>();
             whateverMap.put("jwt_token", jwtToken);
             return new ResponseEntity<>(whateverMap, HttpStatus.OK);
