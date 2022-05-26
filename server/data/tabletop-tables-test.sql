@@ -162,4 +162,4 @@ delimiter ;
 
 call set_known_good_state();
 
-select * from campaign_user;
+select * from session_user;

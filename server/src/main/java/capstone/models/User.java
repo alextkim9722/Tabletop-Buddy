@@ -1,5 +1,6 @@
 package capstone.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -18,22 +19,18 @@ public class User extends org.springframework.security.core.userdetails.User {
 
     @Getter
     @Setter
-    @NonNull
     private int userid;
 
     @Getter
     @Setter
-    @NonNull
     private String username;
 
     @Getter
     @Setter
-    @NonNull
     private String city;
 
     @Getter
     @Setter
-    @NonNull
     private String state;
 
     @Getter
@@ -63,6 +60,13 @@ public class User extends org.springframework.security.core.userdetails.User {
                 convertRolesToAuthorities(roles));
         this.username = username;
         this.userid = appUserId;
+    }
+
+    public User(@JsonProperty("userid") int userid,@JsonProperty("username") String username,@JsonProperty("city") String city,@JsonProperty("state") String state){
+        super(username, "a", true, true, true, true, new ArrayList<>());
+        this.city = city;
+        this.state = state;
+        this.userid = userid;
     }
 
     private List<String> roles = new ArrayList<>();

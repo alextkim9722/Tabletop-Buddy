@@ -1,4 +1,4 @@
-@url = http://localhost:8080/api/campaign/user
+@url = http://localhost:8080/api/session/user
 @token = eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0YWJsZXRvcCIsInN1YiI6ImRhbGUiLCJhdXRob3JpdGllcyI6IlJPTEVfVVNFUiIsImV4cCI6MTY1MzU4MjIwN30.FC1yMOkBrLngOb5dWp1WTzWeInMcbs1RnR7HKyum6WM
 
 ###
@@ -8,7 +8,7 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "campaignid": 2,
+    "sessionid": 2,
     "user": {
         "userid": 1,
         "username": "a",
@@ -19,6 +19,6 @@ Authorization: Bearer {{token}}
 
 ###
 
-DELETE {{url}}/1/1 HTTP/1.1
+DELETE {{url}}/1/2 HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{token}}
