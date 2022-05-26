@@ -1,70 +1,92 @@
-# Getting Started with Create React App
+# React ToDos
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+* [x] Create a new React project with CRA
 
-## Available Scripts
+* [x] Create a component to display the list of ToDos
+  * [x] Create component (ToDos)
+  * [x] Display all ToDos on the screen
 
-In the project directory, you can run:
+* [x] Create a form to add a ToDo
+    * [x] create a input text
+    * [x] label
+    * [x] button to submit
+    * [x] function to handle submit
+    * [x] funciton to handle input change
 
-### `npm start`
+* [x] Support deleting ToDos
+  * [x] button to delete
+  * [x] new function to delete
+    * [x] update the todo list as part of the function
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+* [x] Support editing Todos
+  * [x] create a form
+  * [x] label
+  * [x] button to submit
+  * [x] function to handle submit
+  * [x] funciton to handle input change
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+* [x] Conditional rendering of list, add, edit, and delete components
+  * [x] display initially the list of todos, not the two forms
+  * [x] when edit is clicked - display the edit form, no longer display the list of todos
+  * [x] some kind of event to trigger add - display the add form
+  * [x] when submit successfully - go back to the list
+  * [x] maybe if time - display "are you sure" message when delete is pressed
 
-### `npm test`
+* [x] Import and use Bootstrap for styling your components
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+* [x] Look for opportunities to create additional components
+  * [x] Refactor AddTodo into its own component
+  * [x] Reafactor EditTodo into its own component
+  * [x] Refactor Delete into its own component
 
-### `npm run build`
+* [x] If time Object Tracking
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Routing
+1. [x] install router v5
+2. [x] create home and about pages
+  * [x] setup the routing for home and about pages
+  * [x] setup the links in the navbar
+3. [x] setup routing for Todos
+  * [x] Question: "What does the history object look like"
+  * [x] setup the ToDos
+    * [x] setup routing
+    * [x] refactor out old code
+  * [x] setup Add
+    * [x] setup routing
+    * [x] refactor out old code
+  * [x] setup Update
+    * [x] setup routing
+    * [x] use params to get the id of the todo
+    * [x] refactor out old code
+  * [x] setup Delete
+    * [x] setup routing
+    * [x] refactor out old code
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+4. [x] handle 404
+  * [x] create 404 page ( copy and paste the 404 from the LMS )
+  * [x] create routing
+  * [x] update fetch requests in order to use the 404 in the edit and delete pages
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Context
+1. [x] Create temporary login page
+2. [x] Create the context
+  * [x] Initialize empty context
+  * [x] Place the context in the app.js (context provider)
+  * [x] Give the context a value that can be used in other places
+  * [x] Set the login information on the login page
+3. [x] Refactor to use the context in the appropriate places
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## React Security
+1. [x] add jwt_decode to the project
+2. [x] update login page to get a token
+3. [x] update the login to use the token
+  * [x] use local storage to store the token
+4. [x] add the token to the HTTP requests
+  * [x] /add
+  * [x] /edit
+  * [x] /delete
+  * [x] add new response (what happens if the user's token has gone stale?)
+5. [x] add some additional conditionals for the user role
+  * [x] some kind of additional funciton to check the role
+  * [x] avoid displaying delete when the person logged in is not an ADMIN
+6. [ ] create a registration page
