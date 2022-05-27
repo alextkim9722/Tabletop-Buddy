@@ -5,7 +5,7 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 
-function UpdateCampaign(campaign) {
+function UpdateCampaign() {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [type, setType] = useState('');
@@ -18,6 +18,7 @@ function UpdateCampaign(campaign) {
     const [init, setInit] = useState(false);
     const history = useHistory();
     const authManager = useContext(AuthContext); 
+    const [campaignUserId, setCampaignUserId] = useState(authManager.userId);
 
     const { campaignId } = useParams();
 
@@ -90,6 +91,7 @@ function UpdateCampaign(campaign) {
 
           const updateCampaign = {
               campaignId: campaignId,
+              userId: campaignUserId,
               name,
               description,
               type,
