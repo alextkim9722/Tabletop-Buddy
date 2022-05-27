@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
@@ -89,6 +90,64 @@ public class UserJdbcTemplateRepository implements UserRepository{
                 user.getUserId());
 
         updateRoles(user);
+    }
+
+    @Override
+    @Transactional
+    public boolean deleteById(int userId) {
+        jdbcTemplate.update(
+                "delete from session_user where user_id = ?;", userId
+        );
+        jdbcTemplate.update(
+                "delete from user_schedule where user_id = ?;", userId
+        );
+        jdbcTemplate.update(
+                "delete from user_role where user_id = ?;", userId
+        );
+
+        /* deleting sessions from schedules of users that come from campaign(s) that the user
+        being deleted has made */
+        jdbcTemplate.update(
+                "delete us from user_schedule us "
+                        + "inner join session s on us.session_id = s.session_id "
+                        + "inner join campaign c on s.campaign_id = c.campaign_id "
+                        + "inner join user u on c.user_id = u.user_id "
+                        + "where u.user_id = ?;"
+                , userId
+        );
+        jdbcTemplate.update(
+                "delete su from session_user su " +
+                        "inner join session s on su.session_id = s.session_id " +
+                        "inner join campaign c on s.campaign_id = c.campaign_id " +
+                        "where c.user_id = ?;"
+                , userId
+        );
+        /* deleting sessions that are a part of the campaign(s)
+        that the user being deleted has made */
+        jdbcTemplate.update(
+                "delete s from session s "
+                        + "inner join campaign c on s.campaign_id = c.campaign_id "
+                        + "where c.user_id = ?;"
+                , userId
+        );
+        jdbcTemplate.update(
+                "delete cu from campaign_user cu " +
+                        "inner join campaign c on cu.campaign_id = c.campaign_id " +
+                        "where c.user_id = ?;"
+                , userId
+        );
+        // finally, deleting campaigns that the user has created
+        jdbcTemplate.update(
+                "delete from campaign " +
+                        "where user_id = ?;"
+                , userId
+        );
+        return jdbcTemplate.update(
+                "delete from user " +
+                        "where user_id = ?;"
+                , userId
+        ) > 0;
+
     }
 
     private void updateRoles(User user) {

@@ -51,6 +51,8 @@ public class UserService implements UserDetailsService {
         return repository.create(user);
     }
 
+    public boolean deleteById(int userId) { return repository.deleteById(userId); }
+
     private void validateName(String username) {
         if (username == null || username.isBlank()) {
             throw new ValidationException("username is required");

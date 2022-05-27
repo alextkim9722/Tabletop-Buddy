@@ -1,8 +1,11 @@
 package capstone.service;
 
+import capstone.controllers.CampaignController;
+import capstone.data.CampaignRepository;
 import capstone.data.SessionRepository;
 import capstone.models.Campaign;
 import capstone.models.Session;
+import capstone.models.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,6 +27,7 @@ public class SessionServiceTest {
     @MockBean
     SessionRepository repository;
 
+
     @Test
     void shouldFindFromCampaign() {
         Session session = makeSession();
@@ -44,20 +48,6 @@ public class SessionServiceTest {
         assertEquals(expected.get(0).getStartDate(), actual.get(0).getStartDate());
     }
 
-    /*
-    Lombok already fills this issue.
-    @Test
-    void shouldNotAddWhenDatesAreNull() {
-        Session session = makeSession();
-        session.setStartDate(null);
-        Result<Session> result = service.create(session);
-        assertEquals(ResultType.INVALID, result.getType());
-
-        session.setEndDate(null);
-        result = service.create(session);
-        assertEquals(ResultType.INVALID, result.getType());
-    }
-     */
 
     @Test
     void shouldAddWhenValid() {
@@ -68,7 +58,7 @@ public class SessionServiceTest {
     }
 
     @Test
-    void shouldNotAddWhenStartisNotBeforeEnd() {
+    void shouldNotAddWhenStartIsNotBeforeEnd() {
         Session session = makeSession();
         session.setStartDate(Timestamp.valueOf("2023-04-11 10:00:00.000"));
         session.setEndDate(Timestamp.valueOf("2023-04-11 8:00:00.000"));
@@ -106,6 +96,7 @@ public class SessionServiceTest {
         Result<Session> result = service.create(session);
         assertEquals(ResultType.INVALID, result.getType());
     }
+
 
     private Session makeSession() {
         Session session = new Session(

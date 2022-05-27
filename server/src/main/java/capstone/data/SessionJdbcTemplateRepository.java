@@ -12,9 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
-import java.sql.Time;
-import java.sql.Timestamp;
 import java.util.List;
+
 
 @Repository
 public class SessionJdbcTemplateRepository implements SessionRepository {
@@ -63,10 +62,10 @@ public class SessionJdbcTemplateRepository implements SessionRepository {
 
     @Override
     @Transactional
-    public boolean deleteById(int session_id) {
-        jdbcTemplate.update("delete from user_schedule where session_id = ?;", session_id);
-        jdbcTemplate.update("delete from session_user where session_id = ?;", session_id);
-        return jdbcTemplate.update("delete from session where session_id = ?;", session_id) > 0;
+    public boolean deleteById(int sessionId) {
+        jdbcTemplate.update("delete from user_schedule where session_id = ?;", sessionId);
+        jdbcTemplate.update("delete from session_user where session_id = ?;", sessionId);
+        return jdbcTemplate.update("delete from session where session_id = ?;", sessionId) > 0;
     }
 
     @Override
