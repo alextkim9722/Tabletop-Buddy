@@ -6,13 +6,13 @@ import DeleteCampaign from "./components/DeleteCampaign";
 import Login from "./components/Login";
 import NotFound from "./components/NotFound";
 import UpdateCampaign from "./components/UpdateCampaign";
+import AddSession from "./components/AddSession";
 import AuthContext from "./AuthContext";
 
 import { Route, Switch } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
 import jwtDecode from "jwt-decode";
-import AddSession from "./components/AddSession";
 
 const TOKEN = 'jwt_token';
 

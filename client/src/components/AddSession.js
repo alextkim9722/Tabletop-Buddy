@@ -1,97 +1,74 @@
 import React from 'react'
-import FullCalendar, { formatDate } from '@fullcalendar/react'
+import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
+import { useEffect, useState, useContext } from "react";
 
+import AuthContext from "../AuthContext";
 
-export default class AddSession extends React.Component {
+function AddSession() {
+  const [event, setEvents] = useState([]);
+  const authManager = useContext(AuthContext);
 
-  state = {
-    weekendsVisible: true,
-    currentEvents: []
-  }
-
-  render() {
-    return (
-      <div className='add-session-calendar'>
-          <FullCalendar
-            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-            headerToolbar={{
-              left: 'prev,next today',
-              center: 'title',
-              right: 'dayGridMonth,timeGridWeek,timeGridDay'
-            }}
-            initialView='dayGridMonth'
-            editable={true}
-            selectable={true}
-            selectMirror={true}
-            dayMaxEvents={true}
-            weekends={this.state.weekendsVisible}
-            select={this.handleDateSelect}
-            eventContent={renderEventContent} // custom render function
-            eventClick={this.handleEventClick}
-            eventsSet={this.handleEvents} // called after events are initialized/added/changed/removed
-            /* you can update a remote database when these fire:
-            eventAdd={function(){}}
-            eventChange={function(){}}
-            eventRemove={function(){}}
-            */
-          />
-        </div>
-    )
-  }
-
-  handleWeekendsToggle = () => {
-    this.setState({
-      weekendsVisible: !this.state.weekendsVisible
+  let getSessions = () => {
+    return fetch(`http://localhost:8080/api/userSchedule/${authManager.userId}`)
+    .then(response => {
+        if (response.status ===200) {
+            return response.json()
+        }
+        return Promise.reject('Something went wrong on the server :)');
     })
+    .then(body => {
+      const eventList = [];
+
+      for(let i = 0;i < body.length;i++) {
+        const newEvent = {
+          title:body[i].sessionId,
+          start:body[i].startDate,
+          end:body[i].endDate,
+          id:body[i].sessionId
+        }
+        eventList.push(newEvent);
+      }
+
+      setEvents(eventList);
+    })
+    .catch(err => console.error(err));
   }
 
-  handleDateSelect = (selectInfo) => {
-    let title = prompt('Please enter a new title for your event')
-    let calendarApi = selectInfo.view.calendar
+  useEffect(() => {
+    getSessions();
+  }, []);
 
-    calendarApi.unselect() // clear date selection
-
-    if (title) {
-      calendarApi.addEvent({
-        id: createEventId(),
-        title,
-        start: selectInfo.startStr,
-        end: selectInfo.endStr,
-        allDay: selectInfo.allDay
-      })
-    }
-  }
-  eventAdd={function(){}}
-
-  handleEventClick = (clickInfo) => {
-    if (window.confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
+  const handleEventClick = (clickInfo) => {
+    if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
       clickInfo.event.remove()
     }
   }
 
-  handleEvents = (events) => {
-    this.setState({
-      currentEvents: events
-    })
-  }
-
-}
-
-function renderEventContent(eventInfo) {
   return (
-    <>
-      <b>{eventInfo.timeText}</b>
-      <i>{eventInfo.event.title}</i>
-    </>
-  )
+    <div className="Add Session">
+      {console.log(event)}
+      <FullCalendar
+        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+        headerToolbar={{
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        }}
+        initialView='dayGridMonth'
+        editable={true}
+        selectable={true}
+        selectMirror={true}
+        dayMaxEvents={true}
+        weekendsVisible={true}
+        events={event}
+        eventClick={handleEventClick}
+        navLinks={true}
+      />
+    </div>
+  );
 }
 
-
-  let eventGuid = 0
-  function createEventId() {
-    return String(eventGuid++)
-  }
-  
+export default AddSession;

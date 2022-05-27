@@ -25,7 +25,7 @@ function NavBar() {
             <Link className="nav-link" to="/campaign">Campaigns</Link>            {/*double check later*/}
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/sessionList">Schedule</Link>              {/*double check later*/}
+            <Link className="nav-link" to="/schedule">Schedule</Link>              {/*double check later*/}
           </li>
           {authManager.user ? (
             <li className="nav-item">
