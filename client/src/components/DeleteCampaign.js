@@ -35,7 +35,7 @@ function DeleteCampaign({campaign}) {
           })
     
           .catch(err => console.error(err));
-      }, );
+      });
 
 
       const handleSubmit = () => {
