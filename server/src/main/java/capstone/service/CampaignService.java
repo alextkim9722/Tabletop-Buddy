@@ -2,14 +2,12 @@ package capstone.service;
 
 import capstone.data.CampaignRepository;
 import capstone.data.CampaignUserRepository;
-import capstone.data.UserRepository;
 import capstone.models.Campaign;
 import capstone.models.CampaignUser;
 import capstone.models.Filter;
-import capstone.models.SessionUser;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
+
 import java.util.List;
 
 @Service
@@ -29,7 +27,14 @@ public class CampaignService {
     public List<Campaign> findByTag(Filter filter) {
         return campaignRepository.findByTag(filter.getType(), filter.getPlayers(), filter.getSize(), filter.getStart()); }
 
-    public boolean deleteById(int campaignId) { return campaignRepository.deleteById(campaignId); }
+    public Result<Campaign> deleteById(Campaign campaign) {
+        Result<Campaign> result = new Result<>();
+        Campaign campaignToBeDeleted = findById(campaign.getCampaignId());
+        if (campaign.getUserId() != campaignToBeDeleted.getUserId()) {
+            result.addMessage("You must be the game master to delete this campaign", ResultType.INVALID);
+        }
+        return result;
+    }
 
     public Result<Campaign> add(Campaign campaign) {
         Result<Campaign> result = validate(campaign);
@@ -61,6 +66,13 @@ public class CampaignService {
         if (!campaignRepository.update(campaign)) {
             String message = String.format("campaignId: %s, not found", campaign.getCampaignId());
             result.addMessage(message, ResultType.NOT_FOUND);
+            return result;
+        }
+
+        Campaign campaignToBeUpdated = findById(campaign.getCampaignId());
+        if (campaign.getUserId() != campaignToBeUpdated.getUserId()) {
+            result.addMessage("You must be the game master to edit this campaign", ResultType.INVALID);
+            return result;
         }
 
         return result;

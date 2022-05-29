@@ -1,12 +1,10 @@
 package capstone.service;
 
+import capstone.data.CampaignRepository;
 import capstone.data.SessionRepository;
 import capstone.data.SessionUserRepository;
 import capstone.data.UserScheduleRepository;
-import capstone.models.Session;
-import capstone.models.SessionUser;
-import capstone.models.User;
-import capstone.models.UserSchedule;
+import capstone.models.*;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -21,7 +19,9 @@ public class SessionService {
     private final UserScheduleRepository userRepository;
     private final SessionUserRepository sessionUserRepository;
 
-    public SessionService(SessionRepository repository, UserScheduleRepository userRepository, SessionUserRepository sessionUserRepository) {
+
+    public SessionService(SessionRepository repository, UserScheduleRepository userRepository,
+                          SessionUserRepository sessionUserRepository, CampaignRepository campaignRepository) {
         this.repository = repository;
         this.userRepository = userRepository;
         this.sessionUserRepository = sessionUserRepository;
@@ -91,16 +91,6 @@ public class SessionService {
             result.addMessage("session cannot be null", ResultType.INVALID);
             return result;
         }
-
-        /*
-        if (session.getStartDate() == null) {
-            result.addMessage("start date is required", ResultType.INVALID);
-        }
-
-        if (session.getEndDate() == null) {
-            result.addMessage("end date is required", ResultType.INVALID);
-        }
-         */
 
         if (session.getStartDate().after(session.getEndDate())) {
             result.addMessage("start date should be after the end date", ResultType.INVALID);

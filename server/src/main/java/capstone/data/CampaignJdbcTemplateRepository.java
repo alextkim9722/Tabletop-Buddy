@@ -3,7 +3,6 @@ package capstone.data;
 import capstone.data.mapper.CampaignMapper;
 import capstone.data.mapper.CampaignUserMapper;
 import capstone.data.mapper.SessionMapper;
-import capstone.data.mapper.SessionUserMapper;
 import capstone.models.Campaign;
 
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -12,7 +11,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Date;
+
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.Timestamp;
