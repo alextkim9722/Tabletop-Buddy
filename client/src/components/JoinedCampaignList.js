@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import AuthContext from "../AuthContext";
 
-function Campaigns() {
+function JoinedCampaignList() {
 
   const [campaigns, setCampaigns] = useState([]);
 
@@ -45,8 +45,7 @@ function Campaigns() {
   return (
     <>
       <div>
-        <h2 className="mt-5">Campaign List</h2>
-        {authManager.user ? <button className="btn btn-primary mb-3 mt-4" type="button" onClick={handleAddSelect}>Add Campaign</button> : null}
+        <h2 className="mt-5">Joined Campaign List</h2>
         <table className="table table-sm">
           <thead>
             <tr>
@@ -64,9 +63,9 @@ function Campaigns() {
               <tr key={cmp.campaignId}>
                 <td>
                   {authManager.user ? (<>
-                    <button className="btn btn-info" type="button" onClick={() => handleEditSelect(cmp)} >Edit</button>
+                    <button className="btn btn-info" type="button" onClick={() => handleEditSelect(cmp)} >Join</button>
                     &nbsp;
-                    <button className="btn btn-secondary" type="button" onClick={() => handleDeleteSelect(cmp)} >Delete</button>
+                    <button className="btn btn-secondary" type="button" onClick={() => handleDeleteSelect(cmp)} >Leave</button>
                   </>) : null}
                 </td>
                 <td>
@@ -97,4 +96,4 @@ function Campaigns() {
   )
 }
 
-export default Campaigns;
+export default JoinedCampaignList;
