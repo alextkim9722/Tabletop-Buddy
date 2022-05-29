@@ -1,12 +1,11 @@
 import NavBar from "./components/NavBar";
 import CampaignList from "./components/CampaignList";
 import AddCampaign from "./components/AddCampaign";
-import CampaignDetialed from "./components/CampaignDetailed";
 import DeleteCampaign from "./components/DeleteCampaign";
 import Login from "./components/Login";
 import NotFound from "./components/NotFound";
 import UpdateCampaign from "./components/UpdateCampaign";
-import AddSession from "./components/AddSession";
+import UserScheduleList from "./components/UserScheduleList";
 import AuthContext from "./AuthContext";
 
 import { Route, Switch } from "react-router-dom";
@@ -79,8 +78,8 @@ function App() {
             <Route path="/login" >
               {authManager.user ? <Redirect to="/" /> : <Login />}
             </Route>
-            <Route path="/schedule" >
-              {authManager.user ? <AddSession /> : <AddSession />}
+            <Route path="/userSchedule" >
+              {authManager.user ? <UserScheduleList /> : <Redirect to="/login" />}
             </Route>
             <Route>
               <NotFound />

@@ -9,19 +9,17 @@ import AuthContext from "../AuthContext";
 import Errors from "./Errors";
 import moment from 'moment';
 
-function AddSession() {
+function UserScheduleList() {
   const [event, setEvents] = useState([]);
   const [successfulDelete, setSuccessfulDelete] = useState(false);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-  const [startCalendarDate, setStartCalendarDate] = useState(null);
-  const [endCalendarDate, setEndCalendarDate] = useState(null);
-  const [addingUserSchedule, setAddingUserSchedule] = useState(false);
+  const [adding, setAdding] = useState(false);
   const [errors, setErrors] = useState([]);
   const history = useHistory();
   const authManager = useContext(AuthContext);
 
-  let getSessions = () => {
+  let getUserSchedule = () => {
     return fetch(`http://localhost:8080/api/userSchedule/${authManager.userId}`)
     .then(response => {
         if (response.status ===200) {
@@ -34,10 +32,10 @@ function AddSession() {
 
       for(let i = 0;i < body.length;i++) {
         const newEvent = {
-          title:body[i].sessionId,
+          title:body[i].userScheduleId,
           start:body[i].startDate,
           end:body[i].endDate,
-          id:body[i].sessionId
+          id:body[i].userScheduleId
         }
         eventList.push(newEvent);
       }
@@ -48,7 +46,13 @@ function AddSession() {
   }
 
   useEffect(() => {
-    getSessions();
+    if(endDate !== ''){
+      handleUserScheduleAdd();
+    }
+  }, [endDate])
+
+  useEffect(() => {
+    getUserSchedule();
   }, []);
 
   const handleUserScheduleDelete = (id) => {
@@ -63,9 +67,9 @@ function AddSession() {
     .then(response => {
       if (response.status === 204) {
         setSuccessfulDelete(true);
+        getUserSchedule();
         return;
       }
-
       return Promise.reject('Something went wrong :)');
     })
     .catch(err => console.error(err));
@@ -104,8 +108,8 @@ function AddSession() {
     })
     .then(json => {
       if (json.userScheduleId) {
-        history.push('/campaign');
-      } else {
+        getUserSchedule();
+      }else{
         setErrors(json);
       }
     })
@@ -123,47 +127,47 @@ function AddSession() {
   }
 
   const handleDateClick = (clickInfo) => {
-    let time = prompt('Please enter the time that you want');
+    let time = !adding ? prompt('Please enter the start time that you want') : prompt('Please enter the end time that you want');
     var timeDiff = moment(time, "HH:mm");
     let newDate = moment(clickInfo.date);
     newDate.add(timeDiff.hour(), 'hour');
     newDate.add(timeDiff.minute(), 'minute');
-  }
 
-  const handleAddingFlag = () => {
-    setAddingUserSchedule(!addingUserSchedule);
+    if(!adding && timeDiff.isValid()) {
+      setStartDate(newDate.toDate());
+      setAdding(true);
+    }else if(adding && timeDiff.isValid()) {
+      setEndDate(newDate.toDate());
+      setAdding(false);
+    }
   }
 
   return (
-    <div className="Add Session">
-      <Errors errors={errors}/>
+    <>
       <div className="form-group">
-        {!addingUserSchedule ?
-        <button className="btn btn-primary" type="submit" onClick={handleAddingFlag}>Add</button>
-        :
-        <button className="btn btn-secondary" type="button" onClick={handleAddingFlag}>Cancel</button>
-        }
+        <Errors errors={errors}/>
       </div>
-      <FullCalendar
-        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-        headerToolbar={{
-          left: 'prev,next today',
-          center: 'title',
-          right: 'dayGridMonth,timeGridWeek,timeGridDay'
-        }}
-        initialView='dayGridMonth'
-        editable={true}
-        selectable={true}
-        selectMirror={true}
-        dayMaxEvents={true}
-        events={event}
-        eventClick={handleEventClick}
-        dateClick={handleDateClick}
-        navLinks={true}
-      />
-      
-    </div>
+      <div className="Add Session">
+        <FullCalendar
+          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+          headerToolbar={{
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+          }}
+          initialView='dayGridMonth'
+          editable={true}
+          selectable={true}
+          selectMirror={true}
+          dayMaxEvents={true}
+          events={event}
+          eventClick={handleEventClick}
+          dateClick={handleDateClick}
+          navLinks={true}
+        />
+      </div>
+    </>
   );
 }
 
-export default AddSession;
+export default UserScheduleList;
