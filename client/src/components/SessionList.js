@@ -9,10 +9,9 @@ import AuthContext from "../AuthContext";
 import Errors from "./Errors";
 import moment from 'moment';
 
-function UserScheduleList() {
+function SessionList({campaignId}) {
   const [event, setEvents] = useState([]);
   const [successfulDelete, setSuccessfulDelete] = useState(false);
-  const [sessionId, setSessionId] = useState(0);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [adding, setAdding] = useState(false);
@@ -20,8 +19,8 @@ function UserScheduleList() {
   const history = useHistory();
   const authManager = useContext(AuthContext);
 
-  let getUserSchedule = () => {
-    return fetch(`http://localhost:8080/api/userSchedule/${authManager.userId}`)
+  let getSession = () => {
+    return fetch(`http://localhost:8080/api/userSchedule/${campaignId}`)
     .then(response => {
         if (response.status ===200) {
             return response.json()
@@ -33,10 +32,10 @@ function UserScheduleList() {
 
       for(let i = 0;i < body.length;i++) {
         const newEvent = {
-          title:body[i].userScheduleId,
+          title:body[i].sessionId,
           start:body[i].startDate,
           end:body[i].endDate,
-          id:body[i].userScheduleId
+          id:body[i].sessionId
         }
         eventList.push(newEvent);
       }
@@ -48,15 +47,15 @@ function UserScheduleList() {
 
   useEffect(() => {
     if(endDate !== ''){
-      handleUserScheduleAdd();
+      handleSessionAdd();
     }
   }, [endDate])
 
   useEffect(() => {
-    getUserSchedule();
+    getSession();
   }, []);
 
-  const handleUserScheduleDelete = (id) => {
+  const handleSessionDelete = (id) => {
     const init = {
       method: 'DELETE',
       headers: {
@@ -64,11 +63,11 @@ function UserScheduleList() {
       }
     }
 
-    fetch(`http://localhost:8080/api/userSchedule/${id}`, init)
+    fetch(`http://localhost:8080/api/session/${id}`, init)
     .then(response => {
       if (response.status === 204) {
         setSuccessfulDelete(true);
-        getUserSchedule();
+        getSession();
         return;
       }
       return Promise.reject('Something went wrong :)');
@@ -76,10 +75,9 @@ function UserScheduleList() {
     .catch(err => console.error(err));
   }
 
-  const handleUserScheduleAdd = () => {
+  const handleSessionAdd = () => {
     const newUserSchedule = {
-      userId: authManager.userId,
-      sessionId,
+      campaignId,
       startDate,
       endDate
     };
@@ -93,7 +91,7 @@ function UserScheduleList() {
       body: JSON.stringify(newUserSchedule)
     };
 
-    fetch('http://localhost:8080/api/userSchedule', init)
+    fetch('http://localhost:8080/api/session', init)
     .then(response => {
       switch (response.status) {
         case 201:
@@ -108,7 +106,7 @@ function UserScheduleList() {
       }
     })
     .then(json => {
-      if (json.userScheduleId) {
+      if (json.sessionId) {
         getUserSchedule();
       }else{
         setErrors(json);
@@ -119,7 +117,7 @@ function UserScheduleList() {
 
   const handleEventClick = (clickInfo) => {
     if (window.confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
-      handleUserScheduleDelete(clickInfo.event.id);
+      handleSessionDelete(clickInfo.event.id);
       if(successfulDelete){
         clickInfo.event.remove();
         setSuccessfulDelete(false);
@@ -171,4 +169,4 @@ function UserScheduleList() {
   );
 }
 
-export default UserScheduleList;
+export default SessionList;
