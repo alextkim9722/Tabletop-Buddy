@@ -160,4 +160,7 @@ insert into user_role(user_id, role_id) values
 end //
 delimiter ;
 
-call set_known_good_state();
+
+
+
+call set_known_good_state(); 
