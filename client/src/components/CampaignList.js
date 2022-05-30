@@ -31,19 +31,6 @@ function Campaigns() {
       getCampaigns();
     }, []);
 
-
-  const handleAddSelect = () => {
-      history.push(`/campaign/add`);
-  }  
-
-  const handleEditSelect =(campaign) => {
-      history.push(`/campaign/edit/${campaign.campaignId}`);
-  }
-
-  const handleDeleteSelect = (campaign) => {
-      history.push(`/campaign/delete/${campaign.campaignId}`);
-  }
-
   return (
     <>
       <div>

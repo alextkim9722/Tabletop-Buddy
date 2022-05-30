@@ -5,12 +5,51 @@ import Errors from "./Errors";
 
 function JoinedCampaignList() {
   const [campaigns, setCampaigns] = useState([]);
+  const [targetCampaign, setTargetCampaign] = useState([]);
   const [joinedCampaignIds, setJoinedCampaignIds] = useState([]);
+  const [sessionIDs, setSessionIDs] = useState([]);
+  const [addSessions, setAddSessions] = useState(false);
+  const [leaveSessions, setLeaveSessions] = useState(false);
   const [errors, setErrors] = useState([]);
 
   const history = useHistory();
 
   const authManager = useContext(AuthContext);
+
+  const updateCampaignPlayerCount = () => {
+    const init = {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
+        },
+        body: JSON.stringify(targetCampaign)
+    };
+
+      
+    fetch(`http://localhost:8080/api/campaign/${targetCampaign.campaignId}`, init)
+    .then(response => {
+        switch (response.status) {
+            case 204:
+            return null;
+            case 400:
+            return response.json();
+            case 403:
+            authManager.logout();
+            history.push('/login');
+            break;
+            default:
+            return Promise.reject('Something went wrong on the server :)');
+        }
+    })
+    .then(body => {
+        if (!body) {
+            return;
+        }
+    setErrors(body);
+    })
+    .catch(err => console.error(err));
+  }
   
   const getJoinedCampaignList = () => {
     return fetch('http://localhost:8080/api/campaign')
@@ -48,11 +87,86 @@ function JoinedCampaignList() {
     .catch(err => console.error(err));
   }
 
+    useEffect(() => {
+        if(addSessions === true) {
+            for(let i = 0;i < sessionIDs.length;i++) {
+                addSessionUser(sessionIDs[i].sessionId);
+                setAddSessions(false);
+            }
+
+            updateCampaignPlayerCount();
+        }
+    }, [addSessions]);
+
+    useEffect(() => {
+        if(leaveSessions === true) {
+            for(let i = 0;i < sessionIDs.length;i++) {
+                deleteSessionUser(sessionIDs[i].sessionId);
+                setLeaveSessions(false);
+            }
+
+            updateCampaignPlayerCount();
+        }
+        }, [leaveSessions]);
 
     useEffect(() => {
         getJoinedCampaignList();
     }, []);
 
+    const addSessionUser = (id) => {
+        const newSessionUser = {
+            sessionId:id,
+            user: {
+                userId:authManager.userId,
+                username: "a",
+                city: "a",
+                state: "a"
+            }
+          };
+    
+          const init = {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
+            },
+            body: JSON.stringify(newSessionUser)
+          };
+    
+        fetch('http://localhost:8080/api/session/user', init)
+        .then(response => {
+            if (response.status === 201) {
+                return;
+            }
+            return Promise.reject('Something went wrong on the server :)');
+        })
+        .catch(err => console.error(err));
+    }
+
+    const deleteSessionUser = (id) => {
+        const deleteInit = {
+            method: 'DELETE',
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
+            },
+          };
+    
+          fetch(`http://localhost:8080/api/session/user/${id}/${authManager.userId}`, deleteInit)
+        .then(response => {
+          if (response.status === 204) {
+              setLeaveSessions(false);
+              history.go(0);
+            return;
+          }
+          return Promise.reject('Something went wrong :)');
+        }).catch(err => console.error(err));
+    }
+
+    const handleGetSessionIDs = (campaign) => {
+        const sessionList = campaign.sessionList.map( (s) => ({sessionId:s.sessionId}));
+        setSessionIDs(sessionList);
+        console.log(sessionList);
+    }
 
   const handleJoinSelect = (campaign) => {
     const newCampaignUser = {
@@ -77,6 +191,9 @@ function JoinedCampaignList() {
     fetch('http://localhost:8080/api/campaign/user', init)
     .then(response => {
         if (response.status === 201) {
+            handleGetSessionIDs(campaign);
+            setTargetCampaign(campaign);
+            setAddSessions(true);
             history.go(0);
             return;
         }
@@ -96,7 +213,9 @@ function JoinedCampaignList() {
       fetch(`http://localhost:8080/api/campaign/user/${campaign.campaignId}/${authManager.userId}`, deleteInit)
     .then(response => {
       if (response.status === 204) {
-        history.go(0);
+        handleGetSessionIDs(campaign);
+        setTargetCampaign(campaign);
+        setLeaveSessions(true);
         return;
       } else if (response.status === 400) {
         return response.json();
@@ -131,7 +250,8 @@ function JoinedCampaignList() {
                 <th scope="col">Type</th>
                 <th scope="col">City</th>
                 <th scope="col">State</th>
-                <th scope="col">Next Session</th>
+                <th scope="col">Session Count</th>
+                <th scope="col">Player Count</th>
             </tr>
           </thead>
           <tbody>
@@ -162,7 +282,10 @@ function JoinedCampaignList() {
                     {cmp.state}
                   </td>
                   <td>
-                    {cmp.nextSession}
+                    {cmp.sessionCount}
+                  </td>
+                  <td>
+                    {cmp.currentPlayers + '/' + cmp.maxPlayers}
                   </td>
               </tr>
             ))}

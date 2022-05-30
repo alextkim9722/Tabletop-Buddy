@@ -9,15 +9,51 @@ import AuthContext from "../AuthContext";
 import Errors from "./Errors";
 import moment from 'moment';
 
-function SessionList({campaignId}) {
+function SessionList({campaign}) {
   const [event, setEvents] = useState([]);
   const [successfulDelete, setSuccessfulDelete] = useState(false);
   const [startDate, setStartDate] = useState('');
+  const [campaignId, setCampaignId] = useState(campaign.campaignId);
   const [endDate, setEndDate] = useState('');
   const [adding, setAdding] = useState(false);
   const [errors, setErrors] = useState([]);
   const history = useHistory();
   const authManager = useContext(AuthContext);
+
+  const updateSessionCount = () => {
+    const init = {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
+        },
+        body: JSON.stringify(campaign)
+    };
+
+      
+    fetch(`http://localhost:8080/api/campaign/${campaignId}`, init)
+    .then(response => {
+        switch (response.status) {
+            case 204:
+            return null;
+            case 400:
+            return response.json();
+            case 403:
+            authManager.logout();
+            history.push('/login');
+            break;
+            default:
+            return Promise.reject('Something went wrong on the server :)');
+        }
+    })
+    .then(body => {
+        if (!body) {
+            return;
+        }
+    setErrors(body);
+    })
+    .catch(err => console.error(err));
+  }
 
   let getSession = () => {
     return fetch(`http://localhost:8080/api/userSchedule/${campaignId}`)
@@ -48,6 +84,7 @@ function SessionList({campaignId}) {
   useEffect(() => {
     if(endDate !== ''){
       handleSessionAdd();
+      updateSessionCount();
     }
   }, [endDate])
 
@@ -121,6 +158,7 @@ function SessionList({campaignId}) {
       if(successfulDelete){
         clickInfo.event.remove();
         setSuccessfulDelete(false);
+        updateSessionCount();
       }
     }
   }

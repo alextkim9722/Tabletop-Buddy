@@ -163,3 +163,5 @@ end //
 delimiter ;
 
 call set_known_good_state();
+
+select * from campaign;
