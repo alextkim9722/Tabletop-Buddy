@@ -67,7 +67,7 @@ public class CampaignController {
         if (campaignId != campaign.getCampaignId()) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        Result <Campaign> result = campaignService.deleteById(campaign);
+        Result <Boolean> result = campaignService.deleteById(campaign);
         if (result.isSuccess()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

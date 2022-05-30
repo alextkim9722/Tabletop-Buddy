@@ -50,7 +50,7 @@ function DeleteCampaign() {
             }
           })
           .catch(err => console.error(err));
-      }, );
+      });
 
       const campaignToDelete = {
         name,
@@ -78,7 +78,6 @@ function DeleteCampaign() {
         fetch(`http://localhost:8080/api/campaign/${campaignId}`, deleteInit)
       .then(response => {
         if (response.status === 204) {
-          history.push('/campaign');
           return;
         } else if (response.status === 400) {
           return response.json();

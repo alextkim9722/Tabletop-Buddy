@@ -1,5 +1,5 @@
 @url = http://localhost:8080/api/campaign/user
-@token = eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0YWJsZXRvcCIsInN1YiI6ImRhbGUiLCJhdXRob3JpdGllcyI6IlJPTEVfVVNFUiIsImV4cCI6MTY1MzU4MjIwN30.FC1yMOkBrLngOb5dWp1WTzWeInMcbs1RnR7HKyum6WM
+@token = eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0YWJsZXRvcCIsInN1YiI6ImRhbGUiLCJhdXRob3JpdGllcyI6IlJPTEVfVVNFUiIsInVzZXJJZCI6Miwic3RhdGUiOiJjYWxpZm9ybmlhIiwiY2l0eSI6IlNhY3JhbWVudG8iLCJleHAiOjE2NTM4ODQ3NTh9.PHBcZz7h5MjcbScv9y8C9jwDXoNXaB8v_ipqOGYUpbs
 
 ###
 

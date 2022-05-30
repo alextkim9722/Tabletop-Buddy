@@ -27,11 +27,13 @@ public class CampaignService {
     public List<Campaign> findByTag(Filter filter) {
         return campaignRepository.findByTag(filter.getType(), filter.getPlayers(), filter.getSize(), filter.getStart()); }
 
-    public Result<Campaign> deleteById(Campaign campaign) {
-        Result<Campaign> result = new Result<>();
+    public Result<Boolean> deleteById(Campaign campaign) {
+        Result<Boolean> result = new Result<>();
         Campaign campaignToBeDeleted = findById(campaign.getCampaignId());
         if (campaign.getUserId() != campaignToBeDeleted.getUserId()) {
             result.addMessage("You must be the game master to delete this campaign", ResultType.INVALID);
+        }else{
+            result.setPayload(campaignRepository.deleteById(campaignToBeDeleted.getCampaignId()));
         }
         return result;
     }
