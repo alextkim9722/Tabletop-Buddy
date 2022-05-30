@@ -27,6 +27,7 @@ public class UserMapper implements RowMapper<User> {
 
         user.setCity(resultSet.getString("city"));
         user.setState(resultSet.getString("state"));
+        user.setDescription(resultSet.getString("description"));
 
         return user;
     }
