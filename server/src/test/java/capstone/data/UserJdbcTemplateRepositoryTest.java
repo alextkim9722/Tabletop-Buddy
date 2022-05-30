@@ -94,6 +94,13 @@ public class UserJdbcTemplateRepositoryTest {
     }
 
     @Test
+    @Order(9)
+    void shouldDelete() {
+        User user = makeUser();
+        assertTrue(repository.deleteById(user.getUserId()));
+    }
+
+    @Test
     @Order(999)
     void reset(){
         KnownGoodState.hasRun = false;

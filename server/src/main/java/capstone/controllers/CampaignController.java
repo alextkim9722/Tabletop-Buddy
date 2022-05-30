@@ -63,10 +63,14 @@ public class CampaignController {
     }
 
     @DeleteMapping("/{campaignId}")
-    public ResponseEntity<Void> deleteById(@PathVariable int campaignId) {
-        if (campaignService.deleteById(campaignId)) {
+    public ResponseEntity<Object> deleteById(@PathVariable int campaignId, @RequestBody Campaign campaign) {
+        if (campaignId != campaign.getCampaignId()) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        Result <Campaign> result = campaignService.deleteById(campaign);
+        if (result.isSuccess()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return ErrorResponse.build(result);
     }
 }

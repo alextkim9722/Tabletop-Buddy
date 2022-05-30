@@ -1,8 +1,11 @@
 package capstone.service;
 
 import capstone.data.CampaignRepository;
+import capstone.data.CampaignUserRepository;
 import capstone.models.Campaign;
+import capstone.models.CampaignUser;
 import capstone.models.Filter;
+import capstone.models.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,6 +25,9 @@ class CampaignServiceTest {
 
     @MockBean
     CampaignRepository campaignRepository;
+
+    @MockBean
+    CampaignUserRepository campaignUserRepository;
 
     @Test
     void shouldAddWhenValid() {
@@ -69,6 +75,16 @@ class CampaignServiceTest {
         Campaign campaign = makeCampaign();
 
         when(campaignRepository.update(campaign)).thenReturn(true);
+        Campaign campaignFoundFromRepo = new Campaign(
+                1,
+                1,
+                "Warhammer 40k Pros",
+                "Warhammer 40k",
+                "Milwaukee",
+                "Wisconsin",
+                5
+        );
+        when(campaignRepository.findById(1)).thenReturn(campaignFoundFromRepo);
         Result<Campaign> result = campaignService.update(campaign);
         assertEquals(ResultType.SUCCESS, result.getType());
     }
@@ -111,6 +127,26 @@ class CampaignServiceTest {
     }
 
     @Test
+    void shouldNotUpdateWhenNotGameMaster() {
+        Campaign campaign = makeCampaign();
+        campaign.setUserId(2);
+
+        when(campaignRepository.update(campaign)).thenReturn(true);
+        Campaign campaignFoundFromRepo = new Campaign(
+                1,
+                1,
+                "Warhammer 40k Pros",
+                "Warhammer 40k",
+                "Milwaukee",
+                "Wisconsin",
+                5
+        );
+        when(campaignRepository.findById(1)).thenReturn(campaignFoundFromRepo);
+        Result<Campaign> result = campaignService.update(campaign);
+        assertEquals(ResultType.INVALID, result.getType());
+    }
+
+    @Test
     void shouldFindCampaignWithStartFilter(){
         Campaign campaign = makeCampaign();
         List<Campaign> campaignList = new ArrayList<>();
@@ -123,6 +159,64 @@ class CampaignServiceTest {
         when(campaignRepository.findByTag(null, -1, -1, Timestamp.valueOf("2023-04-10 12:00:00.000"))).thenReturn(campaignList);
         List<Campaign> actual = campaignService.findByTag(filter);
         assertEquals("Warhammer 40k Pros", actual.get(0).getName());
+    }
+
+    @Test
+    void shouldAddUserToCampaign() {
+        CampaignUser campaignUser = makeCampaignUser();
+
+        when(campaignUserRepository.add(campaignUser)).thenReturn(true);
+        Result<Void> result = campaignService.createUser(campaignUser);
+        assertEquals(ResultType.SUCCESS, result.getType());
+    }
+
+    @Test
+    void shouldDeleteCampaignIfGameMaster() {
+        Campaign campaign = makeCampaign();
+        Campaign campaignFoundFromRepo = new Campaign(
+                1,
+                1,
+                "Warhammer 40k Pros",
+                "Warhammer 40k",
+                "Milwaukee",
+                "Wisconsin",
+                5
+        );
+        when(campaignRepository.findById(1)).thenReturn(campaignFoundFromRepo);
+        Result<Campaign> result = campaignService.deleteById(campaign);
+        assertEquals(ResultType.SUCCESS, result.getType());
+
+    }
+
+    @Test
+    void shouldNotDeleteIfNotGameMaster() {
+        Campaign campaign = makeCampaign();
+        Campaign campaignFoundFromRepo = new Campaign(
+                1,
+                2,
+                "Warhammer 40k Pros",
+                "Warhammer 40k",
+                "Milwaukee",
+                "Wisconsin",
+                5
+        );
+        when(campaignRepository.findById(1)).thenReturn(campaignFoundFromRepo);
+        Result<Campaign> result = campaignService.deleteById(campaign);
+        assertEquals(ResultType.INVALID, result.getType());
+    }
+
+    CampaignUser makeCampaignUser() {
+        CampaignUser campaignUser = new CampaignUser(
+                1,
+                new User(
+                        5,
+                        "Steve",
+                        "Los Angeles",
+                        "California"
+
+                )
+        );
+        return campaignUser;
     }
 
     Campaign makeCampaign() {

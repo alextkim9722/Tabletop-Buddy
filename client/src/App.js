@@ -111,7 +111,7 @@ function About() {
         <p>About the project</p>
         <ul>
           <li>We are a group of board game enthusiasts</li>
-          <li>We built this website to facilitate organizion between players and people who share our interest in board games </li>
+          <li>We built this website to facilitate organization between players and people who share our interest in board games </li>
         </ul>
       </div>
     </>
