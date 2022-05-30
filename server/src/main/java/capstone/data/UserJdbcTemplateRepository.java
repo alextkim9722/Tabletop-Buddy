@@ -136,6 +136,11 @@ public class UserJdbcTemplateRepository implements UserRepository{
                         "where c.user_id = ?;"
                 , userId
         );
+        jdbcTemplate.update(
+                "delete from campaign_user " +
+                        "where user_id = ?;"
+                , userId
+        );
         // finally, deleting campaigns that the user has created
         jdbcTemplate.update(
                 "delete from campaign " +

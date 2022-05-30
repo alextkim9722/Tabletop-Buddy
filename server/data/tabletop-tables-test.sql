@@ -123,6 +123,7 @@ insert into user (username, password_hash, city, state, disabled, `description`)
 	("bob", "$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa", "LA", "california", 0, "fake account"),
     ("dale", "$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa", "Sacramento", "california", 0, "fake account"),
     ("carl", "$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa", "Sacramento", "california", 0, "fake account");
+    ("jeff", "$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa", "Sacramento", "california", 0, "fake account");
     
 insert into campaign (user_id, `name`, `description`, `type`, city, state, session_count, max_players) values
 	(1, "My DnD", "Fake DnD campaign.", "DnD", "LA", "California", 3, 5),
@@ -157,6 +158,7 @@ insert into user_role(user_id, role_id) values
 	(1, 1),
     (2, 1),
     (3, 1);
+    (4, 2);
 
     
 end //

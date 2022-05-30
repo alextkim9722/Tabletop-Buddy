@@ -2,6 +2,7 @@ import NavBar from "./components/NavBar";
 import CampaignList from "./components/CampaignList";
 import AddCampaign from "./components/AddCampaign";
 import DeleteCampaign from "./components/DeleteCampaign";
+import DeleteUser from "./components/DeleteUser";
 import Login from "./components/Login";
 import NotFound from "./components/NotFound";
 import UpdateCampaign from "./components/UpdateCampaign";
@@ -80,6 +81,9 @@ function App() {
             </Route>
             <Route path="/userSchedule" >
               {authManager.user ? <UserScheduleList /> : <Redirect to="/login" />}
+            </Route>
+            <Route path="/user" >
+              {authManager.hasRole('admin') ? <DeleteUser /> : <Redirect to="/" /> }
             </Route>
             <Route>
               <NotFound />

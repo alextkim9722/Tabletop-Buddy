@@ -1,10 +1,10 @@
-@url = http://localhost:8080/api
+@url = http://localhost:8080/api/user
 @token = eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0YWJsZXRvcCIsInN1YiI6ImRhbGUiLCJhdXRob3JpdGllcyI6IlJPTEVfQURNSU4iLCJ1c2VySWQiOjIsInN0YXRlIjoiY2FsaWZvcm5pYSIsImNpdHkiOiJTYWNyYW1lbnRvIiwiZXhwIjoxNjUzNjg2OTY3fQ.sKXs-fwjg_XgmTX6Ede65Z61Pd3XuzFgjbk4jDSpqeQ
 ###
 
 GET {{url}} HTTP/1.1
 
 ###
-DELETE {{url}}/user/1 
+DELETE {{url}}/1 
 Content-Type: application/json
 Authorization: Bearer {{token}}

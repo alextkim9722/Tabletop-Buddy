@@ -1,12 +1,11 @@
 package capstone.controllers;
 
+import capstone.models.User;
 import capstone.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/user")
@@ -18,8 +17,17 @@ public class UserController {
         this.userService = userService;
     }
 
+    @GetMapping("/{username}")
+    public ResponseEntity<?> getByUsername(@PathVariable String username) {
+        UserDetails userRetrieved = userService.loadUserByUsername(username);
+        if (userRetrieved == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(userRetrieved, HttpStatus.OK);
+    }
+
     @DeleteMapping("/{userId}")
-    public ResponseEntity<Void> deleteById( @PathVariable int userId) {
+    public ResponseEntity<Void> deleteById(@PathVariable int userId) {
         if (userService.deleteById(userId)) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
