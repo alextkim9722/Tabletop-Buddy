@@ -39,7 +39,6 @@ public class UserService implements UserDetailsService {
         validatePassword(password);
         validateCity(city);
         validateState(state);
-        validateDescription(description);
 
         password = encoder.encode(password);
 
@@ -80,16 +79,6 @@ public class UserService implements UserDetailsService {
 
         if (state.length() > 250) {
             throw new ValidationException("state must be less than 250 characters");
-        }
-    }
-
-    private void validateDescription(String description) {
-        if (description == null || description.isBlank()) {
-            throw new ValidationException("description is required");
-        }
-
-        if (description.length() > 250) {
-            throw new ValidationException("description must be less than 250 characters");
         }
     }
 
