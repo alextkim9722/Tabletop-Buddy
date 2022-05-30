@@ -10,31 +10,31 @@ function JoinedCampaignList() {
 
   const authManager = useContext(AuthContext);
   
-  let getCampaigns = () => {
-      return fetch('http://localhost:8080/api/campaign')
-      .then(response => {
-          if (response.status ===200) {
-              return response.json()
-          }
-          return Promise.reject('Something went wrong on the server :)');
-      })
-      .then(body => {
-          setCampaigns(body);
+  let getJoinedCampaignList = () => {
+        return fetch('http://localhost:8080/api/campaign')
+        .then(response => {
+            if (response.status ===200) {
+                return response.json()
+            }
+            return Promise.reject('Something went wrong on the server :)');
+        })
+        .then(body => {
+            setCampaigns(body);
         })
         .catch(err => console.error(err));
   }
 
 
   useEffect(() => {
-      getCampaigns();
+    getCampaigns();
     }, []);
 
 
-  const handleAddSelect = () => {
+  const handleJoinSelect = () => {
       history.push(`/campaign/add`);
   }  
 
-  const handleEditSelect =(campaign) => {
+  const handleLeaveSelect =(campaign) => {
       history.push(`/campaign/edit/${campaign.campaignId}`);
   }
 
