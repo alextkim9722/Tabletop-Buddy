@@ -11,11 +11,22 @@ function HostedCampaignList() {
     const authManager = useContext(AuthContext);
 
     let getHostedCampaigns = () => {
-        setCampaigns(authManager)
+        return fetch('http://localhost:8080/api/campaign')
+        .then(response => {
+            if (response.status ===200) {
+                return response.json()
+            }
+            return Promise.reject('Something went wrong on the server :)');
+        })
+        .then(body => {
+            const filteredCampaigns = body.filter( c => c.userId === authManager.userId);
+            setCampaigns(filteredCampaigns);
+        })
+        .catch(err => console.error(err));
     }
 
     useEffect(() => {
-        getCampaigns();
+        getHostedCampaigns();
     }, []);
 
     const handleAddSelect = () => {
@@ -33,7 +44,7 @@ function HostedCampaignList() {
     return (
     <>
         <div>
-        <h2 className="mt-5">Campaign List</h2>
+        <h2 className="mt-5">Hosted Campaign List</h2>
         {authManager.user ? <button className="btn btn-primary mb-3 mt-4" type="button" onClick={handleAddSelect}>Add Campaign</button> : null}
         <table className="table table-sm">
             <thead>
@@ -85,4 +96,4 @@ function HostedCampaignList() {
     )
 }
 
-export default Campaigns;
+export default HostedCampaignList;

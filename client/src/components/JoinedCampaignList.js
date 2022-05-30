@@ -10,7 +10,7 @@ function JoinedCampaignList() {
 
   const authManager = useContext(AuthContext);
   
-  let getJoinedCampaignList = () => {
+  const getJoinedCampaignList = () => {
         return fetch('http://localhost:8080/api/campaign')
         .then(response => {
             if (response.status ===200) {
@@ -19,14 +19,35 @@ function JoinedCampaignList() {
             return Promise.reject('Something went wrong on the server :)');
         })
         .then(body => {
-            setCampaigns(body);
+            /*
+            const filteredCampaignIdsWithUserIds = body.map( (c) => 
+                ({
+                    campaignId:c.campaignId,
+                    userCampaignList:c.userList.filter((u) => (u.user.userId === authManager.userId))
+                })
+            );
+            const filteredCampaignsIds = filteredCampaignIdsWithUserIds.filter( (c) => c.userCampaignList.length > 0 ).filter( (c) => c.userCampaignList[0].user.userId === authManager.userId );
+            const filteredCampaignsIdsList = filteredCampaignsIds.map((c) => c.campaignId);
+            const filteredCampaigns = body.filter( (c) => (filteredCampaignsIdsList.includes(c.campaignId)) );
+            */
+
+            const filteredCampaigns = body.filter( (c) => (
+                body.map( (c) => ({
+                    campaignId:c.campaignId,
+                    userCampaignList:c.userList.filter((u) => (u.user.userId === authManager.userId))
+                }))
+                .filter( (c) => c.userCampaignList.length > 0 )
+                .filter( (c) => c.userCampaignList[0].user.userId === authManager.userId )
+                .map((c) => c.campaignId)
+                .includes(c.campaignId)) );
+            setCampaigns(filteredCampaigns);
         })
         .catch(err => console.error(err));
   }
 
 
   useEffect(() => {
-    getCampaigns();
+    getJoinedCampaignList();
     }, []);
 
 
@@ -61,13 +82,6 @@ function JoinedCampaignList() {
           <tbody>
             {campaigns.map((cmp, i) => (
               <tr key={cmp.campaignId}>
-                <td>
-                  {authManager.user ? (<>
-                    <button className="btn btn-info" type="button" onClick={() => handleEditSelect(cmp)} >Join</button>
-                    &nbsp;
-                    <button className="btn btn-secondary" type="button" onClick={() => handleDeleteSelect(cmp)} >Leave</button>
-                  </>) : null}
-                </td>
                 <td>
                   &nbsp;
                   {i + 1}

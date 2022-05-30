@@ -1,3 +1,5 @@
+import HostedCampaignList from "./HostedCampaignList";
+import JoinedCampaignList from "./JoinedCampaignList";
 import { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import AuthContext from "../AuthContext";
@@ -45,53 +47,8 @@ function Campaigns() {
   return (
     <>
       <div>
-        <h2 className="mt-5">Campaign List</h2>
-        {authManager.user ? <button className="btn btn-primary mb-3 mt-4" type="button" onClick={handleAddSelect}>Add Campaign</button> : null}
-        <table className="table table-sm">
-          <thead>
-            <tr>
-                <th scope="col"></th>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Type</th>
-                <th scope="col">City</th>
-                <th scope="col">State</th>
-                <th scope="col">Next Session</th>
-            </tr>
-          </thead>
-          <tbody>
-            {campaigns.map((cmp, i) => (
-              <tr key={cmp.campaignId}>
-                <td>
-                  {authManager.user ? (<>
-                    <button className="btn btn-info" type="button" onClick={() => handleEditSelect(cmp)} >Edit</button>
-                    &nbsp;
-                    <button className="btn btn-secondary" type="button" onClick={() => handleDeleteSelect(cmp)} >Delete</button>
-                  </>) : null}
-                </td>
-                <td>
-                  &nbsp;
-                  {i + 1}
-                </td>
-                <td>
-                    {cmp.name}
-                  </td>
-                  <td>
-                    {cmp.type}
-                  </td>
-                  <td>
-                    {cmp.city}
-                  </td>
-                  <td>
-                    {cmp.state}
-                  </td>
-                  <td>
-                    {cmp.nextSession}
-                  </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <HostedCampaignList />
+        <JoinedCampaignList />
       </div>
     </>
   )

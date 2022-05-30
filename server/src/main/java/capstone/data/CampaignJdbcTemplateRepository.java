@@ -28,7 +28,17 @@ public class CampaignJdbcTemplateRepository implements CampaignRepository{
     public List<Campaign> findAll() {
         final String sql = "select campaign_id, user_id, name, description, type, " +
                 "city, state, session_count, max_players, current_players from campaign limit 1000;";
-        return jdbcTemplate.query(sql,new CampaignMapper());
+
+        List<Campaign> campaignList = jdbcTemplate.query(sql,new CampaignMapper());
+
+        if (campaignList != null) {
+            for(Campaign campaign : campaignList) {
+                addSessions(campaign);
+                addUsers(campaign);
+            }
+        }
+
+        return campaignList;
     }
 
     @Override
