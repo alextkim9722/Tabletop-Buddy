@@ -27,6 +27,12 @@ function NavBar() {
           <li className="nav-item">
             <Link className="nav-link" to="/sessionList">Schedule</Link>              {/*double check later*/}
           </li>
+          {authManager.hasRole('admin') ? (
+              <li className="nav-item">
+                <Link className="nav-link" to="/user">Delete User</Link>
+              </li>
+            ) 
+            : null}
           {authManager.user ? (
             <li className="nav-item">
               <button className="btn btn-secondary" type="button" onClick={handleLogout}>Logout</button>
@@ -41,6 +47,7 @@ function NavBar() {
             
               </>
             )}
+            
 
 
         </ul>
