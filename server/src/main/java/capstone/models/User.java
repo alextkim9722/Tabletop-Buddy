@@ -70,7 +70,8 @@ public class User extends org.springframework.security.core.userdetails.User {
     }
 
     public User(int appUserId, String username, String password,
-                boolean disabled, List<GrantedAuthority> roles, String city, String state, String description) {
+                boolean disabled, List<GrantedAuthority> roles,
+                String city, String state, String description) {
         this(appUserId, username, password, disabled, convertAuthoritiesToRoles(roles));
         this.city = city;
         this.state = state;

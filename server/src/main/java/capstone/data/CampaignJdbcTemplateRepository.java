@@ -28,7 +28,17 @@ public class CampaignJdbcTemplateRepository implements CampaignRepository{
     public List<Campaign> findAll() {
         final String sql = "select campaign_id, user_id, name, description, type, " +
                 "city, state, session_count, max_players, current_players from campaign limit 1000;";
-        return jdbcTemplate.query(sql,new CampaignMapper());
+
+        List<Campaign> campaignList = jdbcTemplate.query(sql,new CampaignMapper());
+
+        if (campaignList != null) {
+            for(Campaign campaign : campaignList) {
+                addSessions(campaign);
+                addUsers(campaign);
+            }
+        }
+
+        return campaignList;
     }
 
     @Override
@@ -71,7 +81,7 @@ public class CampaignJdbcTemplateRepository implements CampaignRepository{
     @Override
     public Campaign add(Campaign campaign) {
         final String sql = "insert into campaign (name, description, type, " +
-                "city, state, session_count, max_players, user_id) values (?,?,?,?,?,?,?,?);";
+                "city, state, session_count, max_players, user_id, current_players) values (?,?,?,?,?,?,?,?,?);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(connection -> {
@@ -84,6 +94,7 @@ public class CampaignJdbcTemplateRepository implements CampaignRepository{
             ps.setInt(6, campaign.getSessionCount());
             ps.setInt(7, campaign.getMaxPlayers());
             ps.setInt(8, campaign.getUserId());
+            ps.setInt(9, campaign.getCurrentPlayers());
             return ps;
         }, keyHolder);
 
@@ -144,6 +155,7 @@ public class CampaignJdbcTemplateRepository implements CampaignRepository{
                 + "where s.campaign_id = ?;";
         var sessions = jdbcTemplate.query(sql, new SessionMapper(), campaign.getCampaignId());
         campaign.setSessionList(sessions);
+        campaign.setSessionCount(sessions.size());
     }
 
     private void addUsers(Campaign campaign) {
@@ -156,7 +168,8 @@ public class CampaignJdbcTemplateRepository implements CampaignRepository{
                 "inner join user u on cu.user_id = u.user_id " +
                 "where cu.campaign_id = ?;";
 
-        var camapignUsers = jdbcTemplate.query(sql, new CampaignUserMapper(), campaign.getCampaignId());
-        campaign.setUserList(camapignUsers);
+        var campaignUsers = jdbcTemplate.query(sql, new CampaignUserMapper(), campaign.getCampaignId());
+        campaign.setUserList(campaignUsers);
+        campaign.setCurrentPlayers(campaignUsers.size());
     }
 }

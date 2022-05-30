@@ -183,7 +183,7 @@ class CampaignServiceTest {
                 5
         );
         when(campaignRepository.findById(1)).thenReturn(campaignFoundFromRepo);
-        Result<Campaign> result = campaignService.deleteById(campaign);
+        Result<Boolean> result = campaignService.deleteById(campaign);
         assertEquals(ResultType.SUCCESS, result.getType());
 
     }
@@ -201,7 +201,7 @@ class CampaignServiceTest {
                 5
         );
         when(campaignRepository.findById(1)).thenReturn(campaignFoundFromRepo);
-        Result<Campaign> result = campaignService.deleteById(campaign);
+        Result<Boolean> result = campaignService.deleteById(campaign);
         assertEquals(ResultType.INVALID, result.getType());
     }
 
