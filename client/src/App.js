@@ -8,13 +8,13 @@ import Login from "./components/Login";
 import Registration from "./components/Registration";
 import NotFound from "./components/NotFound";
 import UpdateCampaign from "./components/UpdateCampaign";
+import UserScheduleList from "./components/UserScheduleList";
 import AuthContext from "./AuthContext";
 
 import { Route, Switch } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
 import jwtDecode from "jwt-decode";
-import AddSession from "./components/AddSession";
 
 const TOKEN = 'jwt_token';
 
@@ -84,8 +84,8 @@ function App() {
             <Route path="/register" >
             {authManager.user ? <Redirect to="/" /> : <Registration />}
             </Route>
-            <Route path="/schedule" >
-              {authManager.user ? <AddSession /> : <AddSession />}
+            <Route path="/userSchedule" >
+              {authManager.user ? <UserScheduleList /> : <Redirect to="/login" />}
             </Route>
             <Route path="/user" >
               {authManager.hasRole('admin') ? <DeleteUser /> : <Redirect to="/" /> }
