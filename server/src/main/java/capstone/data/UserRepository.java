@@ -1,7 +1,10 @@
 package capstone.data;
 
-import capstone.models.Session;
+
 import capstone.models.User;
+
+
+
 
 public interface UserRepository {
     User create(User user);
