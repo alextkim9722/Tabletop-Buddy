@@ -42,6 +42,10 @@ function Campaigns() {
         history.push(`/campaign/delete/${campaign.campaignId}`);
     }
 
+    const handleViewSelect = (campaign) => {
+      history.push(`/campaign/campaignDetailed/${campaign.campaignId}`);
+    }
+
     return (
         <>
          <h2 className="mt-5">Campaign List</h2>
@@ -66,6 +70,8 @@ function Campaigns() {
                   <button className="btn btn-info" type="button" onClick={() => handleEditSelect(cmp)} >Edit</button>
                   &nbsp;
                   <button className="btn btn-secondary" type="button" onClick={() => handleDeleteSelect(cmp)} >Delete</button>
+                  &nbsp;
+                  <button className="btn btn-light" type="button" onClick={() => handleViewSelect(cmp)} >View</button>
                 </>) : null}
               </td>
               <td>
