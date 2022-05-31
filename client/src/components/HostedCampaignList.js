@@ -5,7 +5,6 @@ import AuthContext from "../AuthContext";
 function HostedCampaignList() {
 
     const [campaigns, setCampaigns] = useState([]);
-
     const history = useHistory();
 
     const authManager = useContext(AuthContext);
