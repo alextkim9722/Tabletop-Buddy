@@ -1,13 +1,15 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import AuthContext from "../AuthContext";
 
 function NavBar() {
 
   const authManager = useContext(AuthContext);
+  const history = useHistory();
 
   const handleLogout = () => {
     authManager.logout();
+    history.push("/");
   }
 
   return (

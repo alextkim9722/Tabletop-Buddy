@@ -107,23 +107,25 @@ function SessionList(props) {
   }, [props.campaign.campaignId]);
 
   const handleSessionDelete = (id) => {
-    const init = {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
+    if (authManager.userId == props.campaign.userId){
+      const init = {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
+        }
       }
-    }
 
-    fetch(`http://localhost:8080/api/session/${id}`, init)
-    .then(response => {
-      if (response.status === 204) {
-        setSuccessfulDelete(true);
-        getSession();
-        return;
-      }
-      return Promise.reject('Something went wrong :)');
-    })
-    .catch(err => console.error(err));
+      fetch(`http://localhost:8080/api/session/${id}`, init)
+      .then(response => {
+        if (response.status === 204) {
+          setSuccessfulDelete(true);
+          getSession();
+          return;
+        }
+        return Promise.reject('Something went wrong :)');
+      })
+      .catch(err => console.error(err));
+    }
   }
 
   const handleSessionAdd = () => {
@@ -184,10 +186,10 @@ function SessionList(props) {
     newDate.add(timeDiff.hour(), 'hour');
     newDate.add(timeDiff.minute(), 'minute');
 
-    if(!adding && timeDiff.isValid()) {
+    if(!adding && timeDiff.isValid() && authManager.userId == props.campaign.userId) {
       setStartDate(newDate.toDate());
       setAdding(true);
-    }else if(adding && timeDiff.isValid()) {
+    }else if(adding && timeDiff.isValid() && authManager.userId == props.campaign.userId) {
       setEndDate(newDate.toDate());
       setAdding(false);
     }

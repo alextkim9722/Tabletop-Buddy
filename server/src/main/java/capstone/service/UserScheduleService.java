@@ -82,8 +82,10 @@ public class UserScheduleService {
             for (UserSchedule us : userList) {
                 if(us.getUserScheduleId() != userSchedule.getUserScheduleId()) {
                     if (userSchedule.getStartDate().before(us.getEndDate()) && userSchedule.getStartDate().after(us.getStartDate())
-                            || userSchedule.getEndDate().before(us.getEndDate()) && userSchedule.getEndDate().after(us.getStartDate())) {
-                        result.addMessage("An overlap has been detected with user " + us.getUserId(), ResultType.INVALID);
+                            || userSchedule.getEndDate().before(us.getEndDate()) && userSchedule.getEndDate().after(us.getStartDate())
+                            || userSchedule.getEndDate().equals(us.getEndDate()) || userSchedule.getStartDate().equals(us.getStartDate())
+                            || userSchedule.getStartDate().equals(us.getEndDate()) || userSchedule.getEndDate().equals(us.getStartDate())) {
+                        result.addMessage("An overlap has been detected", ResultType.INVALID);
                     }
                 }
             }
