@@ -39,8 +39,9 @@ create table campaign (
     `type` varchar(250) not null,
     city varchar(250) not null,
     state varchar(250) not null,
-    session_count int not null,
+    session_count int not null default(0),
     max_players int not null,
+    current_players int not null default(0),
     constraint fk_campaign_user_id
         foreign key (user_id)
         references user(user_id)
@@ -49,8 +50,8 @@ create table campaign (
 create table session (
 	session_id int primary key auto_increment,
     campaign_id int not null,
-    start_date date not null,
-    end_date date not null,
+    start_date datetime not null,
+    end_date datetime not null,
     constraint fk_session_campaign_id
         foreign key (campaign_id)
         references campaign(campaign_id)
@@ -59,9 +60,9 @@ create table session (
 create table user_schedule (
 	user_schedule_id int primary key auto_increment,
     user_id int not null,
-    session_id int,
-    start_date date not null,
-    end_date date not null,
+    session_id int null,
+    start_date datetime not null,
+    end_date datetime not null,
     constraint fk_user_schedule_user_id
         foreign key (user_id)
         references user(user_id),

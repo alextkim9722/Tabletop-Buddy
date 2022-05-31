@@ -36,7 +36,7 @@ function Login() {
       body: JSON.stringify(credentials)
     }
 
-    fetch('http://localhost:8080/api/authenticate', init)
+    fetch(`${window.TABLETOPBUDDY_ROOT_URL}/authenticate`, init)
       .then(resp => {
         if (resp.status === 200) {
           return resp.json();

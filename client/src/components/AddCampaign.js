@@ -77,7 +77,7 @@ function AddCampaign({}) {
           body: JSON.stringify(newCampaign)
         };
 
-      fetch('http://localhost:8080/api/campaign', init)
+      fetch(`${window.TABLETOPBUDDY_ROOT_URL}/campaign`, init)
       .then(response => {
         switch (response.status) {
           case 201:
