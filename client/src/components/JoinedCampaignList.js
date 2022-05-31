@@ -60,18 +60,6 @@ function JoinedCampaignList() {
         return Promise.reject('Something went wrong on the server :)');
     })
     .then(body => {
-        /*
-        const filteredCampaigns = body.filter( (c) => (
-            body.map( (c) => ({
-                campaignId:c.campaignId,
-                userCampaignList:c.userList.filter((u) => (u.user.userId === authManager.userId))
-            }))
-            .filter( (c) => c.userCampaignList.length > 0 )
-            .filter( (c) => c.userCampaignList[0].user.userId === authManager.userId )
-            .map((c) => c.campaignId)
-            .includes(c.campaignId)) );
-            */
-
         setJoinedCampaignIds(
             body.map( (c) => ({
                 campaignId:c.campaignId,
@@ -237,6 +225,10 @@ function JoinedCampaignList() {
     .catch(err => console.error(err));
   }
 
+  const handleViewSelect = (campaign) => {
+    history.push(`/campaign/view/${campaign.campaignId}`);
+  }
+
   return (
     <>
       <div>
@@ -263,6 +255,7 @@ function JoinedCampaignList() {
                     <button className="btn btn-secondary" type="button" onClick={() => handleLeaveSelect(cmp)} >Leave</button>
                     :
                     <button className="btn btn-info" type="button" onClick={() => handleJoinSelect(cmp)} >Join</button>}
+                    <button className="btn btn-info" type="button" onClick={() => handleViewSelect(cmp)} >View</button>
                     </>) : null}
                 </td>
                 <td>

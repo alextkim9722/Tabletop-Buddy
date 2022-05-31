@@ -2,6 +2,7 @@ import NavBar from "./components/NavBar";
 import CampaignList from "./components/CampaignList";
 import AddCampaign from "./components/AddCampaign";
 import DeleteCampaign from "./components/DeleteCampaign";
+import CampaignDetailed from "./components/CampaignDetailed";
 import DeleteUser from "./components/DeleteUser";
 import Login from "./components/Login";
 import NotFound from "./components/NotFound";
@@ -69,6 +70,9 @@ function App() {
             </Route>
             <Route path="/campaign/add" >
               {authManager.user ? <AddCampaign /> : <Redirect to="/login" /> }
+            </Route>
+            <Route path="/campaign/view/:campaignId" >
+              {authManager.user ? <CampaignDetailed />  : <Redirect to="/login" /> }
             </Route>
             <Route path="/campaign/edit/:campaignId" >
               {authManager.user ? <UpdateCampaign />  : <Redirect to="/login" /> }

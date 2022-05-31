@@ -30,4 +30,5 @@ public class Campaign {
     @NonNull
     private int maxPlayers;
     private int currentPlayers;
+    private User user;
 }
