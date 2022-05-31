@@ -12,6 +12,11 @@ function JoinedCampaignList() {
   const [leaveSessions, setLeaveSessions] = useState(false);
   const [errors, setErrors] = useState([]);
 
+  const [searchType, setSearchType] = useState('');
+  const [searchPlayers, setSearchPlayers] = useState('');
+  const [searchSize, setSearchSize] = useState('');
+  const [searchStart, setSearcStart] = useState('');
+
   const history = useHistory();
 
   const authManager = useContext(AuthContext);

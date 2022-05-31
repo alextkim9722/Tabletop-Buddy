@@ -47,8 +47,6 @@ function Registration() {
                 }
 
                 if (resp.status === 400) {
-
-                    console.log(resp); 
                     return resp.text();
                 } 
 
