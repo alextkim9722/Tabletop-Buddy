@@ -15,7 +15,6 @@ function JoinedCampaignList() {
   const [searchType, setSearchType] = useState('');
   const [searchPlayers, setSearchPlayers] = useState('');
   const [searchSize, setSearchSize] = useState('');
-  const [searchStart, setSearcStart] = useState('');
 
   const history = useHistory();
 
@@ -55,6 +54,30 @@ function JoinedCampaignList() {
     })
     .catch(err => console.error(err));
   }
+
+  const filterList = (campaignList) => {
+    let mutatedCampaignList = campaignList;
+
+    if(searchType !== '') {
+      mutatedCampaignList = mutatedCampaignList.filter( (c) => (
+        c.type.includes(searchType)
+      ));
+    }
+
+    if(searchPlayers > 0) {
+      mutatedCampaignList = mutatedCampaignList.filter( (c) => (
+        c.currentPlayers == searchPlayers
+      ));
+    }
+
+    if(searchSize > 0) {
+      mutatedCampaignList = mutatedCampaignList.filter( (c) => (
+        c.sessionCount == searchSize
+      ));
+    }
+
+    return mutatedCampaignList;
+  }
   
   const getJoinedCampaignList = () => {
     return fetch(`${window.TABLETOPBUDDY_ROOT_URL}/campaign`)
@@ -66,7 +89,7 @@ function JoinedCampaignList() {
     })
     .then(body => {
         setJoinedCampaignIds(
-            body.map( (c) => ({
+            filterList(body).map( (c) => ({
                 campaignId:c.campaignId,
                 userCampaignList:c.userList.filter((u) => (u.user.userId === authManager.userId))
             }))
@@ -74,7 +97,7 @@ function JoinedCampaignList() {
             .filter( (c) => c.userCampaignList[0].user.userId === authManager.userId )
             .map((c) => c.campaignId));
             
-        const filteredCampaigns = body.filter( c => c.userId !== authManager.userId);
+        const filteredCampaigns = filterList(body).filter( c => c.userId !== authManager.userId);
         setCampaigns(filteredCampaigns);
     })
     .catch(err => console.error(err));
@@ -84,10 +107,12 @@ function JoinedCampaignList() {
         if(addSessions === true) {
             for(let i = 0;i < sessionIDs.length;i++) {
                 addSessionUser(sessionIDs[i].sessionId);
-                setAddSessions(false);
             }
 
+            let falseState = false;
+            setAddSessions(falseState);
             updateCampaignPlayerCount();
+            getJoinedCampaignList();
         }
     }, [addSessions]);
 
@@ -95,15 +120,17 @@ function JoinedCampaignList() {
         if(leaveSessions === true) {
             for(let i = 0;i < sessionIDs.length;i++) {
                 deleteSessionUser(sessionIDs[i].sessionId);
-                setLeaveSessions(false);
             }
 
+            let falseState = false;
+            setLeaveSessions(falseState);
             updateCampaignPlayerCount();
+            getJoinedCampaignList();
         }
         }, [leaveSessions]);
 
     useEffect(() => {
-        getJoinedCampaignList();
+      getJoinedCampaignList();
     }, []);
 
     const addSessionUser = (id) => {
@@ -129,7 +156,7 @@ function JoinedCampaignList() {
         fetch(`${window.TABLETOPBUDDY_ROOT_URL}/session/user`, init)
         .then(response => {
             if (response.status === 201) {
-                return;
+              return;
             }
             return Promise.reject('Something went wrong on the server :)');
         })
@@ -147,8 +174,6 @@ function JoinedCampaignList() {
           fetch(`${window.TABLETOPBUDDY_ROOT_URL}/session/user/${id}/${authManager.userId}`, deleteInit)
         .then(response => {
           if (response.status === 204) {
-              setLeaveSessions(false);
-              history.go(0);
             return;
           }
           return Promise.reject('Something went wrong :)');
@@ -158,28 +183,29 @@ function JoinedCampaignList() {
     const handleGetSessionIDs = (campaign) => {
         const sessionList = campaign.sessionList.map( (s) => ({sessionId:s.sessionId}));
         setSessionIDs(sessionList);
-        console.log(sessionList);
     }
 
   const handleJoinSelect = (campaign) => {
-    const newCampaignUser = {
-        campaignId:campaign.campaignId,
-        user: {
-            userId:authManager.userId,
-            username: "a",
-            city: "a",
-            state: "a"
-        }
-      };
+    if(campaign.currentPlayers < campaign.maxPlayers){
+      const newCampaignUser = {
+          campaignId:campaign.campaignId,
+          user: {
+              userId:authManager.userId,
+              username: "a",
+              city: "a",
+              state: "a"
+          }
+        };
 
-      const init = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
-        },
-        body: JSON.stringify(newCampaignUser)
-      };
+        const init = {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
+          },
+          body: JSON.stringify(newCampaignUser)
+        };
+
 
     fetch(`${window.TABLETOPBUDDY_ROOT_URL}/campaign/user`, init)
     .then(response => {
@@ -193,6 +219,7 @@ function JoinedCampaignList() {
         return Promise.reject('Something went wrong on the server :)');
     })
     .catch(err => console.error(err));
+
   }  
 
   const handleLeaveSelect =(campaign) => {
@@ -234,10 +261,42 @@ function JoinedCampaignList() {
     history.push(`/campaign/view/${campaign.campaignId}`);
   }
 
+  const handleType = (event) => {
+    setSearchType(event.target.value);
+  } 
+
+  const handlePlayerCount = (event) => {
+    setSearchPlayers(event.target.value);
+  } 
+
+  const handleSessionSize = (event) => {
+    setSearchSize(event.target.value);
+  }
+
+  const handleSearch = (event) => {
+    event.preventDefault();
+    getJoinedCampaignList();
+  }
+
   return (
     <>
       <div>
+        <Errors errors={errors}/>
         <h2 className="mt-5">Campaign List</h2>
+          <form>
+            <div className="form-inline">
+              <label htmlFor="type">Type:</label>
+              <input className="form-control" type="text" id="type" name="type" value={searchType} onChange={handleType} ></input>
+              &nbsp;
+              <label htmlFor="players">Player Count:</label>
+              <input className="form-control col-xs-2" type="number" id="playerCount" name="playerCount" value={searchPlayers} onChange={handlePlayerCount} ></input>
+              &nbsp;
+              <label htmlFor="size">Session Count:</label>
+              <input className="form-control col-xs-2" type="number" id="size" name="size" value={searchSize} onChange={handleSessionSize} ></input>
+              &nbsp;
+              <button className="btn btn-primary" type="search" onClick={handleSearch}>Filter</button>
+            </div>
+          </form>
         <table className="table table-sm">
           <thead>
             <tr>
@@ -261,6 +320,7 @@ function JoinedCampaignList() {
                     :
                     <button className="btn btn-info" type="button" onClick={() => handleJoinSelect(cmp)} >Join</button>}
                     </>) : null}
+                    &nbsp;
                     <button className="btn btn-info" type="button" onClick={() => handleViewSelect(cmp)} >View</button>
                 </td>
                 <td>

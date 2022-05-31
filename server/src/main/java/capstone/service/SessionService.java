@@ -18,6 +18,7 @@ public class SessionService {
     private final SessionRepository repository;
     private final UserScheduleRepository userRepository;
     private final SessionUserRepository sessionUserRepository;
+    private final CampaignRepository campaignRepository;
 
 
     public SessionService(SessionRepository repository, UserScheduleRepository userRepository,
@@ -25,6 +26,7 @@ public class SessionService {
         this.repository = repository;
         this.userRepository = userRepository;
         this.sessionUserRepository = sessionUserRepository;
+        this.campaignRepository = campaignRepository;
     }
 
     public Result<Session> create(Session session) {
@@ -106,19 +108,21 @@ public class SessionService {
                     result.addMessage("An overlap has been detected", ResultType.INVALID);
                 }
             }
+        }
 
-            List<SessionUser> userList = s.getUserList();
+        List<CampaignUser> userList = campaignRepository.findById(session.getCampaignId()).getUserList();
 
-            if(userList != null && !userList.isEmpty()) {
-                for (SessionUser su : userList) {
-                    List<UserSchedule> userSchedulesList = su.getUser().getUserScheduleList();
+        if(userList != null && !userList.isEmpty()) {
+            for (CampaignUser cu : userList) {
+                List<UserSchedule> userSchedulesList = userRepository.getFromUserId(cu.getUser().getUserId());
 
-                    if(userSchedulesList != null && !userSchedulesList.isEmpty()) {
-                        for (UserSchedule us : userSchedulesList) {
-                            if (session.getStartDate().before(us.getEndDate()) && session.getStartDate().after(us.getStartDate())
-                                    || session.getEndDate().before(us.getEndDate()) && session.getEndDate().after(us.getStartDate())) {
-                                result.addMessage("An overlap has been detected with user " + su.getUser().getUsername(), ResultType.INVALID);
-                            }
+                if(userSchedulesList != null && !userSchedulesList.isEmpty()) {
+                    for (UserSchedule us : userSchedulesList) {
+                        if (session.getStartDate().before(us.getEndDate()) && session.getStartDate().after(us.getStartDate())
+                                || session.getEndDate().before(us.getEndDate()) && session.getEndDate().after(us.getStartDate())
+                                || session.getEndDate().equals(us.getEndDate()) || session.getStartDate().equals(us.getStartDate())
+                                || session.getStartDate().equals(us.getEndDate()) || session.getEndDate().equals(us.getStartDate())) {
+                            result.addMessage("An overlap has been detected with user " + cu.getUser().getUsername(), ResultType.INVALID);
                         }
                     }
                 }

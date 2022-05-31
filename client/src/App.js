@@ -14,7 +14,6 @@ import { Route, Switch } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
 import jwtDecode from "jwt-decode";
-import Registration from "./components/Registration";
 
 const TOKEN = 'jwt_token';
 
