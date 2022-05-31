@@ -11,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ValidationException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -65,4 +66,11 @@ public class AuthController {
 
         return new ResponseEntity<>(map, HttpStatus.CREATED);
     }
+
+    @ExceptionHandler(ValidationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<?> handleValidationException(ValidationException validationException) {
+        return new ResponseEntity<>(validationException.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
 }

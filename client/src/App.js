@@ -14,6 +14,7 @@ import { Route, Switch } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
 import jwtDecode from "jwt-decode";
+import Registration from "./components/Registration";
 
 const TOKEN = 'jwt_token';
 
@@ -82,6 +83,9 @@ function App() {
             </Route>
             <Route path="/login" >
               {authManager.user ? <Redirect to="/" /> : <Login />}
+            </Route>
+            <Route path="/register" >
+              {authManager.user ? <Redirect to ="/" /> : <Registration /> }
             </Route>
             <Route path="/userSchedule" >
               {authManager.user ? <UserScheduleList /> : <Redirect to="/login" />}

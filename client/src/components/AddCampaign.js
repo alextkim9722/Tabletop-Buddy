@@ -95,6 +95,7 @@ function AddCampaign({}) {
         if (json.campaignId) {
           history.push('/campaign');
         } else {
+          console.log(json); 
           setErrors(json);
         }
       })
