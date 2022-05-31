@@ -1,0 +1,11 @@
+version: "3.9"
+
+services:
+  tabletop-buddy-api:
+    image: jcarls98/tabletopbuddy-api:2.0 
+    environment:
+      - DB_URL=jdbc:mysql://tabletop-buddy.clzmlx7apkst.us-east-1.rds.amazonaws.com
+      - DB_USERNAME=admin
+      - DB_PASSWORD=MementoMori60
+    ports:
+      - 8080:8080
