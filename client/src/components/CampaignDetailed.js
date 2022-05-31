@@ -25,7 +25,7 @@ function CampaignDetailed() {
   const { campaignId } = useParams();
 
   useEffect(() => {
-    fetch(`http://localhost:8080/api/campaign/${campaignId}`)
+    fetch(`${window.TABLETOPBUDDY_ROOT_URL}/campaign/${campaignId}`)
     .then(response => {
       if (response.status === 200) {
         return response.json();
@@ -56,9 +56,9 @@ function CampaignDetailed() {
   }, []);
 
   useEffect(() => {
-    let url = `http://localhost:8080/api/user/id/${userId}`;
+    let url = `${window.TABLETOPBUDDY_ROOT_URL}/user/id/${userId}`;
 
-    if(url !== `http://localhost:8080/api/user/id/`){
+    if(url !== `${window.TABLETOPBUDDY_ROOT_URL}/user/id/`){
       fetch(url)
       .then(response => {
         if (response.status === 200) {

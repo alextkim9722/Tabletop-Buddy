@@ -14,7 +14,7 @@ function DeleteUser() {
       } 
     
     
-    useEffect(() => { if(deleteNow) {
+    useEffect(() => { if (deleteNow) {
         if(user !== {}){
         const init = {
             method: 'DELETE',
@@ -22,7 +22,7 @@ function DeleteUser() {
                 Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
             }
     }
-    fetch(`http://localhost:8080/api/user/${user.userId}`, init)
+    fetch(`${window.TABLETOPBUDDY_ROOT_URL}/user/${user.userId}`, init)
     .then(response => {
         switch (response.status) {
             case 204: 
@@ -59,7 +59,7 @@ function DeleteUser() {
             }
         };
 
-        return fetch(`http://localhost:8080/api/user/${username}`, init)
+        return fetch(`${window.TABLETOPBUDDY_ROOT_URL}/user/${username}`, init)
         .then(response => {
             switch (response.status) {
                 case 200:

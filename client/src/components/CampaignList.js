@@ -13,7 +13,7 @@ function Campaigns() {
   const authManager = useContext(AuthContext);
   
   let getCampaigns = () => {
-    return fetch('http://localhost:8080/api/campaign')
+    return fetch(`${window.TABLETOPBUDDY_ROOT_URL}/campaign`)
     .then(response => {
       if (response.status ===200) {
         return response.json()

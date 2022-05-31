@@ -41,7 +41,7 @@ function SessionList(props) {
         body: JSON.stringify(updatedCampaign)
     };
       
-    fetch(`http://localhost:8080/api/campaign/${CampaignId}`, init)
+    fetch(`${window.TABLETOPBUDDY_ROOT_URL}/campaign/${CampaignId}`, init)
     .then(response => {
         switch (response.status) {
             case 204:
@@ -67,7 +67,7 @@ function SessionList(props) {
 
   let getSession = () => {
     const id = props.campaign.campaignId;
-    return fetch(`http://localhost:8080/api/session/camp/${id}`)
+    return fetch(`${window.TABLETOPBUDDY_ROOT_URL}/session/camp/${id}`)
     .then(response => {
         if (response.status ===200) {
             return response.json()
@@ -115,7 +115,7 @@ function SessionList(props) {
         }
       }
 
-      fetch(`http://localhost:8080/api/session/${id}`, init)
+      fetch(`${window.TABLETOPBUDDY_ROOT_URL}/session/${id}`, init)
       .then(response => {
         if (response.status === 204) {
           setSuccessfulDelete(true);
@@ -144,7 +144,7 @@ function SessionList(props) {
       body: JSON.stringify(newSession)
     };
 
-    fetch('http://localhost:8080/api/session', init)
+    fetch(`${window.TABLETOPBUDDY_ROOT_URL}/session`, init)
     .then(response => {
       switch (response.status) {
         case 201:

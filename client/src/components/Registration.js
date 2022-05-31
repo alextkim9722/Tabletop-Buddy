@@ -40,7 +40,7 @@ function Registration() {
             body: JSON.stringify(credentials)
         }
 
-        fetch('http://localhost:8080/api/create_account', init)
+        fetch(`${window.TABLETOPBUDDY_ROOT_URL}/create_account`, init)
             .then(resp => {
                 if (resp.status === 201) {
                     return null;

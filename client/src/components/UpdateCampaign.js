@@ -23,7 +23,7 @@ function UpdateCampaign() {
     const { campaignId } = useParams();
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/campaign/${campaignId}`)
+        fetch(`${window.TABLETOPBUDDY_ROOT_URL}/campaign/${campaignId}`)
         .then(response => {
             if (response.status === 200) {
               return response.json();
@@ -111,7 +111,7 @@ function UpdateCampaign() {
           };
 
           
-    fetch(`http://localhost:8080/api/campaign/${campaignId}`, init)
+    fetch(`${window.TABLETOPBUDDY_ROOT_URL}/campaign/${campaignId}`, init)
     .then(response => {
       switch (response.status) {
         case 204:
