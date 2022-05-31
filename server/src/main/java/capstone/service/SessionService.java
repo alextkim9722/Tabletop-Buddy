@@ -93,14 +93,16 @@ public class SessionService {
         }
 
         if (session.getStartDate().after(session.getEndDate())) {
-            result.addMessage("start date should be after the end date", ResultType.INVALID);
+            result.addMessage("start date should be before the end date", ResultType.INVALID);
         }
 
         List<Session> sessionList = repository.getFromCampaignId(session.getCampaignId());
         for(Session s : sessionList) {
             if(s.getSessionId() != session.getSessionId()) {
                 if (session.getStartDate().before(s.getEndDate()) && session.getStartDate().after(s.getStartDate())
-                        || session.getEndDate().before(s.getEndDate()) && session.getEndDate().after(s.getStartDate())) {
+                        || session.getEndDate().before(s.getEndDate()) && session.getEndDate().after(s.getStartDate())
+                        || session.getEndDate().equals(s.getEndDate()) || session.getStartDate().equals(s.getStartDate())
+                        || session.getStartDate().equals(s.getEndDate()) || session.getEndDate().equals(s.getStartDate())) {
                     result.addMessage("An overlap has been detected", ResultType.INVALID);
                 }
             }

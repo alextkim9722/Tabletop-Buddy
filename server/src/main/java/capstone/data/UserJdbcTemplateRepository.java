@@ -71,6 +71,27 @@ public class UserJdbcTemplateRepository implements UserRepository{
     }
 
     @Override
+    public User findById(int id) {
+        List<String> roles = getRoledById(id);
+
+        final String sql = "select user_id, username, password_hash, city, state, `description`, disabled "
+                + "from user "
+                + "where user_id = ?;";
+
+        User user = jdbcTemplate.query(sql, new UserMapper(roles), id).stream()
+                .findFirst().orElse(null);
+
+        if (user != null) {
+            addHostedCampaigns(user);
+            addUserSchedule(user);
+            addJoinedCampaign(user);
+            addJoinedSessions(user);
+        }
+
+        return user;
+    }
+
+    @Override
     public void update(User user) {
 
         final String sql = "update user set "
@@ -179,6 +200,14 @@ public class UserJdbcTemplateRepository implements UserRepository{
                 + "inner join user au on ur.user_id = au.user_id "
                 + "where au.username = ?";
         return jdbcTemplate.query(sql, (rs, rowId) -> rs.getString("name"), username);
+    }
+
+    private List<String> getRoledById(int id) {
+        final String sql = "select r.name "
+                + "from user_role ur "
+                + "inner join role r on ur.role_id = r.role_id "
+                + "where ur.user_id = ?";
+        return jdbcTemplate.query(sql, (rs, rowId) -> rs.getString("name"), id);
     }
 
     private void addHostedCampaigns(User user) {

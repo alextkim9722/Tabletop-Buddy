@@ -34,6 +34,16 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
+    public UserDetails loadUserById(int id) throws UsernameNotFoundException {
+        User user = repository.findById(id);
+
+        if (user == null || !user.isEnabled()) {
+            throw new UsernameNotFoundException(id + " not found");
+        }
+
+        return user;
+    }
+
     public User create(String username, String password, String city, String state, String description) {
         validateName(username);
         validatePassword(password);

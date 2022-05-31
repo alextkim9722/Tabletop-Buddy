@@ -49,6 +49,8 @@ function Registration() {
 
                 if (resp.status === 400) {
                     return resp.json();
+                }else if(resp.status === 500) {
+                    return resp.json();
                 }
 
                 return Promise.reject('Something went wrong on the server :)');

@@ -255,8 +255,8 @@ function JoinedCampaignList() {
                     <button className="btn btn-secondary" type="button" onClick={() => handleLeaveSelect(cmp)} >Leave</button>
                     :
                     <button className="btn btn-info" type="button" onClick={() => handleJoinSelect(cmp)} >Join</button>}
-                    <button className="btn btn-info" type="button" onClick={() => handleViewSelect(cmp)} >View</button>
                     </>) : null}
+                    <button className="btn btn-info" type="button" onClick={() => handleViewSelect(cmp)} >View</button>
                 </td>
                 <td>
                   &nbsp;

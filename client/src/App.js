@@ -9,6 +9,7 @@ import NotFound from "./components/NotFound";
 import UpdateCampaign from "./components/UpdateCampaign";
 import UserScheduleList from "./components/UserScheduleList";
 import AuthContext from "./AuthContext";
+import Registration from "./components/Registration";
 
 import { Route, Switch } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -66,13 +67,13 @@ function App() {
               <About />
             </Route>
             <Route exact path="/campaign" >
-            {authManager.user ? <CampaignList /> : <Redirect to="/login" /> }
+              <CampaignList />
             </Route>
             <Route path="/campaign/add" >
               {authManager.user ? <AddCampaign /> : <Redirect to="/login" /> }
             </Route>
             <Route path="/campaign/view/:campaignId" >
-              {authManager.user ? <CampaignDetailed />  : <Redirect to="/login" /> }
+              <CampaignDetailed />
             </Route>
             <Route path="/campaign/edit/:campaignId" >
               {authManager.user ? <UpdateCampaign />  : <Redirect to="/login" /> }
@@ -85,6 +86,9 @@ function App() {
             </Route>
             <Route path="/userSchedule" >
               {authManager.user ? <UserScheduleList /> : <Redirect to="/login" />}
+            </Route>
+            <Route path="/register" >
+              {authManager.user ? <Redirect to="/login" /> : <Registration />}
             </Route>
             <Route path="/user" >
               {authManager.hasRole('admin') ? <DeleteUser /> : <Redirect to="/" /> }

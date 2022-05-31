@@ -15,6 +15,7 @@ function CampaignDetailed() {
   const [playerCount, setPlayerCount] = useState('');
   const [maxPlayers, setMaxPlayers] = useState('');
   const [userId, setUserId] = useState('');
+  const [gameMasterName, setGameMasterName] = useState('');
 
   const [init, setInit] = useState(false);
 
@@ -54,15 +55,38 @@ function CampaignDetailed() {
     .catch(err => console.error(err));
   }, []);
 
-  const handleAddSelect = () => {
-      history.push(`/campaign/add`);
-  }
+  useEffect(() => {
+    let url = `http://localhost:8080/api/user/id/${userId}`;
 
-  const handleEditSelect =(campaign) => {
+    if(url !== `http://localhost:8080/api/user/id/`){
+      fetch(url)
+      .then(response => {
+        if (response.status === 200) {
+          return response.json();
+        }
+
+        if (response.status === 404) {
+          history.push('/not-found');
+          return null;
+        }else if(response.status == 500) {
+          return response.json();
+        }
+        return Promise.reject('Something went wrong on the server :)');
+      })
+      .then(body => {
+        if (body) {
+          setGameMasterName(body.username);
+        }
+      })
+      .catch(err => console.error(err));
+    }
+  }, [userId]);
+
+  const handleEditSelect =() => {
       history.push(`/campaign/edit/${campaign.campaignId}`);
   }
 
-  const handleDeleteSelect = (campaign) => {
+  const handleDeleteSelect = () => {
       history.push(`/campaign/delete/${campaign.campaignId}`);
   }
 
@@ -73,7 +97,7 @@ function CampaignDetailed() {
         <tbody>
           <tr>
             <th>Gamemaster</th>
-            <td>{userId}</td>
+            <td>{gameMasterName}</td>
           </tr>
           <tr>
             <th>Type</th>
@@ -98,6 +122,11 @@ function CampaignDetailed() {
         </tbody>
       </table>
       <p>{description}</p>
+      {authManager.userId == userId ? (<>
+        <button className="btn btn-info" type="button" onClick={handleEditSelect} >Edit</button>
+        &nbsp;
+        <button className="btn btn-secondary" type="button" onClick={handleDeleteSelect} >Delete</button>
+        </>) : null}
       <SessionList campaign={campaign}/>
     </>
   )

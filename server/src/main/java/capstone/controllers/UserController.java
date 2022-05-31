@@ -26,6 +26,15 @@ public class UserController {
         return new ResponseEntity<>(userRetrieved, HttpStatus.OK);
     }
 
+    @GetMapping("/id/{userId}")
+    public ResponseEntity<?> getByUsername(@PathVariable int userId) {
+        UserDetails userRetrieved = userService.loadUserById(userId);
+        if (userRetrieved == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(userRetrieved, HttpStatus.OK);
+    }
+
     @DeleteMapping("/{userId}")
     public ResponseEntity<Void> deleteById(@PathVariable int userId) {
         if (userService.deleteById(userId)) {
