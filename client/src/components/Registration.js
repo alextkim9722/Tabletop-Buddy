@@ -15,7 +15,6 @@ function Registration() {
     const [credentials, setCredentials] = useState(DEFAULT_LOGIN);
     const [errors, setErrors] = useState([]);
 
-    const history = useHistory();
 
     const handleChange = (event) => {
         const replacementCredentials = { ...credentials };
@@ -48,21 +47,20 @@ function Registration() {
                 }
 
                 if (resp.status === 400) {
-                    return resp.json();
-                }else if(resp.status === 500) {
-                    return resp.json();
-                }
+
+                    console.log(resp); 
+                    return resp.text();
+                } 
 
                 return Promise.reject('Something went wrong on the server :)');
             })
             .then(json => {
+                return [json]; 
+            })
+            .then(json => {
                 if (json) {
-                    setErrors(json)
-                } else {
-                    history.push('/login');
+                    setErrors(json);
                 }
-
-
             })
             .catch(err => console.error(err));
     }
