@@ -9,7 +9,6 @@ import NotFound from "./components/NotFound";
 import UpdateCampaign from "./components/UpdateCampaign";
 import UserScheduleList from "./components/UserScheduleList";
 import AuthContext from "./AuthContext";
-import Registration from "./components/Registration";
 
 import { Route, Switch } from "react-router-dom";
 import { useEffect, useState } from "react";

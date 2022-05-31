@@ -21,7 +21,7 @@ function UserScheduleList() {
   const authManager = useContext(AuthContext);
 
   let getUserSchedule = () => {
-    return fetch(`http://localhost:8080/api/userSchedule/${authManager.userId}`)
+    return fetch(`${window.TABLETOPBUDDY_ROOT_URL}/userSchedule/${authManager.userId}`)
     .then(response => {
         if (response.status ===200) {
             return response.json()
@@ -64,7 +64,7 @@ function UserScheduleList() {
       }
     }
 
-    fetch(`http://localhost:8080/api/userSchedule/${id}`, init)
+    fetch(`${window.TABLETOPBUDDY_ROOT_URL}/userSchedule/${id}`, init)
     .then(response => {
       if (response.status === 204) {
         setSuccessfulDelete(true);
@@ -93,7 +93,7 @@ function UserScheduleList() {
       body: JSON.stringify(newUserSchedule)
     };
 
-    fetch('http://localhost:8080/api/userSchedule', init)
+    fetch(`${window.TABLETOPBUDDY_ROOT_URL}/userSchedule`, init)
     .then(response => {
       switch (response.status) {
         case 201:

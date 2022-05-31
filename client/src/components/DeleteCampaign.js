@@ -20,7 +20,7 @@ function DeleteCampaign() {
     const [campaignUserId, setCampaignUserId] = useState(authManager.userId);
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/campaign/${campaignId}`)
+        fetch(`${window.TABLETOPBUDDY_ROOT_URL}/campaign/${campaignId}`)
           .then(response => {
             if (response.status === 200) {
               return response.json();
@@ -75,7 +75,7 @@ function DeleteCampaign() {
           body: JSON.stringify(campaignToDelete)
         };
 
-        fetch(`http://localhost:8080/api/campaign/${campaignId}`, deleteInit)
+        fetch(`${window.TABLETOPBUDDY_ROOT_URL}/campaign/${campaignId}`, deleteInit)
       .then(response => {
         if (response.status === 204) {
           return;

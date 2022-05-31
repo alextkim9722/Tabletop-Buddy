@@ -31,7 +31,7 @@ function JoinedCampaignList() {
     };
 
       
-    fetch(`http://localhost:8080/api/campaign/${targetCampaign.campaignId}`, init)
+    fetch(`${window.TABLETOPBUDDY_ROOT_URL}/campaign/${targetCampaign.campaignId}`, init)
     .then(response => {
         switch (response.status) {
             case 204:
@@ -80,7 +80,7 @@ function JoinedCampaignList() {
   }
   
   const getJoinedCampaignList = () => {
-    return fetch('http://localhost:8080/api/campaign')
+    return fetch(`${window.TABLETOPBUDDY_ROOT_URL}/campaign`)
     .then(response => {
         if (response.status ===200) {
             return response.json()
@@ -153,7 +153,7 @@ function JoinedCampaignList() {
             body: JSON.stringify(newSessionUser)
           };
     
-        fetch('http://localhost:8080/api/session/user', init)
+        fetch(`${window.TABLETOPBUDDY_ROOT_URL}/session/user`, init)
         .then(response => {
             if (response.status === 201) {
               return;
@@ -171,7 +171,7 @@ function JoinedCampaignList() {
             },
           };
     
-          fetch(`http://localhost:8080/api/session/user/${id}/${authManager.userId}`, deleteInit)
+          fetch(`${window.TABLETOPBUDDY_ROOT_URL}/session/user/${id}/${authManager.userId}`, deleteInit)
         .then(response => {
           if (response.status === 204) {
             return;
@@ -206,20 +206,20 @@ function JoinedCampaignList() {
           body: JSON.stringify(newCampaignUser)
         };
 
-      fetch('http://localhost:8080/api/campaign/user', init)
-      .then(response => {
-          if (response.status === 201) {
-              handleGetSessionIDs(campaign);
-              setTargetCampaign(campaign);
-              setAddSessions(true);
-              return;
-          }
-          return Promise.reject('Something went wrong on the server :)');
-      })
-      .catch(err => console.error(err));
-    }else{
-      setErrors(["Campaign is full."]);
-    }
+
+    fetch(`${window.TABLETOPBUDDY_ROOT_URL}/campaign/user`, init)
+    .then(response => {
+        if (response.status === 201) {
+            handleGetSessionIDs(campaign);
+            setTargetCampaign(campaign);
+            setAddSessions(true);
+            history.go(0);
+            return;
+        }
+        return Promise.reject('Something went wrong on the server :)');
+    })
+    .catch(err => console.error(err));
+
   }  
 
   const handleLeaveSelect =(campaign) => {
@@ -230,7 +230,7 @@ function JoinedCampaignList() {
         },
       };
 
-      fetch(`http://localhost:8080/api/campaign/user/${campaign.campaignId}/${authManager.userId}`, deleteInit)
+      fetch(`${window.TABLETOPBUDDY_ROOT_URL}/campaign/user/${campaign.campaignId}/${authManager.userId}`, deleteInit)
     .then(response => {
       if (response.status === 204) {
         handleGetSessionIDs(campaign);
