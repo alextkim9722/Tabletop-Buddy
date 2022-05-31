@@ -170,6 +170,6 @@ public class CampaignJdbcTemplateRepository implements CampaignRepository{
 
         var campaignUsers = jdbcTemplate.query(sql, new CampaignUserMapper(), campaign.getCampaignId());
         campaign.setUserList(campaignUsers);
-        campaign.setCurrentPlayers(campaignUsers.size());
+        campaign.setCurrentPlayers(campaign.getUserList().size());
     }
 }
