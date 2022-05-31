@@ -9,11 +9,11 @@ import AuthContext from "../AuthContext";
 import Errors from "./Errors";
 import moment from 'moment';
 
-function SessionList({campaign}) {
+function SessionList(props) {
   const [event, setEvents] = useState([]);
   const [successfulDelete, setSuccessfulDelete] = useState(false);
   const [startDate, setStartDate] = useState('');
-  const [campaignId, setCampaignId] = useState(campaign.campaignId);
+  const [CampaignId, setCampaignId] = useState(props.campaign.campaignId);
   const [endDate, setEndDate] = useState('');
   const [adding, setAdding] = useState(false);
   const [errors, setErrors] = useState([]);
@@ -27,11 +27,11 @@ function SessionList({campaign}) {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
         },
-        body: JSON.stringify(campaign)
+        body: JSON.stringify(props.campaign)
     };
 
       
-    fetch(`http://localhost:8080/api/campaign/${campaignId}`, init)
+    fetch(`http://localhost:8080/api/campaign/1`, init)
     .then(response => {
         switch (response.status) {
             case 204:
@@ -56,7 +56,8 @@ function SessionList({campaign}) {
   }
 
   let getSession = () => {
-    return fetch(`http://localhost:8080/api/userSchedule/${campaignId}`)
+    const id = props.campaign.campaignId;
+    return fetch(`http://localhost:8080/api/session/camp/${id}`)
     .then(response => {
         if (response.status ===200) {
             return response.json()
@@ -89,8 +90,11 @@ function SessionList({campaign}) {
   }, [endDate])
 
   useEffect(() => {
-    getSession();
-  }, []);
+    setCampaignId(props.campaign.campaignId);
+    if(props.campaign.campaignId) {
+      getSession();
+    }
+  }, [props.campaign.campaignId]);
 
   const handleSessionDelete = (id) => {
     const init = {
@@ -113,8 +117,8 @@ function SessionList({campaign}) {
   }
 
   const handleSessionAdd = () => {
-    const newUserSchedule = {
-      campaignId,
+    const newSession = {
+      CampaignId,
       startDate,
       endDate
     };
@@ -125,7 +129,7 @@ function SessionList({campaign}) {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
       },
-      body: JSON.stringify(newUserSchedule)
+      body: JSON.stringify(newSession)
     };
 
     fetch('http://localhost:8080/api/session', init)
@@ -144,7 +148,7 @@ function SessionList({campaign}) {
     })
     .then(json => {
       if (json.sessionId) {
-        getUserSchedule();
+        getSession();
       }else{
         setErrors(json);
       }
