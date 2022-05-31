@@ -21,17 +21,27 @@ function SessionList(props) {
   const authManager = useContext(AuthContext);
 
   const updateSessionCount = () => {
+    const updatedCampaign = {
+      campaignId:CampaignId,
+      name: props.campaign.name,
+      userId: authManager.userId,
+      description: props.campaign.description,
+      type: props.campaign.type,
+      city: props.campaign.city,
+      state: props.campaign.state,
+      maxPlayers: props.campaign.maxPlayers
+    }
+
     const init = {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
         },
-        body: JSON.stringify(props.campaign)
+        body: JSON.stringify(updatedCampaign)
     };
-
       
-    fetch(`http://localhost:8080/api/campaign/1`, init)
+    fetch(`http://localhost:8080/api/campaign/${CampaignId}`, init)
     .then(response => {
         switch (response.status) {
             case 204:

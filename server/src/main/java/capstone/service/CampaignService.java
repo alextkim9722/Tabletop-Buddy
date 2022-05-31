@@ -65,15 +65,15 @@ public class CampaignService {
             return result;
         }
 
-        if (!campaignRepository.update(campaign)) {
-            String message = String.format("campaignId: %s, not found", campaign.getCampaignId());
-            result.addMessage(message, ResultType.NOT_FOUND);
-            return result;
-        }
-
         Campaign campaignToBeUpdated = findById(campaign.getCampaignId());
         if (campaign.getUserId() != campaignToBeUpdated.getUserId()) {
             result.addMessage("You must be the game master to edit this campaign", ResultType.INVALID);
+            return result;
+        }
+
+        if (!campaignRepository.update(campaign)) {
+            String message = String.format("campaignId: %s, not found", campaign.getCampaignId());
+            result.addMessage(message, ResultType.NOT_FOUND);
             return result;
         }
 
