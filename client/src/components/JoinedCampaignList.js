@@ -353,5 +353,5 @@ function JoinedCampaignList() {
     </>
   )
 }
-
+}
 export default JoinedCampaignList;

@@ -4,6 +4,6 @@ services:
   tabletopbuddy-ui:
     image: jcarls98/tabletopbuddy-react:2.0
     environment:
-      - TABLETOPBUDDY_ROOT_URL=http://Tabletopbuddy-api-env.eba-zapjjh5b.us-east-1.elasticbeanstalk.com/api 
+      - TABLETOPBUDDY_ROOT_URL=http://Tabletopbuddy-api-env-2.eba-zapjjh5b.us-east-1.elasticbeanstalk.com/api 
     ports:
       - 80:80
