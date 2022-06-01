@@ -8,6 +8,7 @@ import Login from "./components/Login";
 import NotFound from "./components/NotFound";
 import UpdateCampaign from "./components/UpdateCampaign";
 import UserScheduleList from "./components/UserScheduleList";
+import Registration from "./components/Registration";
 import AuthContext from "./AuthContext";
 
 import { Route, Switch } from "react-router-dom";
