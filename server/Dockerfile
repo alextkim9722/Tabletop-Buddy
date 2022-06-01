@@ -8,6 +8,7 @@ RUN mvn package -DskipTests -f pom.xml
 FROM eclipse-temurin:17-jre-alpine
 
 
+
 EXPOSE 8080/tcp
 WORKDIR /home/app
 COPY --from=builder /home/app/target/TabletopBuddy_Server-1.0-SNAPSHOT.jar app.jar
