@@ -100,7 +100,9 @@ create table session_user (
 insert into role (`name`) values
     ('USER'),
     ('ADMIN');
+    
+insert into user (username, password_hash, city, state, disabled, `description`) values
+	("admin", "$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa", "LA", "california", 0, "The Admin");
 
-delete from user_schedule where session_id = 1;
-select * from session;
-delete from session where session_id = 12;
+insert into user_role(user_id, role_id) values
+	(1, 2);

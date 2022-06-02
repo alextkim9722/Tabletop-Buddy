@@ -129,11 +129,7 @@ function CampaignDetailed() {
         &nbsp;
         <button className="btn btn-secondary" type="button" onClick={handleDeleteSelect} >Delete</button>
         </>) : 
-        (<>
-        <button className="btn btn-info" type="button" >Join</button>
-        &nbsp;
-        <button className="btn btn-secondary" type="button" >Leave</button>
-        </>)} </>
+        null} </>
         :
         null
       }

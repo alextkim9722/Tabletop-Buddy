@@ -75,6 +75,10 @@ function SessionList(props) {
 
     console.log(tempUserList);
 
+    if(tempUserList.length <= 0) {
+      setUserEvents([]);
+    }
+
     for(let i = 0;i < tempUserList.length;i++) {
       fetch(`${window.TABLETOPBUDDY_ROOT_URL}/userSchedule/${tempUserList[i].user.userId}`)
       .then(response => {
@@ -102,6 +106,7 @@ function SessionList(props) {
       .catch(err => console.error(err));
     }
 
+    if(authManager.userId === props.campaign.userId){
     fetch(`${window.TABLETOPBUDDY_ROOT_URL}/userSchedule/${authManager.userId}`)
       .then(response => {
           if (response.status ===200) {
@@ -126,6 +131,7 @@ function SessionList(props) {
         setGmEvents(eventList);
       })
       .catch(err => console.error(err));
+    }
   }
 
   const getSession = () => {

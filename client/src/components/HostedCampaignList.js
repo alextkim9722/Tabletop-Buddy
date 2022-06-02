@@ -53,7 +53,6 @@ function HostedCampaignList() {
             <thead>
             <tr>
                 <th scope="col"></th>
-                <th scope="col">#</th>
                 <th scope="col">Name</th>
                 <th scope="col">Type</th>
                 <th scope="col">City</th>
@@ -73,10 +72,6 @@ function HostedCampaignList() {
                     &nbsp;
                     <button className="btn btn-info" type="button" onClick={() => handleViewSelect(cmp)} >View</button>
                     </>) : null}
-                </td>
-                <td>
-                    &nbsp;
-                    {i + 1}
                 </td>
                 <td>
                     {cmp.name}

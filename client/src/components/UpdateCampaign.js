@@ -97,7 +97,6 @@ function UpdateCampaign() {
               type,
               city,
               state,
-              sessionCount,
               maxPlayers
           };
 
@@ -159,9 +158,6 @@ return (
           
           <label htmlFor="state">State:</label>
           <input className="form-control" type="text" id="state" name="state" value={state} onChange={handleState} ></input>
-
-          <label htmlFor="sessionCount">Session Count:</label>
-          <input className="form-control" type="number" id="sessionCount" name="sessionCount" value={sessionCount} onChange={handleSessionCount} ></input>
 
           <label htmlFor="maxPlayers">Max Players:</label>
           <input className="form-control" type="number" id="maxPlayers" name="maxPlayers" value={maxPlayers} onChange={handleMaxPlayers} ></input>
