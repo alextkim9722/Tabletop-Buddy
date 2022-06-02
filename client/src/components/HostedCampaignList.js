@@ -58,7 +58,8 @@ function HostedCampaignList() {
                 <th scope="col">Type</th>
                 <th scope="col">City</th>
                 <th scope="col">State</th>
-                <th scope="col">Next Session</th>
+                <th scope="col">Session Count</th>
+                <th scope="col">Player Count</th>
             </tr>
             </thead>
             <tbody>
@@ -90,8 +91,11 @@ function HostedCampaignList() {
                     {cmp.state}
                     </td>
                     <td>
-                    {cmp.nextSession}
-                    </td>
+                    {cmp.sessionCount}
+                  </td>
+                  <td>
+                    {cmp.currentPlayers + '/' + cmp.maxPlayers}
+                  </td>
                 </tr>
             ))}
             </tbody>

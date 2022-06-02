@@ -54,4 +54,12 @@ public class UserScheduleController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    @DeleteMapping("/su/{sessionId}/{userId}")
+    public ResponseEntity<Void> deleteById(@PathVariable int sessionId, @PathVariable int userId) {
+        if (service.delete(sessionId, userId)) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 }

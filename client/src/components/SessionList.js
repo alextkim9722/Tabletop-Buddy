@@ -14,8 +14,11 @@ function SessionList(props) {
   const [successfulDelete, setSuccessfulDelete] = useState(false);
   const [startDate, setStartDate] = useState('');
   const [CampaignId, setCampaignId] = useState(props.campaign.campaignId);
+  const [userList, setUserList] = useState(props.campaign.userList);
+  const [currentId, setCurrentId] = useState(``);
   const [endDate, setEndDate] = useState('');
   const [adding, setAdding] = useState(false);
+  const [addUsers, setAddingUsers] = useState(false);
   const [errors, setErrors] = useState([]);
   const history = useHistory();
   const authManager = useContext(AuthContext);
@@ -88,6 +91,40 @@ function SessionList(props) {
       }
 
       setEvents(eventList);
+
+      console.log(event);
+    })
+    .catch(err => console.error(err));
+  }
+
+  const handleUserAdds = (id) => {
+
+    console.log(currentId);
+
+    const newUserSchedule = {
+      sessionId: currentId,
+      userId:id,
+      startDate,
+      endDate
+    };
+
+    console.log(newUserSchedule);
+
+    const initUS = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
+      },
+      body: JSON.stringify(newUserSchedule)
+    };
+
+    fetch(`${window.TABLETOPBUDDY_ROOT_URL}/userSchedule`, initUS)
+    .then(response => {
+      if (response.status === 201) {
+        return;
+      }
+      return Promise.reject('Something went wrong on the server :)');
     })
     .catch(err => console.error(err));
   }
@@ -96,11 +133,25 @@ function SessionList(props) {
     if(endDate !== ''){
       handleSessionAdd();
       updateSessionCount();
+      let addUsers = true;
+      setAddingUsers(addUsers);
     }
-  }, [endDate])
+  }, [endDate]);
+
+  useEffect(() => {
+    if(endDate !== '' && addUsers && event.length > 0) {
+      for(let i = 0;i < userList.length;i++) {
+        console.log(userList[i]);
+        handleUserAdds(userList[i].user.userId);
+      }
+
+      setAddingUsers(false);
+    }
+  }, [addUsers, event])
 
   useEffect(() => {
     setCampaignId(props.campaign.campaignId);
+    setUserList(props.campaign.userList);
     if(props.campaign.campaignId) {
       getSession();
     }
@@ -161,6 +212,7 @@ function SessionList(props) {
     .then(json => {
       if (json.sessionId) {
         getSession();
+        setCurrentId(json.sessionId);
       }else{
         setErrors(json);
       }

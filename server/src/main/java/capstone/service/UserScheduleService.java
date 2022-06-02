@@ -53,6 +53,8 @@ public class UserScheduleService {
 
     public boolean delete(int id) { return repository.deleteById(id); }
 
+    public boolean delete(int sessionId, int userId) {return repository.deleteBySessionId(sessionId,userId);}
+
     public List<UserSchedule> getFromUserId(int id) { return repository.getFromUserId(id); }
 
     private Result<UserSchedule> validate(UserSchedule userSchedule) {

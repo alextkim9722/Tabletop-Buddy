@@ -106,7 +106,7 @@ function JoinedCampaignList() {
     useEffect(() => {
         if(addSessions === true) {
             for(let i = 0;i < sessionIDs.length;i++) {
-                addSessionUser(sessionIDs[i].sessionId);
+              addSessionUser(i);
             }
 
             let falseState = false;
@@ -119,7 +119,7 @@ function JoinedCampaignList() {
     useEffect(() => {
         if(leaveSessions === true) {
             for(let i = 0;i < sessionIDs.length;i++) {
-                deleteSessionUser(sessionIDs[i].sessionId);
+              deleteSessionUser(i);
             }
 
             let falseState = false;
@@ -135,7 +135,7 @@ function JoinedCampaignList() {
 
     const addSessionUser = (id) => {
         const newSessionUser = {
-            sessionId:id,
+            sessionId:sessionIDs[id].sessionId,
             user: {
                 userId:authManager.userId,
                 username: "a",
@@ -161,23 +161,67 @@ function JoinedCampaignList() {
             return Promise.reject('Something went wrong on the server :)');
         })
         .catch(err => console.error(err));
+
+        console.log(targetCampaign);
+
+        const newUserSchedule = {
+          sessionId:sessionIDs[id].sessionId,
+          userId:authManager.userId,
+          startDate:targetCampaign.sessionList[id].startDate,
+          endDate:targetCampaign.sessionList[id].endDate
+        };
+
+        console.log(newUserSchedule);
+  
+        const initUS = {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
+          },
+          body: JSON.stringify(newUserSchedule)
+        };
+  
+        fetch(`${window.TABLETOPBUDDY_ROOT_URL}/userSchedule`, initUS)
+        .then(response => {
+          if (response.status === 201) {
+            return;
+          }
+          return Promise.reject('Something went wrong on the server :)');
+        })
+        .catch(err => console.error(err));
     }
 
     const deleteSessionUser = (id) => {
-        const deleteInit = {
-            method: 'DELETE',
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
-            },
-          };
-    
-          fetch(`${window.TABLETOPBUDDY_ROOT_URL}/session/user/${id}/${authManager.userId}`, deleteInit)
-        .then(response => {
-          if (response.status === 204) {
-            return;
-          }
-          return Promise.reject('Something went wrong :)');
-        }).catch(err => console.error(err));
+      const deleteInit = {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
+        },
+      };
+  
+      fetch(`${window.TABLETOPBUDDY_ROOT_URL}/session/user/${sessionIDs[id].sessionId}/${authManager.userId}`, deleteInit)
+      .then(response => {
+        if (response.status === 204) {
+          return;
+        }
+        return Promise.reject('Something went wrong :)');
+      }).catch(err => console.error(err));
+
+      const deleteInitUS = {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
+        },
+      };
+  
+      fetch(`${window.TABLETOPBUDDY_ROOT_URL}/userSchedule/su/${sessionIDs[id].sessionId}/${authManager.userId}`, deleteInitUS)
+      .then(response => {
+        if (response.status === 204) {
+          return;
+        }
+        return Promise.reject('Something went wrong :)');
+      }).catch(err => console.error(err));
     }
 
     const handleGetSessionIDs = (campaign) => {

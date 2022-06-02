@@ -62,8 +62,8 @@ public class UserScheduleJdbcTemplateRepository implements UserScheduleRepositor
     }
 
     @Override
-    public boolean deleteById(int session_id) {
-        return jdbcTemplate.update("delete from user_schedule where user_schedule_id = ?;", session_id) > 0;
+    public boolean deleteById(int sessionId) {
+        return jdbcTemplate.update("delete from user_schedule where user_schedule_id = ?;", sessionId) > 0;
     }
 
     @Override
@@ -75,5 +75,10 @@ public class UserScheduleJdbcTemplateRepository implements UserScheduleRepositor
         var sessions = jdbcTemplate.query(sql, new UserScheduleMapper(), userId);
 
         return sessions;
+    }
+
+    @Override
+    public boolean deleteBySessionId(int sessionId, int userId) {
+        return jdbcTemplate.update("delete from user_schedule where session_id = ? and user_id = ?;", sessionId, userId) > 0;
     }
 }

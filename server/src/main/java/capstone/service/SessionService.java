@@ -101,8 +101,9 @@ public class SessionService {
         List<Session> sessionList = repository.getFromCampaignId(session.getCampaignId());
         for(Session s : sessionList) {
             if(s.getSessionId() != session.getSessionId()) {
-                if (session.getStartDate().before(s.getEndDate()) && session.getStartDate().after(s.getStartDate())
-                        || session.getEndDate().before(s.getEndDate()) && session.getEndDate().after(s.getStartDate())
+                if ((session.getStartDate().before(s.getEndDate()) && session.getStartDate().after(s.getStartDate()))
+                        || (session.getEndDate().before(s.getEndDate()) && session.getEndDate().after(s.getStartDate()))
+                        || (session.getStartDate().before(s.getStartDate()) && session.getEndDate().after(s.getEndDate()))
                         || session.getEndDate().equals(s.getEndDate()) || session.getStartDate().equals(s.getStartDate())
                         || session.getStartDate().equals(s.getEndDate()) || session.getEndDate().equals(s.getStartDate())) {
                     result.addMessage("An overlap has been detected", ResultType.INVALID);
@@ -118,8 +119,9 @@ public class SessionService {
 
                 if(userSchedulesList != null && !userSchedulesList.isEmpty()) {
                     for (UserSchedule us : userSchedulesList) {
-                        if (session.getStartDate().before(us.getEndDate()) && session.getStartDate().after(us.getStartDate())
-                                || session.getEndDate().before(us.getEndDate()) && session.getEndDate().after(us.getStartDate())
+                        if ((session.getStartDate().before(us.getEndDate()) && session.getStartDate().after(us.getStartDate()))
+                                || (session.getEndDate().before(us.getEndDate()) && session.getEndDate().after(us.getStartDate()))
+                                || (session.getStartDate().before(us.getStartDate()) && session.getEndDate().after(us.getEndDate()))
                                 || session.getEndDate().equals(us.getEndDate()) || session.getStartDate().equals(us.getStartDate())
                                 || session.getStartDate().equals(us.getEndDate()) || session.getEndDate().equals(us.getStartDate())) {
                             result.addMessage("An overlap has been detected with user " + cu.getUser().getUsername(), ResultType.INVALID);

@@ -100,3 +100,7 @@ create table session_user (
 insert into role (`name`) values
     ('USER'),
     ('ADMIN');
+
+delete from user_schedule where session_id = 1;
+select * from session;
+delete from session where session_id = 12;

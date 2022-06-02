@@ -12,7 +12,9 @@ public interface UserScheduleRepository {
     boolean update(UserSchedule session);
 
     @Transactional
-    boolean deleteById(int session_id);
+    boolean deleteById(int sessionId);
 
     List<UserSchedule> getFromUserId(int userId);
+
+    boolean deleteBySessionId(int sessionId, int userId);
 }
