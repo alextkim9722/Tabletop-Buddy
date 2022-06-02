@@ -16,6 +16,9 @@ import { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 
+import homeImage from "./components/images/Home.jpeg";
+import aboutImage from "./components/images/About.webp";
+
 const TOKEN = 'jwt_token';
 
 function App() {
@@ -109,9 +112,9 @@ function App() {
 function Home() {
   return (
     <>
-      <h2>Home</h2>
+      <h2>Welcome, Adventurer!</h2>
       <div>
-        <p>Welcome to TableTop Buddy App</p>
+        <img src={homeImage} width='80%' height='80%'/>
       </div>
     </>
   )
@@ -123,11 +126,14 @@ function About() {
     <>
       <h2>About</h2>
       <div>
-        <p>About the project</p>
-        <ul>
-          <li>We are a group of board game enthusiasts</li>
-          <li>We built this website to facilitate organization between players and people who share our interest in board games </li>
-        </ul>
+        <p>Many players in the modern day times suffer from the ability to play good old game of DnD or Warhammer 40k. Life is stressful
+          which makes it difficult to find time to play these games. Scheduling is difficult as the traffic texts back and forth make
+          planning things a nightmare. 3 developers decided to take on the quest of developing an application that can solve this problem
+          that has been such a headache for fellow board gamers.
+        </p>
+      </div>
+      <div>
+        <img src={aboutImage} width='80%' height='80%'/>
       </div>
     </>
   )
