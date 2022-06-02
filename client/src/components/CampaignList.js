@@ -35,6 +35,7 @@ function Campaigns() {
     <>
       <div>
         <HostedCampaignList />
+        &nbsp;
         <JoinedCampaignList />
       </div>
     </>

@@ -92,6 +92,8 @@ function CampaignDetailed() {
 
   return (
     <>
+    <form>
+      <>
       <h1>{name}</h1>
       <table className="table">
         <tbody>
@@ -121,13 +123,23 @@ function CampaignDetailed() {
           </tr>
         </tbody>
       </table>
-      <p>{description}</p>
-      {authManager.userId == userId ? (<>
+      {authManager.user ? <>
+        {authManager.userId == userId ? ( <>
         <button className="btn btn-info" type="button" onClick={handleEditSelect} >Edit</button>
         &nbsp;
         <button className="btn btn-secondary" type="button" onClick={handleDeleteSelect} >Delete</button>
-        </>) : null}
+        </>) : 
+        (<>
+        <button className="btn btn-info" type="button" >Join</button>
+        &nbsp;
+        <button className="btn btn-secondary" type="button" >Leave</button>
+        </>)} </>
+        :
+        null
+      }
+      </>
       <SessionList campaign={campaign}/>
+      </form>
     </>
   )
 }

@@ -186,40 +186,40 @@ function JoinedCampaignList() {
     }
 
   const handleJoinSelect = (campaign) => {
-    if(campaign.currentPlayers < campaign.maxPlayers){
-      const newCampaignUser = {
-          campaignId:campaign.campaignId,
-          user: {
-              userId:authManager.userId,
-              username: "a",
-              city: "a",
-              state: "a"
+      if(campaign.currentPlayers < campaign.maxPlayers){
+        const newCampaignUser = {
+            campaignId:campaign.campaignId,
+            user: {
+                userId:authManager.userId,
+                username: "a",
+                city: "a",
+                state: "a"
+            }
+          };
+
+          const init = {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
+            },
+            body: JSON.stringify(newCampaignUser)
+          };
+
+
+      fetch(`${window.TABLETOPBUDDY_ROOT_URL}/campaign/user`, init)
+      .then(response => {
+          if (response.status === 201) {
+              handleGetSessionIDs(campaign);
+              setTargetCampaign(campaign);
+              setAddSessions(true);
+              return;
           }
-        };
+          return Promise.reject('Something went wrong on the server :)');
+      })
+      .catch(err => console.error(err));
 
-        const init = {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
-          },
-          body: JSON.stringify(newCampaignUser)
-        };
-
-
-    fetch(`${window.TABLETOPBUDDY_ROOT_URL}/campaign/user`, init)
-    .then(response => {
-        if (response.status === 201) {
-            handleGetSessionIDs(campaign);
-            setTargetCampaign(campaign);
-            setAddSessions(true);
-            history.go(0);
-            return;
-        }
-        return Promise.reject('Something went wrong on the server :)');
-    })
-    .catch(err => console.error(err));
-
+    }
   }  
 
   const handleLeaveSelect =(campaign) => {
@@ -281,22 +281,28 @@ function JoinedCampaignList() {
   return (
     <>
       <div>
-        <Errors errors={errors}/>
         <h2 className="mt-5">Campaign List</h2>
-          <form>
-            <div className="form-inline">
-              <label htmlFor="type">Type:</label>
-              <input className="form-control" type="text" id="type" name="type" value={searchType} onChange={handleType} ></input>
-              &nbsp;
-              <label htmlFor="players">Player Count:</label>
-              <input className="form-control col-xs-2" type="number" id="playerCount" name="playerCount" value={searchPlayers} onChange={handlePlayerCount} ></input>
-              &nbsp;
-              <label htmlFor="size">Session Count:</label>
-              <input className="form-control col-xs-2" type="number" id="size" name="size" value={searchSize} onChange={handleSessionSize} ></input>
-              &nbsp;
-              <button className="btn btn-primary" type="search" onClick={handleSearch}>Filter</button>
-            </div>
-          </form>
+        <form>
+          <div className="form-inline">
+            <label htmlFor="type">Type:</label>
+            &nbsp;
+            <input className="form-control" type="text" id="type" name="type" value={searchType} onChange={handleType} ></input>
+            &nbsp;
+            &nbsp;
+            <label htmlFor="players">Player Count:</label>
+            &nbsp;
+            <input className="form-control col-xs-2" type="number" id="playerCount" name="playerCount" value={searchPlayers} onChange={handlePlayerCount} ></input>
+            &nbsp;
+            &nbsp;
+            <label htmlFor="size">Session Count:</label>
+            &nbsp;
+            <input className="form-control col-xs-2" type="number" id="size" name="size" value={searchSize} onChange={handleSessionSize} ></input>
+            &nbsp;
+            &nbsp;
+            <button className="btn btn-primary" type="search" onClick={handleSearch}>Filter</button>
+          </div>
+        </form>
+        &nbsp;
         <table className="table table-sm">
           <thead>
             <tr>
@@ -350,8 +356,10 @@ function JoinedCampaignList() {
           </tbody>
         </table>
       </div>
+      &nbsp;
+      <Errors errors={errors}/>
     </>
   )
 }
-}
+
 export default JoinedCampaignList;

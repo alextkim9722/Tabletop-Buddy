@@ -69,6 +69,7 @@ function HostedCampaignList() {
                     <button className="btn btn-info" type="button" onClick={() => handleEditSelect(cmp)} >Edit</button>
                     &nbsp;
                     <button className="btn btn-secondary" type="button" onClick={() => handleDeleteSelect(cmp)} >Delete</button>
+                    &nbsp;
                     <button className="btn btn-info" type="button" onClick={() => handleViewSelect(cmp)} >View</button>
                     </>) : null}
                 </td>

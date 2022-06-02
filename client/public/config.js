@@ -1,1 +1,1 @@
-window.TABLETOPBUDDY_ROOT_URL=`${TABLETOPBUDDY_ROOT_URL}`;
+window.TABLETOPBUDDY_ROOT_URL=`http://localhost:8080/api`;

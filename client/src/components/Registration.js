@@ -15,6 +15,7 @@ function Registration() {
     const [credentials, setCredentials] = useState(DEFAULT_LOGIN);
     const [errors, setErrors] = useState([]);
 
+    const history = useHistory();
 
     const handleChange = (event) => {
         const replacementCredentials = { ...credentials };
@@ -43,6 +44,7 @@ function Registration() {
         fetch(`${window.TABLETOPBUDDY_ROOT_URL}/create_account`, init)
             .then(resp => {
                 if (resp.status === 201) {
+                    history.push('/');
                     return null;
                 }
 
