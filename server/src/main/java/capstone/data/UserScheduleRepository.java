@@ -14,6 +14,7 @@ public interface UserScheduleRepository {
     @Transactional
     boolean deleteById(int sessionId);
 
+    UserSchedule getFromId(int id);
     List<UserSchedule> getFromUserId(int userId);
 
     boolean deleteBySessionId(int sessionId, int userId);

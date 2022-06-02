@@ -1,6 +1,11 @@
 package capstone.service;
 
+import capstone.data.CampaignUserRepository;
+import capstone.data.SessionRepository;
+import capstone.data.UserRepository;
 import capstone.data.UserScheduleRepository;
+import capstone.models.CampaignUser;
+import capstone.models.UserCampaign;
 import capstone.models.UserSchedule;
 import org.springframework.stereotype.Service;
 
@@ -56,6 +61,7 @@ public class UserScheduleService {
     public boolean delete(int sessionId, int userId) {return repository.deleteBySessionId(sessionId,userId);}
 
     public List<UserSchedule> getFromUserId(int id) { return repository.getFromUserId(id); }
+    public UserSchedule getFromId(int id) { return repository.getFromId(id); }
 
     private Result<UserSchedule> validate(UserSchedule userSchedule) {
         Result<UserSchedule> result = new Result<>();

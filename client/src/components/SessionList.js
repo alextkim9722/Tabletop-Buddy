@@ -1,5 +1,5 @@
 import React from 'react'
-import FullCalendar from '@fullcalendar/react'
+import FullCalendar, { createEventInstance } from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
@@ -11,6 +11,8 @@ import moment from 'moment';
 
 function SessionList(props) {
   const [event, setEvents] = useState([]);
+  const [gmEvents, setGmEvents] = useState([]);
+  const [userEvent, setUserEvents] = useState([]);
   const [successfulDelete, setSuccessfulDelete] = useState(false);
   const [startDate, setStartDate] = useState('');
   const [CampaignId, setCampaignId] = useState(props.campaign.campaignId);
@@ -68,9 +70,68 @@ function SessionList(props) {
     .catch(err => console.error(err));
   }
 
-  let getSession = () => {
+  const getUserSession = () => {
+    const tempUserList = props.campaign.userList;
+
+    console.log(tempUserList);
+
+    for(let i = 0;i < tempUserList.length;i++) {
+      fetch(`${window.TABLETOPBUDDY_ROOT_URL}/userSchedule/${tempUserList[i].user.userId}`)
+      .then(response => {
+          if (response.status ===200) {
+              return response.json()
+          }
+          return Promise.reject('Something went wrong on the server :)');
+      })
+      .then(body => {
+        const tempList = body.filter( (s) => (s.session.campaignId !== props.campaign.campaignId) );
+        const eventList = [];
+
+        for(let j = 0;j < tempList.length;j++) {
+          const newEvent = {
+            title:tempUserList[i].user.username,
+            start:tempList[j].startDate,
+            end:tempList[j].endDate,
+            id:tempList[j].userScheduleId
+          }
+          eventList.push(newEvent);
+        }
+
+        setUserEvents(eventList);
+      })
+      .catch(err => console.error(err));
+    }
+
+    fetch(`${window.TABLETOPBUDDY_ROOT_URL}/userSchedule/${authManager.userId}`)
+      .then(response => {
+          if (response.status ===200) {
+              return response.json()
+          }
+          return Promise.reject('Something went wrong on the server :)');
+      })
+      .then(body => {
+        const tempList = body.filter( (s) => (s.session.campaignId !== props.campaign.campaignId) );
+        const eventList = [];
+
+        for(let j = 0;j < tempList.length;j++) {
+          const newEvent = {
+            title:authManager.user,
+            start:tempList[j].startDate,
+            end:tempList[j].endDate,
+            id:tempList[j].userScheduleId
+          }
+          eventList.push(newEvent);
+        }
+
+        setGmEvents(eventList);
+      })
+      .catch(err => console.error(err));
+  }
+
+  const getSession = () => {
     const id = props.campaign.campaignId;
-    return fetch(`${window.TABLETOPBUDDY_ROOT_URL}/session/camp/${id}`)
+
+    fetch(`${window.TABLETOPBUDDY_ROOT_URL}/session/camp/${id}`)
     .then(response => {
         if (response.status ===200) {
             return response.json()
@@ -82,7 +143,7 @@ function SessionList(props) {
 
       for(let i = 0;i < body.length;i++) {
         const newEvent = {
-          title:body[i].sessionId,
+          title:props.campaign.name,
           start:body[i].startDate,
           end:body[i].endDate,
           id:body[i].sessionId
@@ -91,24 +152,17 @@ function SessionList(props) {
       }
 
       setEvents(eventList);
-
-      console.log(event);
     })
     .catch(err => console.error(err));
   }
 
-  const handleUserAdds = (id) => {
-
-    console.log(currentId);
-
+  const handleUserAdds = (id, sessionId) => {
     const newUserSchedule = {
-      sessionId: currentId,
+      sessionId: sessionId,
       userId:id,
       startDate,
       endDate
     };
-
-    console.log(newUserSchedule);
 
     const initUS = {
       method: 'POST',
@@ -138,22 +192,25 @@ function SessionList(props) {
     }
   }, [endDate]);
 
+  /*
   useEffect(() => {
+    console.log(currentId);
     if(endDate !== '' && addUsers && event.length > 0) {
       for(let i = 0;i < userList.length;i++) {
-        console.log(userList[i]);
         handleUserAdds(userList[i].user.userId);
       }
 
       setAddingUsers(false);
     }
-  }, [addUsers, event])
+  }, [currentId])
+  */
 
   useEffect(() => {
     setCampaignId(props.campaign.campaignId);
     setUserList(props.campaign.userList);
     if(props.campaign.campaignId) {
       getSession();
+      getUserSession();
     }
   }, [props.campaign.campaignId]);
 
@@ -212,7 +269,15 @@ function SessionList(props) {
     .then(json => {
       if (json.sessionId) {
         getSession();
-        setCurrentId(json.sessionId);
+        const id = json.sessionId;
+
+        for(let i = 0;i < userList.length;i++) {
+          handleUserAdds(userList[i].user.userId, id);
+        }
+
+        handleUserAdds(authManager.userId, id);
+
+        setCurrentId(id);
       }else{
         setErrors(json);
       }
@@ -265,7 +330,7 @@ function SessionList(props) {
           selectable={true}
           selectMirror={true}
           dayMaxEvents={true}
-          events={event}
+          events={[...event,...userEvent,...gmEvents]}
           eventClick={handleEventClick}
           dateClick={handleDateClick}
           navLinks={true}

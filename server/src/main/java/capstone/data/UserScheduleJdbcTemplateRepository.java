@@ -67,6 +67,18 @@ public class UserScheduleJdbcTemplateRepository implements UserScheduleRepositor
     }
 
     @Override
+    public UserSchedule getFromId(int id) {
+        final String sql = "select s.user_schedule_id, s.user_id, s.session_id, s.start_date, s.end_date, se.campaign_id " +
+                "from user_schedule s " +
+                "left outer join session se on s.session_id = se.session_id " +
+                "where s.user_schedule_id = ?;";
+        var session = jdbcTemplate.query(sql, new UserScheduleMapper(), id).stream()
+                .findFirst().orElse(null);
+
+        return session;
+    }
+
+    @Override
     public List<UserSchedule> getFromUserId(int userId) {
         final String sql = "select s.user_schedule_id, s.user_id, s.session_id, s.start_date, s.end_date, se.campaign_id " +
                 "from user_schedule s " +

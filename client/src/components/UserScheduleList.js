@@ -57,21 +57,35 @@ function UserScheduleList() {
   }, []);
 
   const handleUserScheduleDelete = (id) => {
-    const init = {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
-      }
-    }
-
-    fetch(`${window.TABLETOPBUDDY_ROOT_URL}/userSchedule/${id}`, init)
+    fetch(`${window.TABLETOPBUDDY_ROOT_URL}/userSchedule/id/${id}`)
     .then(response => {
-      if (response.status === 204) {
-        setSuccessfulDelete(true);
-        getUserSchedule();
-        return;
+      if (response.status === 200) {
+        return response.json();
       }
       return Promise.reject('Something went wrong :)');
+    })
+    .then(json => {
+      if(json.sessionId === 0) {
+        const init = {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
+          }
+        }
+    
+        fetch(`${window.TABLETOPBUDDY_ROOT_URL}/userSchedule/${id}`, init)
+        .then(response => {
+          if (response.status === 204) {
+            setSuccessfulDelete(true);
+            getUserSchedule();
+            return;
+          }
+          return Promise.reject('Something went wrong :)');
+        })
+        .catch(err => console.error(err));
+      }else{
+        setErrors(['This is owned by a tabletop game. Not by you.'])
+      }
     })
     .catch(err => console.error(err));
   }

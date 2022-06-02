@@ -32,6 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/create_account").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/campaign","/api/campaign/*","/api/campaign/filtered",
                         "/api/session/use/*","/api/session/camp/*", "/api/userSchedule/*","/api/user/id/*",
+                        "/api/userSchedule/id/*",
                         "/").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/campaign", "/api/session", "/api/userSchedule",
                         "/api/campaign/user", "/api/session/user").hasAnyRole("USER", "ADMIN")

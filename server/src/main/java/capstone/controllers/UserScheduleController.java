@@ -24,6 +24,11 @@ public class UserScheduleController {
         return service.getFromUserId(userId);
     }
 
+    @GetMapping("/id/{id}")
+    public UserSchedule getFromId(@PathVariable int id) {
+        return service.getFromId(id);
+    }
+
     @PostMapping
     public ResponseEntity<Object> add(@RequestBody UserSchedule userSchedule) {
         Result<UserSchedule> result = service.create(userSchedule);
